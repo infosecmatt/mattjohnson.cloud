@@ -87,3 +87,7 @@ unsafe = true
   name = "tags"
   weight = 3
   url  = "tags/"
+
+[caches]
+  [caches.images]
+    dir = ':cacheDir/images'
