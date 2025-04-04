@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Privacy on mattjohnson.cloud</title>
-    <link>http://www.mattjohnson.de/tags/privacy/</link>
+    <link>http://localhost:1313/tags/privacy/</link>
     <description>Recent content in Privacy on mattjohnson.cloud</description>
     <generator>Hugo</generator>
     <language>en</language>
     <lastBuildDate>Wed, 11 Aug 2021 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://www.mattjohnson.de/tags/privacy/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/privacy/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Reflections on Reflections on Trusting Trust</title>
-      <link>http://www.mattjohnson.de/posts/trusting-trust/</link>
+      <link>http://localhost:1313/posts/trusting-trust/</link>
       <pubDate>Wed, 11 Aug 2021 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/trusting-trust/</guid>
+      <guid>http://localhost:1313/posts/trusting-trust/</guid>
       <description>Apple&amp;rsquo;s latest decision raises an interesting question: what does trust in computing even mean, and what happens if it&amp;rsquo;s broken?</description>
     </item>
   </channel>

@@ -2,178 +2,178 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Hackthebox on mattjohnson.cloud</title>
-    <link>http://www.mattjohnson.de/tags/hackthebox/</link>
+    <link>http://localhost:1313/tags/hackthebox/</link>
     <description>Recent content in Hackthebox on mattjohnson.cloud</description>
     <generator>Hugo</generator>
     <language>en</language>
     <lastBuildDate>Sat, 27 Nov 2021 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://www.mattjohnson.de/tags/hackthebox/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/hackthebox/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HTB: Intelligence Writeup</title>
-      <link>http://www.mattjohnson.de/posts/htb-intelligence/</link>
+      <link>http://localhost:1313/posts/htb-intelligence/</link>
       <pubDate>Sat, 27 Nov 2021 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/htb-intelligence/</guid>
+      <guid>http://localhost:1313/posts/htb-intelligence/</guid>
       <description>HackTheBox&amp;rsquo;s Intelligence was a fascinating machine mirroring real-world logic flaws in web applications and Active Directory attack paths. Additionally, one goes from unprivileged user all the way to root without ever gaining remote code execution on the machine itself, demonstrating the risk of information disclosure even in absence of clear attack vectors.</description>
     </item>
     <item>
       <title>HTB: BountyHunter Writeup</title>
-      <link>http://www.mattjohnson.de/posts/htb-bountyhunter/</link>
+      <link>http://localhost:1313/posts/htb-bountyhunter/</link>
       <pubDate>Sat, 20 Nov 2021 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/htb-bountyhunter/</guid>
+      <guid>http://localhost:1313/posts/htb-bountyhunter/</guid>
       <description>Here&amp;rsquo;s how to solve HackTheBox&amp;rsquo;s BountyHunter.</description>
     </item>
     <item>
       <title>HTB: Explore Writeup</title>
-      <link>http://www.mattjohnson.de/posts/htb-explore/</link>
+      <link>http://localhost:1313/posts/htb-explore/</link>
       <pubDate>Mon, 01 Nov 2021 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/htb-explore/</guid>
+      <guid>http://localhost:1313/posts/htb-explore/</guid>
       <description>Here&amp;rsquo;s how to solve HackTheBox&amp;rsquo;s Explore.</description>
     </item>
     <item>
       <title>HTB: Cap Writeup</title>
-      <link>http://www.mattjohnson.de/posts/htb-cap/</link>
+      <link>http://localhost:1313/posts/htb-cap/</link>
       <pubDate>Sun, 10 Oct 2021 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/htb-cap/</guid>
+      <guid>http://localhost:1313/posts/htb-cap/</guid>
       <description>Here&amp;rsquo;s how to solve HackTheBox&amp;rsquo;s Cap.</description>
     </item>
     <item>
       <title>HTB: Armageddon Writeup</title>
-      <link>http://www.mattjohnson.de/posts/htb-armageddon/</link>
+      <link>http://localhost:1313/posts/htb-armageddon/</link>
       <pubDate>Sun, 25 Jul 2021 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/htb-armageddon/</guid>
+      <guid>http://localhost:1313/posts/htb-armageddon/</guid>
       <description>Here&amp;rsquo;s how to solve HackTheBox&amp;rsquo;s Armageddon.</description>
     </item>
     <item>
       <title>HTB: Academy Writeup</title>
-      <link>http://www.mattjohnson.de/posts/htb-academy/</link>
+      <link>http://localhost:1313/posts/htb-academy/</link>
       <pubDate>Sat, 27 Feb 2021 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/htb-academy/</guid>
+      <guid>http://localhost:1313/posts/htb-academy/</guid>
       <description>Here&amp;rsquo;s how to solve HackTheBox&amp;rsquo;s Academy.</description>
     </item>
     <item>
       <title>HTB: Help Writeup</title>
-      <link>http://www.mattjohnson.de/posts/htb-help/</link>
+      <link>http://localhost:1313/posts/htb-help/</link>
       <pubDate>Sat, 19 Dec 2020 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/htb-help/</guid>
+      <guid>http://localhost:1313/posts/htb-help/</guid>
       <description>Here&amp;rsquo;s how to solve HackTheBox&amp;rsquo;s Help.</description>
     </item>
     <item>
       <title>HTB: Traceback Writeup</title>
-      <link>http://www.mattjohnson.de/posts/htb-traceback/</link>
+      <link>http://localhost:1313/posts/htb-traceback/</link>
       <pubDate>Sun, 23 Aug 2020 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/htb-traceback/</guid>
+      <guid>http://localhost:1313/posts/htb-traceback/</guid>
       <description>Here&amp;rsquo;s how to solve HackTheBox&amp;rsquo;s Traceback.</description>
     </item>
     <item>
       <title>HTB: Love Writeup</title>
-      <link>http://www.mattjohnson.de/posts/htb-love/</link>
+      <link>http://localhost:1313/posts/htb-love/</link>
       <pubDate>Fri, 07 Aug 2020 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/htb-love/</guid>
+      <guid>http://localhost:1313/posts/htb-love/</guid>
       <description>Here&amp;rsquo;s how to solve HackTheBox&amp;rsquo;s Love.</description>
     </item>
     <item>
       <title>HTB: Sauna Writeup</title>
-      <link>http://www.mattjohnson.de/posts/htb-sauna/</link>
+      <link>http://localhost:1313/posts/htb-sauna/</link>
       <pubDate>Sat, 18 Jul 2020 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/htb-sauna/</guid>
+      <guid>http://localhost:1313/posts/htb-sauna/</guid>
       <description>Here&amp;rsquo;s how to solve HackTheBox&amp;rsquo;s Sauna.</description>
     </item>
     <item>
       <title>HTB: Teacher Writeup</title>
-      <link>http://www.mattjohnson.de/posts/htb-teacher/</link>
+      <link>http://localhost:1313/posts/htb-teacher/</link>
       <pubDate>Fri, 29 May 2020 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/htb-teacher/</guid>
+      <guid>http://localhost:1313/posts/htb-teacher/</guid>
       <description>Here&amp;rsquo;s how to solve HackTheBox&amp;rsquo;s Teacher.</description>
     </item>
     <item>
       <title>HTB: Irked Writeup</title>
-      <link>http://www.mattjohnson.de/posts/htb-irked/</link>
+      <link>http://localhost:1313/posts/htb-irked/</link>
       <pubDate>Mon, 04 May 2020 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/htb-irked/</guid>
+      <guid>http://localhost:1313/posts/htb-irked/</guid>
       <description>Here&amp;rsquo;s how to solve HackTheBox&amp;rsquo;s Irked.</description>
     </item>
     <item>
       <title>HTB: Curling Writeup</title>
-      <link>http://www.mattjohnson.de/posts/htb-curling/</link>
+      <link>http://localhost:1313/posts/htb-curling/</link>
       <pubDate>Tue, 28 Apr 2020 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/htb-curling/</guid>
+      <guid>http://localhost:1313/posts/htb-curling/</guid>
       <description>Here&amp;rsquo;s how to solve HackTheBox&amp;rsquo;s Curling.</description>
     </item>
     <item>
       <title>HTB: Frolic Writeup</title>
-      <link>http://www.mattjohnson.de/posts/htb-frolic/</link>
+      <link>http://localhost:1313/posts/htb-frolic/</link>
       <pubDate>Mon, 06 Apr 2020 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/htb-frolic/</guid>
+      <guid>http://localhost:1313/posts/htb-frolic/</guid>
       <description>Here&amp;rsquo;s how to solve HackTheBox&amp;rsquo;s Frolic.</description>
     </item>
     <item>
       <title>HTB: Blocky Writeup</title>
-      <link>http://www.mattjohnson.de/posts/htb-blocky/</link>
+      <link>http://localhost:1313/posts/htb-blocky/</link>
       <pubDate>Wed, 26 Feb 2020 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/htb-blocky/</guid>
+      <guid>http://localhost:1313/posts/htb-blocky/</guid>
       <description>Here&amp;rsquo;s how to solve HackTheBox&amp;rsquo;s Blocky.</description>
     </item>
     <item>
       <title>HTB: Sense Writeup</title>
-      <link>http://www.mattjohnson.de/posts/htb-sense/</link>
+      <link>http://localhost:1313/posts/htb-sense/</link>
       <pubDate>Wed, 26 Feb 2020 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/htb-sense/</guid>
+      <guid>http://localhost:1313/posts/htb-sense/</guid>
       <description>Here&amp;rsquo;s how to solve HackTheBox&amp;rsquo;s Sense.</description>
     </item>
     <item>
       <title>HTB: Shocker Writeup</title>
-      <link>http://www.mattjohnson.de/posts/htb-shocker/</link>
+      <link>http://localhost:1313/posts/htb-shocker/</link>
       <pubDate>Wed, 19 Feb 2020 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/htb-shocker/</guid>
+      <guid>http://localhost:1313/posts/htb-shocker/</guid>
       <description>Here&amp;rsquo;s how to solve HackTheBox&amp;rsquo;s Shocker.</description>
     </item>
     <item>
       <title>HTB: Mirai Writeup</title>
-      <link>http://www.mattjohnson.de/posts/htb-mirai/</link>
+      <link>http://localhost:1313/posts/htb-mirai/</link>
       <pubDate>Sat, 08 Feb 2020 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/htb-mirai/</guid>
+      <guid>http://localhost:1313/posts/htb-mirai/</guid>
       <description>Here&amp;rsquo;s how to solve HackTheBox&amp;rsquo;s Mirai.</description>
     </item>
     <item>
       <title>HTB: Bank Writeup</title>
-      <link>http://www.mattjohnson.de/posts/htb-bank/</link>
+      <link>http://localhost:1313/posts/htb-bank/</link>
       <pubDate>Thu, 30 Jan 2020 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/htb-bank/</guid>
+      <guid>http://localhost:1313/posts/htb-bank/</guid>
       <description>Here&amp;rsquo;s how to solve HackTheBox&amp;rsquo;s Bank.</description>
     </item>
     <item>
       <title>HTB: Granny Writeup</title>
-      <link>http://www.mattjohnson.de/posts/htb-granny/</link>
+      <link>http://localhost:1313/posts/htb-granny/</link>
       <pubDate>Thu, 30 Jan 2020 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/htb-granny/</guid>
+      <guid>http://localhost:1313/posts/htb-granny/</guid>
       <description>Here&amp;rsquo;s how to solve HackTheBox&amp;rsquo;s Granny.</description>
     </item>
     <item>
       <title>HTB: Arctic Writeup</title>
-      <link>http://www.mattjohnson.de/posts/htb-arctic/</link>
+      <link>http://localhost:1313/posts/htb-arctic/</link>
       <pubDate>Tue, 07 Jan 2020 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/htb-arctic/</guid>
+      <guid>http://localhost:1313/posts/htb-arctic/</guid>
       <description>Here&amp;rsquo;s how to solve HackTheBox&amp;rsquo;s Arctic.</description>
     </item>
     <item>
       <title>HTB: Optimum Writeup</title>
-      <link>http://www.mattjohnson.de/posts/htb-optimum/</link>
+      <link>http://localhost:1313/posts/htb-optimum/</link>
       <pubDate>Fri, 03 Jan 2020 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/htb-optimum/</guid>
+      <guid>http://localhost:1313/posts/htb-optimum/</guid>
       <description>Here&amp;rsquo;s how to solve HackTheBox&amp;rsquo;s Optimum.</description>
     </item>
     <item>
       <title>HTB: Beep Writeup</title>
-      <link>http://www.mattjohnson.de/posts/htb-beep/</link>
+      <link>http://localhost:1313/posts/htb-beep/</link>
       <pubDate>Tue, 31 Dec 2019 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/htb-beep/</guid>
+      <guid>http://localhost:1313/posts/htb-beep/</guid>
       <description>Here&amp;rsquo;s how to solve HackTheBox&amp;rsquo;s Beep.</description>
     </item>
     <item>
       <title>HTB: Devel Writeup</title>
-      <link>http://www.mattjohnson.de/posts/htb-devel/</link>
+      <link>http://localhost:1313/posts/htb-devel/</link>
       <pubDate>Sat, 21 Dec 2019 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/htb-devel/</guid>
+      <guid>http://localhost:1313/posts/htb-devel/</guid>
       <description>Here&amp;rsquo;s how to solve HackTheBox&amp;rsquo;s Devel.</description>
     </item>
   </channel>

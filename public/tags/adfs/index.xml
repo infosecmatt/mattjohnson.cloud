@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Adfs on mattjohnson.cloud</title>
-    <link>http://www.mattjohnson.de/tags/adfs/</link>
+    <link>http://localhost:1313/tags/adfs/</link>
     <description>Recent content in Adfs on mattjohnson.cloud</description>
     <generator>Hugo</generator>
     <language>en</language>
     <lastBuildDate>Wed, 12 Feb 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://www.mattjohnson.de/tags/adfs/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/adfs/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>ADFS WAP: Resolve TCP reset errors connected to wildcard certificate usage</title>
-      <link>http://www.mattjohnson.de/posts/adfs-wap-tcp-reset-errors/</link>
+      <link>http://localhost:1313/posts/adfs-wap-tcp-reset-errors/</link>
       <pubDate>Wed, 12 Feb 2025 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/adfs-wap-tcp-reset-errors/</guid>
+      <guid>http://localhost:1313/posts/adfs-wap-tcp-reset-errors/</guid>
       <description>ADFS is a confusing technology that frequently causes frustration. This post documents an instance of that and hopefully helps someone else along the way.</description>
     </item>
   </channel>

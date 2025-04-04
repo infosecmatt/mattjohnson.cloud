@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Microsoft on mattjohnson.cloud</title>
-    <link>http://www.mattjohnson.de/tags/microsoft/</link>
+    <link>http://localhost:1313/tags/microsoft/</link>
     <description>Recent content in Microsoft on mattjohnson.cloud</description>
     <generator>Hugo</generator>
     <language>en</language>
     <lastBuildDate>Wed, 12 Feb 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://www.mattjohnson.de/tags/microsoft/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/microsoft/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>ADFS WAP: Resolve TCP reset errors connected to wildcard certificate usage</title>
-      <link>http://www.mattjohnson.de/posts/adfs-wap-tcp-reset-errors/</link>
+      <link>http://localhost:1313/posts/adfs-wap-tcp-reset-errors/</link>
       <pubDate>Wed, 12 Feb 2025 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/adfs-wap-tcp-reset-errors/</guid>
+      <guid>http://localhost:1313/posts/adfs-wap-tcp-reset-errors/</guid>
       <description>ADFS is a confusing technology that frequently causes frustration. This post documents an instance of that and hopefully helps someone else along the way.</description>
     </item>
     <item>
       <title>Microsoft&#39;s foray into mDNS is introducing new security issues</title>
-      <link>http://www.mattjohnson.de/posts/mdns-in-windows/</link>
+      <link>http://localhost:1313/posts/mdns-in-windows/</link>
       <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
-      <guid>http://www.mattjohnson.de/posts/mdns-in-windows/</guid>
+      <guid>http://localhost:1313/posts/mdns-in-windows/</guid>
       <description>Microsoft has decided to go against its better judgement and enable mDNS on Windows by default. Since nobody else seems to have analyzed why this is such as bad decision, I decided to do so. It&amp;rsquo;s not great.</description>
     </item>
   </channel>

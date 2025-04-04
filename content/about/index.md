@@ -14,4 +14,4 @@ Feel free to contact me at [me@mattjohnson.cloud](mailto:me@mattjohnson.cloud) o
 
 For the few who have managed to stumble onto the about page of a largely irrelevant website, I will reward you with a picture of my dog Daisy from when she was a tiny puppy.😊
 
-<img src="/images/daisybean.jpg" alt="dog" style="max-height: 65vh; display:block; margin:auto;" />
+<img src="daisybean.jpg" alt="dog" style="max-height: 65vh; display:block; margin:auto;" />
