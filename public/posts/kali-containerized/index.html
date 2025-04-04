@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Kali Containerized · mattjohnson.cloud
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="matt johnson">
+<meta name="description" content="Here&#39;s my solution to make Kali more portable, convenient, and performant.">
+<meta name="keywords" content="blog,cloud,personal,security,windows,chess">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Kali Containerized">
+  <meta name="twitter:description" content="Here&#39;s my solution to make Kali more portable, convenient, and performant.">
+
+<meta property="og:url" content="http://www.mattjohnson.de/posts/kali-containerized/">
+  <meta property="og:site_name" content="mattjohnson.cloud">
+  <meta property="og:title" content="Kali Containerized">
+  <meta property="og:description" content="Here&#39;s my solution to make Kali more portable, convenient, and performant.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-01-13T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-13T00:00:00+00:00">
+    <meta property="article:tag" content="Security">
+
+
+
+
+<link rel="canonical" href="http://www.mattjohnson.de/posts/kali-containerized/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.7763f8bc6341ecf82378e867c285e1549abb063a899be313ccd25dbfcd24fa7d.css" integrity="sha256-d2P4vGNB7PgjeOhnwoXhVJq7BjqJm&#43;MTzNJdv80k&#43;n0=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://www.mattjohnson.de/">
+      mattjohnson.cloud
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">about</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/tags/">tags</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://www.mattjohnson.de/posts/kali-containerized/">
+              Kali Containerized
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2021-01-13T00:00:00Z">
+                January 13, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              11-minute read
+            </span>
+          </div>
+          <div class="authors">
+  <i class="fa-solid fa-user" aria-hidden="true"></i>
+    <a href="/authors/matt-johnson/">Matt Johnson</a></div>
+
+          
+          <div class="tags">
+  <i class="fa-solid fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/security/">Security</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <p>Before the holiday break last month, I was in the process of setting up a dropbox that would be deployed onto a client&rsquo;s internal network. This involved taking an ISO of a standard enterprise-grade Linux distribution, configuring the device with it, and loading in all necessary tools and dependencies as well as custom scripts. It wasn&rsquo;t the first time I&rsquo;d done it, but for whatever reason this time I had the realization that this process was not only tedious, it was inefficient. I was spending valuable time doing tasks that could, for the most part, be automated away. I couldn&rsquo;t simply skip any of this either. Building from scratch is a necessity between engagements due to the fact that sensitive client data could be stored not only in expected places, but also unexpectedly in logs or other areas of the operating system with lower visibility. From there, I reasoned that there has to be a better way to approach this problem than what we&rsquo;d always done. Virtual Machines were never an option in my eyes. Yes, they are easy to image, deploy, and kill; they leave no sensitive data behind once destroyed. The principal issue that I have with Virtual Machines is that when computing resources are limited and the engagement is being performed remotely, their performance is underwhelming at best and obstructive at worst. Given that, I decided to look to something not commonly used in the pentesting world: containers. Specifically, Docker. My hypothesis was that I could deploy a penetration testing dropbox once, install any necessary tools for administering the assessment (such as remote access scripts), and then deploy a preconfigured Kali image as a Docker container that would allow me to perform work for a client, save any necessary artifacts for reporting, and then delete everything else. When a container is destroyed, it takes with it all logs and other incidental information collected during the assessment. The result of this exercise is that I am now able to do in minutes what used to take hours. Below, I&rsquo;ve outlined the vision, implementation details, and security considerations of this project.</p>
+<div class="custom-toc">
+    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#vision">Vision</a></li>
+    <li><a href="#implementation-details">Implementation Details</a></li>
+    <li><a href="#security-considerations">Security Considerations</a></li>
+  </ol>
+</nav>
+</div>
+<h1 id="vision">
+  Vision
+  <a class="heading-link" href="#vision">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>In the introductory paragraph, I outlined why a Docker container would solve the specific problem of the inefficiency of our current dropbox deployment process. While that may have been the inspiration for this project and one of its main goals, I had other goals that became increasingly important as the initial goal came into shape. Specifically, I envisioned a solution that was highly performant, was capable of doing things that one would expect to be able to achieve on a GUI-based Kali machine, and, above all, secure.</p>
+<p>Many penetration testers, have experienced the pain and frustration of trying to use a hacking OS within a virtual machine, whether that is trying to crack a password while not having the luxury of using a dedicated cracking rig, dealing with lag in the GUI, or battling against resource constraints. One of the benefits of containerization most often touted by its evangelists is the fact that you are eliminating much of the overhead associated with traditional virtualization solutions. Containers operate on the same kernel as the host OS, and consequently perform as if it were the host OS. I wanted to ensure that my solution lived up to those proclaimed benefits.</p>
+<p>In performing various tests related to common penetration testing engagements, I determined that my solution had done so. Hashcat performance was identical in the container as it was on the host OS, and as much as 25% faster than the same tests performed within a Kali VM on VMWare Workstation. Similarly, applications such as Burpsuite were significantly smoother and faster running from within the container than those running from within the VM. Due to shared host networking, I faced no degredation of network performance. All in all, the container performs as if it were just another terminal window on the host operating system.</p>
+<p>Another feature that I sought to have in this solution was access to GUI-based applications running from within the container. As alluded to in the previous paragraph, I was able to achieve that and can run applications such as Burpsuite without any signficant issues. Additionally, the shared host networking meant that one could access browser-based services, such as Bloodhound, from your host-based web browser. More discussion on that topic to come.</p>
+<p>Lastly, I wanted to ensure that the container solution was equally secure as a VM-based solution. The use-case for this, whether it be for actual penetration testing or just CTF challenges, probably implies that the risk of any sort of incident is low, but for myself and many others in security it&rsquo;s about the principle (and the potential for edge cases). All configurations utilized in deployment scripts were done so with consideration for the security implications. The principle of least privilege was utilized, and the only interactivity that the container has with the host system is related to the display (with configuration files being read only where possible), a mounted volume for saving artifacts and keeping notes, read-only access to some configuration files (such as <code>~/.tmux.conf</code>, and the host-based networking stack. Further discussion regarding host-based networking is included later in this blog post. Generally speaking, access to the host networking stack as opposed to the default NATted network for running Docker containers is recommended for some purposes and outright required for others. An instance in which it may be recommended is <a href="https://docs.tenable.com/nessus/Content/DeploymentConsiderations.htm"  class="external-link" target="_blank" rel="noopener">in the context of vulnerability scanning</a>. For performing testing such as LLMNR/NBT-NS poisoning, it is absolutely required due to the need to listen for broadcast traffic.</p>
+<p>I&rsquo;m sure that over time, the vision for the project will change based on my experiences, knowledge gained, external input, and needed functionality. However, I wanted to ensure that my work was immediately useful and that the most important features were included. I feel as though I&rsquo;m well on my way in that regard.</p>
+<h1 id="implementation-details">
+  Implementation Details
+  <a class="heading-link" href="#implementation-details">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>As far as implementation details are concerned, the best way I can explain is by showing the <code>Dockerfile</code> and <code>docker-compose</code> file and outlining what&rsquo;s going on. For those who are unfamiliar with Docker and/or Docker Compose, these files serve as the foundation on which the image and resultant containers are built. The <code>Dockerfile</code> is a set of instructions that are used in order to build a base image. The <code>docker-compose</code> file is a set of instructions that a different but related application called Docker Compose uses in order to take an image and deploy it as a container with specific runtime configurations applied. Now that we&rsquo;ve established what these files are, let&rsquo;s take a look at them.</p>
+<p>First up, the Dockerfile:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-docker" data-lang="docker"><span style="display:flex;"><span><span style="color:#ff7b72">FROM</span><span style="color:#a5d6ff"> kalilinux/kali-rolling:latest</span><span style="color:#f85149">
+</span></span></span><span style="display:flex;"><span><span style="color:#f85149"></span><span style="color:#8b949e;font-style:italic">#kali-linux-default is a metapackage with all tools distributed on the base kali OS</span><span style="color:#f85149">
+</span></span></span><span style="display:flex;"><span><span style="color:#f85149"></span><span style="color:#8b949e;font-style:italic"># xauth is needed for gui apps</span><span style="color:#f85149">
+</span></span></span><span style="display:flex;"><span><span style="color:#f85149"></span><span style="color:#ff7b72">RUN</span> apt-get update -y <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span> apt-get upgrade -y<span style="color:#f85149">
+</span></span></span><span style="display:flex;"><span><span style="color:#f85149"></span><span style="color:#ff7b72">RUN</span> <span style="color:#79c0ff">DEBIAN_FRONTEND</span><span style="color:#ff7b72;font-weight:bold">=</span>noninteractive apt-get install -y kali-linux-default xauth iputils-ping gobuster python3-pip binutils<span style="color:#f85149">
+</span></span></span><span style="display:flex;"><span><span style="color:#f85149"></span><span style="color:#ff7b72">RUN</span> cd /opt<span style="color:#f85149">
+</span></span></span><span style="display:flex;"><span><span style="color:#f85149"></span><span style="color:#ff7b72">RUN</span> git clone https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite.git /opt/PEASS<span style="color:#f85149">
+</span></span></span><span style="display:flex;"><span><span style="color:#f85149"></span><span style="color:#ff7b72">RUN</span> git clone https://github.com/swisskyrepo/PayloadsAllTheThings.git /opt/PayloadsAllTheThings<span style="color:#f85149">
+</span></span></span><span style="display:flex;"><span><span style="color:#f85149"></span><span style="color:#8b949e;font-style:italic">#this is required for Burpsuite to effectively run</span><span style="color:#f85149">
+</span></span></span><span style="display:flex;"><span><span style="color:#f85149"></span><span style="color:#ff7b72">RUN</span> echo <span style="color:#a5d6ff">&#39;alias burp=&#34;java -jar /usr/bin/burpsuite --user-config-file=/pentest/config/burpsuite-user-options.json --use-defaults --config-file=/pentest/config/burpsuite-project-options.json&#34;&#39;</span> &gt;&gt; /root/.bashrc<span style="color:#f85149">
+</span></span></span><span style="display:flex;"><span><span style="color:#f85149"></span><span style="color:#8b949e;font-style:italic">#support UTF encoding in tmux</span><span style="color:#f85149">
+</span></span></span><span style="display:flex;"><span><span style="color:#f85149"></span><span style="color:#ff7b72">RUN</span> echo <span style="color:#a5d6ff">&#39;alias tmux=&#34;tmux -u&#34;&#39;</span> &gt;&gt; /root/.bashrc<span style="color:#f85149">
+</span></span></span><span style="display:flex;"><span><span style="color:#f85149"></span><span style="color:#8b949e;font-style:italic">#hush kali login</span><span style="color:#f85149">
+</span></span></span><span style="display:flex;"><span><span style="color:#f85149"></span><span style="color:#ff7b72">RUN</span> touch /root/.hushlogin<span style="color:#f85149">
+</span></span></span></code></pre></div><p>This file starts off by defining which base image it will build its image off of. In order to ensure that the custom container uses the most up-to-date version of Kali, it pulls from the base Kali Docker image. Worth noting that the Kali image maintained by Offensive Security is so minimal that it is borderline useless (which is what necessitated this project). Importantly, though, it has the Kali repository available by default. The first thing that&rsquo;s done during the build process is update the repository and upgrade any outdated default packages. After that, the <code>kali-linux-default</code> metapackage, which contains all of the most useful penetration testing tools, is installed. <code>Xauth</code>&gt; is installed in order to use GUI applications. <code>iputils-ping, python3-pip, and binutils</code> are installed in order to have access to common Bash commands. Lastly, <code>gobuster</code> is installed. Over time, I expect the list of apt packages to grow, but I wanted to keep it pretty minimal at this point in order to ensure that the image didn&rsquo;t become unnecessarily bloated.</p>
+<p>A couple of wonderful open-source tools are also installed in the <code>/opt</code> folder. <code>PEASS</code> is a suite of scripts used for enumerating privilege escalation vectors. <code>PayloadsAllTheThings</code> is an assortment of very handy tools.</p>
+<p>I&rsquo;ve added a couple of aliases to the image as well. Running <code>burp</code> will start up Burpsuite using custom user and project options configured to my liking. Obviously, anyone who wants to use their own configuration files can do that as well. I added a <code>tmux</code> shortcut to automatically use UTF encoding.</p>
+<p>The last thing I did was hush the Kali login message. If any Kali developers are out there, I&rsquo;m sorry. It&rsquo;s just somewhat annoying to have the same message pop up each time I open a new <code>tmux</code> window. That&rsquo;s pretty much it for the Dockerfile. It basically just takes the base Kali image, tweaks it slightly, and installs useful tools.</p>
+<p>Next up, the Docker Compose file:</p>
+<pre tabindex="0"><code>version: &#39;3.3&#39;
+services:
+pentesting:
+hostname: kali
+environment:
+- DISPLAY
+volumes:
+- &#34;${XAUTHORITY}:/root/.Xauthority:ro&#34;
+- /tmp/.X11-unix
+- /pentest:/pentest
+- &#34;${HOME}/.tmux.conf:/root/.tmux.conf:ro&#34;
+network_mode: host
+image: infosecmatt/kali-pentesting
+stdin_open: true
+tty: true
+</code></pre><p>This file is also simple. You can see that the the compose version file is 3.3. That line is there simply to tell Docker Compose how to interpret the file. I set the hostname to <code>kali</code> for aesthetic purposes. In order to get the GUI ability to work, I had to do a few things. First, I made it so that the host <code>DISPLAY</code> environment variable so that the container would inherit it. Likewise, I mounted the file location stored within the <code>XAUTHORITY</code> environment variable to <code>/root/.Xauthority</code> as read only. This gives <code>Xauth</code> on the container the necessary access key to interact with the display. Lastly, access to <code>/tmp/.X11-unix</code> gives <code>Xauth</code> access to the host sockets needed to display applications.</p>
+<p>For mounted volumes and files, there are two worth noting. First, I mapped a folder called <code>~/pentest</code> from my host machine to the container. This is where artifacts and evidence can be stored for reporting purposes. This is the only data from the container that will continue to exist once the container is killed. The second thing worth noting is that the <code>.tmux.conf</code> file is mapped as read only. This allows me to use my preferred configurations while ensuring that it can&rsquo;t be modified or deleted.</p>
+<p>The last four lines are fundamental to the operation of the container. The <code>network_mode</code> is defined as <code>host</code>. This is what tells Docker Compose to use the host-based networking stack. <code>image</code> is what tells Docker Compose to use my custom Docker image. The final two lines are what spawns a shell upon deploying the container.</p>
+<p>Docker is graceful in its simplicity, and I ultimately want to keep it as clean as possible while still having all the functionality I need.</p>
+<h1 id="security-considerations">
+  Security Considerations
+  <a class="heading-link" href="#security-considerations">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>As with all things in IT, functionality should be carefully balanced against security. Everyone&rsquo;s threat model and risk tolerance will be different, but I&rsquo;d like to discuss some best practices when using my penetration testing container:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>1. Host network hardening: Given that the container shares a common networking stack with the host OS, it is critical that the host OS itself is sufficiently hardened. While it&#39;s unlikely that a malicious actor would be able to compromise the container, it is a possibility that should be accounted for. This means that there should be as few services running on the host as is necessary. On my host OS, the only running service I have that is accessible by the container is DNS.
+</span></span><span style="display:flex;"><span>2. Shared volumes: This probably goes without saying, but any shared volumes are a two way street. The host can read what the container writes and vice versa. The container operates within an entirely separate namespace except for what access you choose to give it.
+</span></span><span style="display:flex;"><span>3. Container privileges: It is possible to run containers with granular permissions. This is divergent from the typical perception that a process runs within either a privileged or unprivileged context. I have deliberately not assigned any special privileges, and thus far it has not caused any issues. I would caution against assigning privileges without fully understand the implications, as they can expose attack vectors that may compromise the security of the host image. Special attention should be paid to any permissions related to the Docker socket. With access to this socket, a user could effectively take over the host system.
+</span></span><span style="display:flex;"><span>4. When in doubt, build from source. You don&#39;t have to trust me, I&#39;m just a random guy on the internet. I&#39;ve made the Dockerfile and docker-compose file freely available for auditing, modification, and building from source.
+</span></span><span style="display:flex;"><span>5. Some useful commands related to the note above:
+</span></span><span style="display:flex;"><span>    - Build from source: docker build -f PATH/TO/Dockerfile
+</span></span><span style="display:flex;"><span>    - Start a container: docker-compose -f PATH/TO/docker-compose.yml run pentesting bash
+</span></span><span style="display:flex;"><span>    - Remove a container: docker-compose -f PATH/TO/docker-compose.yml rm 
+</span></span></code></pre></div><p>For additional reading refer to the following sources: <a href="https://docs.docker.com/network/host/"  class="external-link" target="_blank" rel="noopener">[A]</a> <a href="https://docs.docker.com/engine/security/"  class="external-link" target="_blank" rel="noopener">[B]</a></p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2020 -
+    
+    2025
+     matt johnson 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

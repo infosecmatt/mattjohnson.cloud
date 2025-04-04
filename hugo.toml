@@ -1,0 +1,89 @@
+baseurl = "http://www.mattjohnson.de"
+title = "mattjohnson.cloud"
+theme = "hugo-coder"
+languagecode = "en"
+defaultcontentlanguage = "en"
+
+
+[pagination]
+pagerSize = 20
+
+[services]
+[services.disqus]
+# shortname = "yourdiscussshortname"
+
+[markup.highlight]
+style = "github-dark"
+
+[markup.goldmark.renderer]
+unsafe = true
+
+[markup.tableOfContents]
+    startLevel = 1
+    ordered = true
+    endLevel = 4
+
+[params]
+  author = "matt johnson"
+  info = "cloud engineer, chess addict"
+  description = "matt johnson's remote corner of the internet"
+  keywords = "blog,cloud,personal,security,windows,chess"
+  avatarurl = "images/portrait.jpg"
+  #gravatar = "me@mattjohnson.cloud"
+
+  faviconSVG = "/images/favicon.svg"
+  favicon_32 = "/images/favicon-32x32.png"
+  favicon_16 = "/images/favicon-16x16.png"
+
+  since = 2020
+
+  enableTwemoji = true
+
+  colorScheme = "auto"
+  hidecolorschemetoggle = false
+
+  # customCSS = ["css/custom.css"]
+  # customSCSS = ["scss/custom.scss"]
+  # customJS = ["js/custom.js"]
+
+[taxonomies]
+  category = "categories"
+  series = "series"
+  tag = "tags"
+  author = "authors"
+
+# Social links
+[[params.social]]
+  name = "Github"
+  icon = "fa-brands fa-github fa-2x"
+  weight = 1
+  url = "https://github.com/infosecmatt/"
+[[params.social]]
+  name = "LinkedIn"
+  icon = "fa-brands fa-linkedin fa-2x"
+  weight = 4
+  url = "https://www.linkedin.com/in/johnsonmatte/"
+[[params.social]]
+  name = "Chess.com"
+  icon = "fa-solid fa-chess-pawn fa-2x"
+  weight = 4
+  url = "https://www.chess.com/member/kebab"
+[[params.social]]
+  name = "Lichess"
+  icon = "fa-solid fa-chess-knight fa-2x"
+  weight = 4
+  url = "https://lichess.org/@/mejohnson"
+
+# Menu links
+[[menu.main]]
+  name = "about"
+  weight = 1
+  url = "about/"
+[[menu.main]]
+  name = "blog"
+  weight = 2
+  url  = "posts/"
+[[menu.main]]
+  name = "tags"
+  weight = 3
+  url  = "tags/"

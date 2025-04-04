@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Certifications on mattjohnson.cloud</title>
+    <link>http://www.mattjohnson.de/tags/certifications/</link>
+    <description>Recent content in Certifications on mattjohnson.cloud</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 10 May 2022 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://www.mattjohnson.de/tags/certifications/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>I Passed the OSCP with a Perfect* Score</title>
+      <link>http://www.mattjohnson.de/posts/i-passed-the-oscp/</link>
+      <pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate>
+      <guid>http://www.mattjohnson.de/posts/i-passed-the-oscp/</guid>
+      <description>Well, it was close enough. This blog post describes how I prepared for the OSCP, the materials I used, the lessons I learned, and my advice to future test takers.</description>
+    </item>
+    <item>
+      <title>I Passed the CCSK</title>
+      <link>http://www.mattjohnson.de/posts/i-passed-the-ccsk/</link>
+      <pubDate>Tue, 15 Sep 2020 00:00:00 +0000</pubDate>
+      <guid>http://www.mattjohnson.de/posts/i-passed-the-ccsk/</guid>
+      <description>Thinking about getting the CCSK certification? Here are my thoughts.</description>
+    </item>
+  </channel>
+</rss>

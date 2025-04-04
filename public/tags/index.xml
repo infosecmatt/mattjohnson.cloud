@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on mattjohnson.cloud</title>
+    <link>http://www.mattjohnson.de/tags/</link>
+    <description>Recent content in Tags on mattjohnson.cloud</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 12 Feb 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://www.mattjohnson.de/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Adfs</title>
+      <link>http://www.mattjohnson.de/tags/adfs/</link>
+      <pubDate>Wed, 12 Feb 2025 00:00:00 +0000</pubDate>
+      <guid>http://www.mattjohnson.de/tags/adfs/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Microsoft</title>
+      <link>http://www.mattjohnson.de/tags/microsoft/</link>
+      <pubDate>Wed, 12 Feb 2025 00:00:00 +0000</pubDate>
+      <guid>http://www.mattjohnson.de/tags/microsoft/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Security</title>
+      <link>http://www.mattjohnson.de/tags/security/</link>
+      <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
+      <guid>http://www.mattjohnson.de/tags/security/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Certifications</title>
+      <link>http://www.mattjohnson.de/tags/certifications/</link>
+      <pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate>
+      <guid>http://www.mattjohnson.de/tags/certifications/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Hackthebox</title>
+      <link>http://www.mattjohnson.de/tags/hackthebox/</link>
+      <pubDate>Sat, 27 Nov 2021 00:00:00 +0000</pubDate>
+      <guid>http://www.mattjohnson.de/tags/hackthebox/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Privacy</title>
+      <link>http://www.mattjohnson.de/tags/privacy/</link>
+      <pubDate>Wed, 11 Aug 2021 00:00:00 +0000</pubDate>
+      <guid>http://www.mattjohnson.de/tags/privacy/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

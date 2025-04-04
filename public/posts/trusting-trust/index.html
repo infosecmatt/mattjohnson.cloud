@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Reflections on Reflections on Trusting Trust · mattjohnson.cloud
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="matt johnson">
+<meta name="description" content="Apple&#39;s latest decision raises an interesting question: what does trust in computing even mean, and what happens if it&#39;s broken?">
+<meta name="keywords" content="blog,cloud,personal,security,windows,chess">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Reflections on Reflections on Trusting Trust">
+  <meta name="twitter:description" content="Apple&#39;s latest decision raises an interesting question: what does trust in computing even mean, and what happens if it&#39;s broken?">
+
+<meta property="og:url" content="http://www.mattjohnson.de/posts/trusting-trust/">
+  <meta property="og:site_name" content="mattjohnson.cloud">
+  <meta property="og:title" content="Reflections on Reflections on Trusting Trust">
+  <meta property="og:description" content="Apple&#39;s latest decision raises an interesting question: what does trust in computing even mean, and what happens if it&#39;s broken?">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-08-11T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-08-11T00:00:00+00:00">
+    <meta property="article:tag" content="Privacy">
+    <meta property="article:tag" content="Security">
+
+
+
+
+<link rel="canonical" href="http://www.mattjohnson.de/posts/trusting-trust/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.7763f8bc6341ecf82378e867c285e1549abb063a899be313ccd25dbfcd24fa7d.css" integrity="sha256-d2P4vGNB7PgjeOhnwoXhVJq7BjqJm&#43;MTzNJdv80k&#43;n0=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://www.mattjohnson.de/">
+      mattjohnson.cloud
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">about</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/tags/">tags</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://www.mattjohnson.de/posts/trusting-trust/">
+              Reflections on Reflections on Trusting Trust
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2021-08-11T00:00:00Z">
+                August 11, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              5-minute read
+            </span>
+          </div>
+          <div class="authors">
+  <i class="fa-solid fa-user" aria-hidden="true"></i>
+    <a href="/authors/matt-johnson/">Matt Johnson</a></div>
+
+          
+          <div class="tags">
+  <i class="fa-solid fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/privacy/">Privacy</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/security/">Security</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <div class="custom-toc">
+    <nav id="TableOfContents"></nav>
+</div>
+<p>Apple&rsquo;s recent announcement about its new client-side CSAM detection function, despite its honorable intentions, has generated lots of criticism throughout the infosec world, specifically regarding data privacy, encryption, and the implications of this feature as it relates to its potential use amongst authoritarian governments for broad censorship or mass surveillance purposes. Many organizations and independent researchers have already shared their opinions on these matters, and frankly, many of those are far more authoritative sources than I am. Thus, I&rsquo;m not going to go into great detail about the technical details of Apple&rsquo;s implementation of this feature nor the implications for human rights or privacy. If you want to get a better insight on that, I would suggest you read <a href="https://appleprivacyletter.com/"  class="external-link" target="_blank" rel="noopener">this open letter</a> and all linked sources.</p>
+<p>Similarly, I would recommend anyone interested in the topic to read the actual technical documentation released by Apple describing the mechanisms the protocols use. You can find all relevant technical documentation and cryptographic reviews <a href="https://www.apple.com/child-safety/"  class="external-link" target="_blank" rel="noopener">at the bottom of this page</a>. There is no doubt that this will get more attention and analysis, so be sure to seek out reputable external analyses as well if you&rsquo;re reading this further into the future.</p>
+<p>What I want to discuss in this blog post is how Apple&rsquo;s latest move relates to the age-old discussion on trust in computing, derived from Ken Thompson&rsquo;s 1984 speech &ldquo;Reflections on Trusting Trust&rdquo;. This was a speech given as a result of winning the Turing Award, oftentimes referred to as the Nobel Prize of computer science. In this speech, he seeks to cast doubt on the very idea of &ldquo;trustworthy&rdquo; code and coders. He does so by picking on the C compiler, which was written by his Bell Laboratories colleague and fellow Turing Award winner Dennis Ritchie. He talks in the speech about how he may or may not have written the C compiler so that every time it attempted to compile a clean version of itself, it would be injected with a Trojan Horse which would instruct it to create a backdoor to the Unix login binary any time that binary was compiled from scratch. In essence, even if you built the compiler from scratch using known-clean code and built Unix and all of its binaries from scratch using known-clean code, you&rsquo;d still end up with a backdoor via a hard-coded master password. It&rsquo;s a tremendously interesting read and remains as relevant today as it was 37 years ago. This speech was essentially a message to the Association for Computing Machinery as well as the broader world, &ldquo;You think I&rsquo;m a benevolent guy, but what if I weren’t?&rdquo; More broadly speaking, that same rhetorical question could equally apply to any tech company that&rsquo;s making software that&rsquo;s not publicly auditable or able to be built from scratch using independent tools.</p>
+<p>You see, given that it’s nearly impossible to independently verify much of the software that we use in our day-to-day lives, we’ve seemingly collectively decided that trust should rather be placed in people and/or companies. I don’t know everything that Windows does under the hood, but I trust it enough to store somewhat sensitive data on it. Likewise, I can’t audit a TPM made by Intel, so I have to simply assume it’s trustworthy (which could honestly be an entire discussion on its own). The question then remains, at what point can trust in a specific individual or company fall apart?</p>
+<p>Apple has clearly made technical documentation and perhaps even source code available to specific cryptographic researchers for close analysis, but at the end of the day, nobody is going to be able to easily validate what specific implementation of this content monitoring gets put on their devices, including whether different individuals based on, say, location, political orientation, or job title, will get different implementations of the feature in the future. From a technical perspective, it would be absolutely trivial for Apple to do something different than what was described under the hood.</p>
+<p>Apple’s latest move, in particular, reignites that question of trust. On one hand, one could assume that publicly announcing this initiative as well as releasing somewhat detailed technical documentation is a good faith effort to maintain confidence among its users, reaffirm its commitment to privacy by defining its monitoring limitations, and solve a social problem using novel methods unimaginable only a few short years ago. They very well could’ve silently implemented this in Thompsonian fashion and chose not to. Given their complete control of their devices’ hardware and software, they could have made it nearly impossible for even the most capable of security researchers to detect. </p>
+<p>On the other hand, Apple has created a technology that could easily be modified to perform essentially any type of monitoring that it (or another, surely benevolent authority who cares deeply about human rights) deems necessary or beneficial to society at large. Of course, Apple says they will <a href="https://9to5mac.com/2021/08/09/apple-csam-faq/"  class="external-link" target="_blank" rel="noopener">&ldquo;refuse any such demands&rdquo;</a>, much in the same way that I &ldquo;refuse any such demands&rdquo; from the deep primal part of my brain to pound down a third Döner Kebab this week. And after all, we can trust them&hellip; right? <a href="https://protonvpn.com/blog/apple-blocks-app-updates/"  class="external-link" target="_blank" rel="noopener">1</a> <a href="https://www.reuters.com/article/us-apple-fbi-icloud-exclusive/exclusive-apple-dropped-plan-for-encrypting-backups-after-fbi-complained-sources-idUSKBN1ZK1CT"  class="external-link" target="_blank" rel="noopener">2</a> <a href="https://www.nytimes.com/2017/07/29/technology/china-apple-censorhip.html"  class="external-link" target="_blank" rel="noopener">3</a> <a href="https://www.nytimes.com/2017/01/04/business/media/new-york-times-apps-apple-china.html"  class="external-link" target="_blank" rel="noopener">4</a> <a href="https://hongkongfp.com/2019/10/05/taiwan-flag-emoji-disappears-latest-apple-iphone-keyboard/"  class="external-link" target="_blank" rel="noopener">5</a> <a href="https://www.nytimes.com/2019/10/09/technology/apple-hong-kong-app.html"  class="external-link" target="_blank" rel="noopener">6</a> <a href="https://www.bbc.com/news/technology-50573069"  class="external-link" target="_blank" rel="noopener">7</a> <a href="https://decrypt.co/44339/telegram-forced-to-close-channels-run-by-belarus-protestors"  class="external-link" target="_blank" rel="noopener">8</a> <a href="https://www.buzzfeednews.com/article/meghara/pakistan-forced-down-ahmadiyya-apps"  class="external-link" target="_blank" rel="noopener">9</a> <a href="https://www.rferl.org/a/apple-russia-iphone-software/31153385.html"  class="external-link" target="_blank" rel="noopener">10</a> <a href="https://www.nytimes.com/2021/05/17/technology/apple-china-censorship-data.html"  class="external-link" target="_blank" rel="noopener">11</a> <a href="https://www.reuters.com/world/china/apples-new-private-relay-feature-will-not-be-available-china-2021-06-07/"  class="external-link" target="_blank" rel="noopener">12</a></p>
+<p>That type of behavior, coming from a company that prides itself as a privacy champion, is seemingly so out of left field that it may serve to undermine its trustworthiness.</p>
+<p>Does the incongruence between Apple’s title as the great protector of privacy and its rollout of a feature with the potential for indiscriminate monitoring demonstrate the shakiness of the foundation of trust in the digital world? Can we trust that the Apple of tomorrow will remain as it presents itself today? And if we can’t, where does that leave us? </p>
+<p>This kind of client-side monitoring is the digital privacy equivalent of a nuclear bomb. In the right hands and when treated with respect and consideration, it could be benign. But much like with nukes, it requires those with power to exercise that power with the utmost discretion. Now we just gotta trust that everyone keeps their finger off the button.</p>
+<p>Sent from my iPhone</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2020 -
+    
+    2025
+     matt johnson 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

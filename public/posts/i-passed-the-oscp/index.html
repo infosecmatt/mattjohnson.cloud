@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  I Passed the OSCP with a Perfect* Score · mattjohnson.cloud
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="matt johnson">
+<meta name="description" content="Well, it was close enough. This blog post describes how I prepared for the OSCP, the materials I used, the lessons I learned, and my advice to future test takers.">
+<meta name="keywords" content="blog,cloud,personal,security,windows,chess">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="I Passed the OSCP with a Perfect* Score">
+  <meta name="twitter:description" content="Well, it was close enough. This blog post describes how I prepared for the OSCP, the materials I used, the lessons I learned, and my advice to future test takers.">
+
+<meta property="og:url" content="http://www.mattjohnson.de/posts/i-passed-the-oscp/">
+  <meta property="og:site_name" content="mattjohnson.cloud">
+  <meta property="og:title" content="I Passed the OSCP with a Perfect* Score">
+  <meta property="og:description" content="Well, it was close enough. This blog post describes how I prepared for the OSCP, the materials I used, the lessons I learned, and my advice to future test takers.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2022-05-10T00:00:00+00:00">
+    <meta property="article:modified_time" content="2022-05-10T00:00:00+00:00">
+    <meta property="article:tag" content="Security">
+    <meta property="article:tag" content="Certifications">
+
+
+
+
+<link rel="canonical" href="http://www.mattjohnson.de/posts/i-passed-the-oscp/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.7763f8bc6341ecf82378e867c285e1549abb063a899be313ccd25dbfcd24fa7d.css" integrity="sha256-d2P4vGNB7PgjeOhnwoXhVJq7BjqJm&#43;MTzNJdv80k&#43;n0=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://www.mattjohnson.de/">
+      mattjohnson.cloud
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">about</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/tags/">tags</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://www.mattjohnson.de/posts/i-passed-the-oscp/">
+              I Passed the OSCP with a Perfect* Score
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2022-05-10T00:00:00Z">
+                May 10, 2022
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              16-minute read
+            </span>
+          </div>
+          <div class="authors">
+  <i class="fa-solid fa-user" aria-hidden="true"></i>
+    <a href="/authors/matt-johnson/">Matt Johnson</a></div>
+
+          
+          <div class="tags">
+  <i class="fa-solid fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/security/">Security</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/certifications/">Certifications</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <p>After three and a half months of intensive preparation and a lack of proper self-care, I took and passed the Offensive Security Certified Professional exam. More than that, I got a perfect score. Or at least, kinda. I did pass the exam with 100 points, however 10 of those points were a result of the lab report. As for the exam itself, I owned the Active Directory domain, two of the standalone machines, and got local access to the third. A week later, I still have no idea what the privilege escalation vector was on that last machine and it does bug me. Nonetheless, I am extremely proud of the amount of work I put in and would like to share my experience both to reflect on these past months as well as to attempt to provide some guidance to other potential test-takers out there.</p>
+<p>By the way, feel free to skip around this blog post for the parts you&rsquo;re interested in. This writeup is partly for me, and it&rsquo;s definitely a wordy one.</p>
+<div class="custom-toc">
+    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#preparation">Preparation</a></li>
+    <li><a href="#training-materials">Training Materials</a>
+      <ol>
+        <li><a href="#pg-practice">PG Practice</a></li>
+        <li><a href="#pwk-lab-machines">PWK Lab Machines</a></li>
+        <li><a href="#hackthebox">HackTheBox</a></li>
+        <li><a href="#thecybermentor-windows-privilege-escalation-course">TheCyberMentor Windows Privilege Escalation Course</a></li>
+        <li><a href="#pwk-lab-manual-and-exercises">PWK Lab Manual and Exercises</a></li>
+      </ol>
+    </li>
+    <li><a href="#cheatsheets-and-methodologies">Cheatsheets and Methodologies</a></li>
+    <li><a href="#exam-day">Exam Day</a></li>
+    <li><a href="#reflections">Reflections</a></li>
+    <li><a href="#what-i-did-right-brief-advice-to-test-takers">What I Did Right (Brief Advice to Test Takers)</a></li>
+    <li><a href="#was-it-worth-it">Was it worth it?</a></li>
+    <li><a href="#whats-next">What&rsquo;s next?</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</nav>
+</div>
+<h1 id="preparation">
+  Preparation
+  <a class="heading-link" href="#preparation">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>The story of my preparation extends well beyond enrolling in the course three and a half months ago. My preparation truly began in the fall of 2019. I had just come off my first summer internship during which I began to take an interest in infosec after binging basically every Computerphile video ever made. As many others know, however, it can be quite difficult in security to find your way without having an accompanying job. Hacking was a subject that didn&rsquo;t necessarily require anything but a laptop and a couple inexpensive subscriptions so that&rsquo;s where I began. My first foray into hacking was via TheCyberMentor&rsquo;s Intro to Penetration Testing course on YouTube. Having never touched Linux in any serious capacity and very little understanding of how operating systems, applications, and most protocols worked under the hood, this course was an excellent starting point. During the course, I discovered the OSCP and decided that my ultimate goal was to one day pass this exam. After completing that course and graduating from college, I purchased a subscription to HackTheBox, where I would spend my three months of post-graduation unemployment hacking as many machines as I could. Even after getting a job I continued this at less of a breakneck pace. By the time January of this year rolled around I had completed about 50 HackTheBox machines in total.</p>
+<p>After enrolling in the course, I began to turn the heat up in terms of preparation. The first thing I want to highlight is just how much of a time investment obtaining the OSCP is. Below is a chart documenting the amount of time spent doing PWK exercises and lab machines:
+<img src="hours-and-lab-machines.png" alt="Hours spent on PWK material and labs as well as number of machines owned, mapped over time">
+This graph doesn&rsquo;t depict everything done during that period. I simply made a point to document the amount of time spent on lab exercises and machines. I spent additional time doing informal preparation such as watching videos, reading CTF writeups, reading about different techniques, etc. I performed an actual penetration test right in the middle of my OSCP prep. After my lab time expired I spent about 80 hours over the two weeks leading up to the exam doing PG Practice machines and refining my methodology. During my lab time my mom also came and visited from across the world, during which I dropped everything to spend time with her. Totally worth it, by the way. The overall point I&rsquo;m getting at is that to undertake this certification you&rsquo;re going to need time, persistence, and a very understanding partner/family. Excluding the period that my mom had visited, I spent about 30 hours per week on intensive OSCP prep in addition to my normal work schedule. The experiences of others on the internet seem to largely align with mine, 200-300 hours seems to be pretty normal in terms of preparation.</p>
+<h1 id="training-materials">
+  Training Materials
+  <a class="heading-link" href="#training-materials">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>I used multiple different sources of materials for training, some of which were more helpful than others. I&rsquo;m going to document them below in order from most helpful to least helpful.</p>
+<h2 id="pg-practice">
+  PG Practice
+  <a class="heading-link" href="#pg-practice">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>I began doing PG Practice machines after my lab time ran out and they were by far the most helpful machines in terms of preparing for the exam. I did 25 machines off of TJ Null&rsquo;s list in a little under 2 weeks as a final sprint before the exam and they really helped me hone in my methodology and exposed me to some techniques that I otherwise wouldn&rsquo;t have known. I found them to be far more true to the exam machines as well. If you are doing these machines and need an occasional hint or can&rsquo;t figure out the path, I wouldn&rsquo;t worry too much. In general I found some PG Practice machines to be more difficult than the exam machines. They certainly are a good barometer for where you&rsquo;re at.</p>
+<p>Grade: <span style="color:green;font-weight: bold">A+</span></p>
+<h2 id="pwk-lab-machines">
+  PWK Lab Machines
+  <a class="heading-link" href="#pwk-lab-machines">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>As documented above, I did 41 PWK lab machines in preparation for the exam. In general, I found many lab machines to be way too easy compared to the real deal, but they do teach some really important techniques (like pivoting) and help you learn to identify rabbit holes and benign misconfigurations. It was through these machines that I got very comfortable looking at an Nmap scan, winPEAS/linPEAS scan, etc. and identifying what is worth digging into versus what is noise. If you don&rsquo;t have prior CTF experience then these machines are optimal in terms of difficulty and breadth of techniques learned.</p>
+<p>Grade: <span style="color:rgb(0, 211, 0);font-weight: bold">B+</span></p>
+<h2 id="hackthebox">
+  HackTheBox
+  <a class="heading-link" href="#hackthebox">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>I&rsquo;d been doing HackTheBox machines for about two and a half years leading up to my OSCP exam and can say that the machines are extremely high quality, the subscription is fantastic value, and I learned most of what I know from the platform. The machines are generally way more difficult than what you&rsquo;d see on the exam and sometimes the attack vectors don&rsquo;t align very well with what you&rsquo;d expect from an OSCP-like machine. That is really my only criticism of HTB for OCSP prep. It&rsquo;s a great platform for learning, but only okay for OSCP prep. IppSec videos are great for watching during your down time though, and I would absolutely recommend doing so.</p>
+<p>Grade: <span style="color:gold;font-weight: bold">B</span></p>
+<h2 id="thecybermentor-windows-privilege-escalation-course">
+  TheCyberMentor Windows Privilege Escalation Course
+  <a class="heading-link" href="#thecybermentor-windows-privilege-escalation-course">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>TheCyberMentor&rsquo;s Windows Privilege Escalation course is a great course for helping refine your Windows internal enumeration methodology as well as demonstrating some of the most common privilege escalation vectors. If you feel unsure about your Windows capabilities this is a good starting point, but I personally gained a lot more out of hammering away at Windows machines on PG Practice. Hacking is an artform more than anything, and you get better at art by making art.</p>
+<p>Grade: <span style="color:gold;font-weight: bold">B</span></p>
+<h2 id="pwk-lab-manual-and-exercises">
+  PWK Lab Manual and Exercises
+  <a class="heading-link" href="#pwk-lab-manual-and-exercises">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>If you&rsquo;re like most people, one of the first decisions you&rsquo;ll likely make when enrolling in the OSCP is whether you want to do the PWK Lab Report for the 10 bonus points. To get those points, you need to complete every lab exercise as well as do a writeup for 10 different lab machines. The PDF is an 850-page beast and my lab report ended up nearly 400 pages, most of which was documenting the exercises. Lots of training material is a good thing, right?</p>
+<p>With all due respect to Offensive Security, no. Don&rsquo;t get me wrong, there are some really useful gems in that lab manual and I think there&rsquo;s value in reading the modules for areas that you&rsquo;re not comfortable with. I referenced back to the buffer overflow and pivoting modules frequently, for example. If you&rsquo;re an absolute beginner the lab manual may be a useful tool for you, but I didn&rsquo;t come into this as a beginner.</p>
+<p>And the exercises, oh the exercises… To be frank, they were a tremendous pain in the ass. They were a waste of time and energy and were a drain on my motivation. I dreaded getting out of bed and doing them in the morning. I learned very little from them and OffSec&rsquo;s insistence on you doing something a certain way was absolute madness. For example, at one point you have to crack a TGS ticket using a very specific tool prescribed by OffSec that doesn&rsquo;t work appropriately on an up-to-date instance of Kali. The tool itself says &ldquo;USE HASHCAT, IT&rsquo;S HELLA FASTER!!&rdquo; when you run it. No legitimate professional would recommend you use this tool over Hashcat or John, but OffSec does because… reasons? There were multiple similar examples related to unusable tools. Beyond tools, there were multiple instances in which you were asked to modify a script to complete an exploit, with the debugging and modification of the script taking longer than just writing a script from scratch. The issue I took with all of this wasn&rsquo;t that I had to modify some script or monkey around with a tool, it&rsquo;s the insistence on prescriptive methods for doing an exercise rather than encouraging the student to &ldquo;try harder&rdquo; by finding the best path forward.</p>
+<p>The exercises took a little more than three weeks to complete, during which I didn&rsquo;t do any lab machines. I only stuck with it for the bonus points, and even then I questioned whether it was really worth it. Feel free to come to that conclusion yourself, I can easily say it wasn&rsquo;t worth it as the points didn&rsquo;t end up being necessary. You might feel differently if you skip the lab report and fail with 60 points.</p>
+<p>Grade: <span style="color:red;font-weight: bold">D-</span></p>
+<h1 id="cheatsheets-and-methodologies">
+  Cheatsheets and Methodologies
+  <a class="heading-link" href="#cheatsheets-and-methodologies">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>In addition to the training materials used, I heavily leaned on Cheatsheets and other people&rsquo;s methodologies. There&rsquo;s not much to say about this one, but here are some of the best resources I used:</p>
+<ul>
+<li><a href="https://book.hacktricks.xyz/"  class="external-link" target="_blank" rel="noopener">Carlos Polop&rsquo;s HackTricks</a></li>
+<li><a href="https://github.com/C0nd4/OSCP-Priv-Esc"  class="external-link" target="_blank" rel="noopener">OSCP PrivEsc Methodology (C0nd4 on GitHub)</a></li>
+<li><a href="https://github.com/justinsteven/dostackbufferoverflowgood"  class="external-link" target="_blank" rel="noopener">dostackbufferoverflowgood (justinsteven on GitHub)</a></li>
+<li><a href="https://github.com/mchern1kov/pentest-everything"  class="external-link" target="_blank" rel="noopener">Pentest Everything (mchern1kov on GitHub)</a></li>
+<li><a href="https://github.com/0x4D31/awesome-oscp"  class="external-link" target="_blank" rel="noopener">Awesome OSCP (0x4D31 on GitHub)</a></li>
+<li><a href="https://www.corelan.be/index.php/2011/07/14/mona-py-the-manual/"  class="external-link" target="_blank" rel="noopener">Mona.py the Manual</a></li>
+</ul>
+<p>I might&rsquo;ve missed some, but these were the absolute best resources. If this is information overload, I&rsquo;d recommend the top four links to get started.</p>
+<h1 id="exam-day">
+  Exam Day
+  <a class="heading-link" href="#exam-day">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>I scheduled my exam for May 3 at 8:00 AM. This is all personal preference, but I wanted to give myself enough time to make a coffee and get set up without rushing or stressing. I woke up around 6:30 AM. I got set up with the proctor around 7:30 AM and waited patiently for my exam VPN to arrive in my inbox. Once I got the VPN set up and ran the troubleshooter, I couldn&rsquo;t access any of the machines.</p>
+<p>OffSec&rsquo;s support staff were very helpful and quickly helped me find the issue. For anyone curious, make sure you&rsquo;ve got some backup DNS servers in your /etc/resolv.conf file in case your main DNS server doesn&rsquo;t play nice with their environment. That took up about 30 minutes worth of exam time, but I felt like stressing over it would be counterproductive and it was water under the bridge at that point.</p>
+<p>My plan for the exam was that I could knock out Active Directory for 40 points and then simply need to own one standalone machine to get the necessary points (60 + 10 bonus points). The first challenge I decided to tackle was the Active Directory environment. Getting initial access to the AD environment was a bit tricky, but I did it in about two hours. Escalating privileges was easy. Post-exploitation was more difficult than I anticipated, but once I figured it out the whole environment came crumbling down pretty quickly. Including screenshots and creating a bullet-point writeup to reference when writing the report, the AD environment took me 4 hours to complete.</p>
+<p>At this point, it was 12:30 PM and I was feeling good so I decided to go full speed ahead into the next machine. Gaining initial access to the machine was tricky, but once I found the vector I managed to get it pretty quickly. It took about 90 minutes to get initial access. I am very comfortable with Linux machines, so escalating privileges only took about 45 minutes. Including documentation and screenshots, I wrapped up the machine at 2:45 PM. By this point, I already had enough to pass.</p>
+<p>I don&rsquo;t know if it was confidence and adrenaline or I got lucky, but the next machine took barely more than an hour to own. Initial access took 45 minutes and privilege escalation took 30. At this point, it was 4:00 PM and I had 90 points.</p>
+<p>The last machine I tackled was a buffer overflow machine. I really hadn&rsquo;t practiced them all that much beyond doing the lab exercises (including the &ldquo;Extra Mile&rdquo; exercises), so I definitely made some mistakes during my exploit development process. Nonetheless, by 6:00 PM I had a low-privileged shell on the machine. I spent the next three hours trying to enumerate and escalate privileges with no success. I made sure that I had all necessary screenshots for this machine and called it a night after 13.5 hours of testing. I only took three small breaks to go to the restroom that day. My wonderful girlfriend brought me food from one of my favorite local restaurants and I drank about two liters of water. I would recommend that others take more breaks, eat more food, and drink more water than I did.</p>
+<p>The next morning around 6:30 AM I got back online and tried to root the last system again, again failing. I have no idea what the intended vector was. At 7:45 AM I was locked out of the VPN and my exam was complete. I then spent the next 13 hours writing the report, taking about two hours&rsquo; worth of breaks that day.</p>
+<p>I submitted my reports around 9:30 PM on May 4. I then waited patiently for a little more than 36 hours before getting the email that I passed the OSCP exam.</p>
+<h1 id="reflections">
+  Reflections
+  <a class="heading-link" href="#reflections">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>As one probably could guess based on what I&rsquo;ve written here, I&rsquo;m pretty happy with the way everything turned out. More than anything, I&rsquo;m relieved that I passed as I was legitimately nervous that things would go sideways. I can safely say that, while rewarding, this process was extremely stressful and time consuming in a way that left me with a few white hairs that weren&rsquo;t previously there. I certainly learned a lot and have a lot to be proud of. That being said, there are definitely some things I would&rsquo;ve done differently with the benefit of hindsight.</p>
+<p>First, I would&rsquo;ve taken more time during my preparation to carve out a better methodology myself. I only really started giving that significant thought a few weeks before the exam and my notes showed it. The one thing I got right in this respect was adding attack vectors to my notes every time I came across a new one. It ended up being a useful arsenal and checklist for when I was stuck.</p>
+<p>The second thing I would&rsquo;ve done differently is focusing more on my sore spots throughout the entire preparation. Towards the end, I realized that my understanding of Windows was holding me back (especially related to privilege escalation) and really went hard into it with PG Practice. It was certainly enough in the end, but I think doing things you&rsquo;re good at can lead you into this false sense of security. In college I was always particularly good about honing in on my weaknesses, I think the issue this time around was that I was so focused on pushing ahead that I rarely stopped to think strategically.</p>
+<p>Lastly, I would absolutely think harder about the reporting piece of the exam prior to the day after the exam. As I mentioned, I captured all necessary screenshots so technically I was okay. What I didn&rsquo;t mention is that during reporting I had to manually type out some of the commands and pieces of modified code as I had only bothered to take screenshots. Others have said that you should log all of your bash sessions for later reference, and in hindsight I absolutely agree. Additionally, always pull down outputs of commands both as text and as screenshots. It&rsquo;ll save you a lot of work later on.</p>
+<h1 id="what-i-did-right-brief-advice-to-test-takers">
+  What I Did Right (Brief Advice to Test Takers)
+  <a class="heading-link" href="#what-i-did-right-brief-advice-to-test-takers">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>There are a few things I think I absolutely got right that I want to pass along to potential test takers. First, realize that you don&rsquo;t know what you don&rsquo;t know. Sometimes an intended attack vector is something you&rsquo;ve never seen before. No amount of banging your head against the wall is going to help you. Take a hint, ask for help. It&rsquo;s okay. Even in the last days leading up to the exam I was taking hints periodically on PG Practice. Learn from it, add it to your notes, and be done with it. I personally set a deadline. If I couldn&rsquo;t find the attack vector in an hour then I took a hint. As a result I was able to complete more machines than I otherwise would have and learned from my weaknesses.</p>
+<p>Second, and somewhat related: hacking is a numbers game. The absolute best thing you can do to prepare is to own as many machines as you can as it will expose you to the most attack vectors. There&rsquo;s diminishing returns, for sure. Overall, however, I was still learning about different attack vectors after machine 100. <a href="https://www.offensive-security.com/offsec/pwk-labs-success/"  class="external-link" target="_blank" rel="noopener">There&rsquo;s a good reason that the correlation between the number of PWK machines compromised and OSCP pass rate is positive.</a></p>
+<h1 id="was-it-worth-it">
+  Was it worth it?
+  <a class="heading-link" href="#was-it-worth-it">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Yes.</p>
+<p>Despite the stress, time commitment, and having a Kali terminal burned permanently into my eyes as if they were an OLED screen, it was more than worth it. My opinions about the training material may not have been that high, but my opinion about the lab machines and the practical exam format is. I think it&rsquo;s pretty hard to be a paper tiger and get this certification, and obtaining it certainly gave me a confidence boost and reaffirmed that I&rsquo;m heading in the right direction.</p>
+<h1 id="whats-next">
+  What&rsquo;s next?
+  <a class="heading-link" href="#whats-next">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Definitely a good deal of rest. Probably some exercise, sunlight, and healthy cooking as well. I&rsquo;ve got a backlog of interesting topics to read more into and write about. Perhaps what I&rsquo;m most excited about is shifting focus from strictly CTF writeups to exploitation techniques as well as mitigations and defenses. I&rsquo;ve proven to myself that I can do the offensive stuff, so now my goal is to round out a little bit.</p>
+<p>Stay tuned!</p>
+<h1 id="acknowledgments">
+  Acknowledgments
+  <a class="heading-link" href="#acknowledgments">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>I want to thank my wonderful girlfriend, my family, and her family for being there when I needed them. The OSCP is such an investment in terms of energy and time that those Sunday night calls with my family, late nights watching fun TV shows with my girlfriend, and wonderful home-cooked meals from her family really did a lot to keep me going and feeling good despite being otherwise worn down.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2020 -
+    
+    2025
+     matt johnson 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  HTB: Academy Writeup · mattjohnson.cloud
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="matt johnson">
+<meta name="description" content="Here&#39;s how to solve HackTheBox&#39;s Academy.">
+<meta name="keywords" content="blog,cloud,personal,security,windows,chess">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="HTB: Academy Writeup">
+  <meta name="twitter:description" content="Here&#39;s how to solve HackTheBox&#39;s Academy.">
+
+<meta property="og:url" content="http://www.mattjohnson.de/posts/htb-academy/">
+  <meta property="og:site_name" content="mattjohnson.cloud">
+  <meta property="og:title" content="HTB: Academy Writeup">
+  <meta property="og:description" content="Here&#39;s how to solve HackTheBox&#39;s Academy.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-02-27T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-02-27T00:00:00+00:00">
+    <meta property="article:tag" content="Hackthebox">
+    <meta property="article:tag" content="Security">
+
+
+
+
+<link rel="canonical" href="http://www.mattjohnson.de/posts/htb-academy/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.7763f8bc6341ecf82378e867c285e1549abb063a899be313ccd25dbfcd24fa7d.css" integrity="sha256-d2P4vGNB7PgjeOhnwoXhVJq7BjqJm&#43;MTzNJdv80k&#43;n0=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://www.mattjohnson.de/">
+      mattjohnson.cloud
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">about</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/tags/">tags</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://www.mattjohnson.de/posts/htb-academy/">
+              HTB: Academy Writeup
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2021-02-27T00:00:00Z">
+                February 27, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              4-minute read
+            </span>
+          </div>
+          <div class="authors">
+  <i class="fa-solid fa-user" aria-hidden="true"></i>
+    <a href="/authors/matt-johnson/">Matt Johnson</a></div>
+
+          
+          <div class="tags">
+  <i class="fa-solid fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/hackthebox/">Hackthebox</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/security/">Security</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <div class="custom-toc">
+    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#high-level-information">High-Level Information</a></li>
+    <li><a href="#initial-foothold">Initial Foothold</a></li>
+    <li><a href="#privilege-escalation">Privilege Escalation</a></li>
+  </ol>
+</nav>
+</div>
+<h1 id="high-level-information">
+  High-Level Information
+  <a class="heading-link" href="#high-level-information">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Machine Name: Academy</p>
+<p>IP Address: 10.10.10.215</p>
+<p>Difficulty: Easy</p>
+<p>Summary: HackTheBox&rsquo;s Academy was a fun box that required an understanding of how to abuse web registration forms, move laterally on a Linux machine, parse logs for meaningful information, and abuse a dependency management executable to gain root access.</p>
+<p>Tools Used: Nmap, Gobuster, Burpsuite, linPEAS</p>
+<h1 id="initial-foothold">
+  Initial Foothold
+  <a class="heading-link" href="#initial-foothold">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>As always, I began by running Nmap:</p>
+<p><img src="00-academy-nmap.png" alt=""></p>
+<p>I spent a brief period of time trying to figure out whether port 33060 was the intended target, but I concluded it was likely a rabbit hole as I had difficulty finding any way to interact with the service. From there, I decided to enumerate the website:</p>
+<p><img src="02-academy-web-home.png" alt=""> <img src="03-academy-register.png" alt=""></p>
+<p>I made an account and explored the website:</p>
+<p><img src="04-academy-web-modules.png" alt=""></p>
+<p>Unfortunately, there was little in the way of useful information besides finding a potential username, <code>egre55</code>. Running Gobuster against the site yielded some additional webpages worth exploring, however.</p>
+<p><img src="01-academy-gobuster.png" alt=""></p>
+<p>Notably, <code>admin.php</code> stood out. In determining how I could gain access to admin credentials, I decided to revisit the user registration process. I inspected the interaction via Burpsuite and found something interesting:</p>
+<p><img src="05-academy-hacked-register-before.png" alt=""></p>
+<p>In the <code>POST</code> request associated with user creation, there&rsquo;s a third parameter in addition to the username and password. The parameter <code>roleid</code> was user-modifiable. I changed it from 0 to 1 and attempted to use the newly created account to log in as an administrator.</p>
+<p><img src="06-academy-hacked-register-after.png" alt=""> <img src="07-academy-admin-login.png" alt=""> <img src="08-academy-admin-home.png" alt=""></p>
+<p>Following the lead regarding the &ldquo;issue&rdquo; identified with <code>dev-staging01.academy.htb</code>, I visited the site:</p>
+<p><img src="09-academy-dev-staging.png" alt=""></p>
+<p>On the site, I found an API key for an application called Laravel.</p>
+<p><img src="10-academy-dev-staging-laravel-apikey.png" alt=""></p>
+<p>I was unable to find the software version anywhere, so I was running a bit blind for this part. I was able to identify that a specific version of Laravel from 2018 was susceptible to RCE (CVE-2018-15133) and had known-working exploits available. One of those exploits, <a href="https://github.com/aljavier/exploit_laravel_cve-2018-15133"  class="external-link" target="_blank" rel="noopener">a python-based script written by A.J. Javier</a>, had the capability for spawning an interactive shell. I attempted to use it, first running the default command <code>uname -a</code> to determine whether the vulnerability applied to this particular version of Laravel:</p>
+<p><img src="11-laravel-rce-poc.png" alt=""></p>
+<h1 id="privilege-escalation">
+  Privilege Escalation
+  <a class="heading-link" href="#privilege-escalation">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>After confirming that I was able to get remote code execution, I spawned an interactive shell. The shell itself was very limited, so I used <code>/usr/bin/php</code> to upgrade to a more practical shell.</p>
+<p><img src="12-laravel-rce-fullshell.png" alt=""></p>
+<p>The <code>www-data</code> user had extremely limited capabilities and appeared to be sandboxed within the <code>/var/www/</code> directory, so my internal enumeration was limited to that general area. I eventually happened upon a file that contained database credentials. The database credentials did not work with MySQL in the end. After that failed, I performed a password spraying attack on all users with login capabilities. The password was successfully used against the <code>cry0l1t3</code> user.</p>
+<p><img src="13-internalenum-found-db-creds.png" alt=""> <img src="14-lateralmvmt-cry0l1t3.png" alt=""></p>
+<p>As shown above, the <code>cr0l1t3</code> user was a member of the <code>adm</code> group. On a typical Linux system, this group is responsible for system administration and, notably, monitoring. By running the <code>find</code> command, I was able to verify that fact and see which log files the group had read permission for.</p>
+<p><img src="15-find-adm-group-readfiles.png" alt=""></p>
+<p>Being able to parse Linux logs for useful information, whether that be for enumeration (on the offensive side) or forensics (on the IR side), is a bit of an art form. In production systems, you can&rsquo;t simply read them. There are thousands to millions of entries, most of which are benign. You need to know what kind of information is logged in each respective file, what specific information to look for, and whether identified information is useful vs. what is not. For those curious, here <a href="https://www.dedoimedo.com/computers/audit.html"  class="external-link" target="_blank" rel="noopener">[1]</a> <a href="https://www.eurovps.com/blog/important-linux-log-files-you-must-be-monitoring/"  class="external-link" target="_blank" rel="noopener">[2]</a> <a href="https://sematext.com/blog/auditd-logs-auditbeat-elasticsearch-logsene/"  class="external-link" target="_blank" rel="noopener">[3]</a> are some useful resources to get started learning about Linux log inspection. In my case, using the <code>aureport</code> tool I was able to find credentials for the <code>mrb3n</code> user.</p>
+<p><img src="17-found-creds-mrb3n.png" alt=""></p>
+<p>The <code>mrb3n</code> user was able to run <code>composer</code> as root. Composer is a PHP dependency management tool, but has a fatal flaw: one can execute scripts via the program. <a href="https://gtfobins.github.io/"  class="external-link" target="_blank" rel="noopener">GTFObins</a> is an excellent website that identifies how to break out of restricted environments, escalate privileges, or successfully pivot on the machine using common tools found on Linux systems. For the Composer tool, there is an entry that specifies how to generate an interactive shell. Using this series of commands in combination with <code>sudo</code> privileges, one could escalate privileges to root.</p>
+<p><img src="18-gtfobins-privesc-to-root.png" alt=""></p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2020 -
+    
+    2025
+     matt johnson 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

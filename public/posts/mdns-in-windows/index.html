@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Microsoft&#39;s foray into mDNS is introducing new security issues · mattjohnson.cloud
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="matt johnson">
+<meta name="description" content="Microsoft has decided to go against its better judgement and enable mDNS on Windows by default. Since nobody else seems to have analyzed why this is such as bad decision, I decided to do so. It&#39;s not great.">
+<meta name="keywords" content="blog,cloud,personal,security,windows,chess">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Microsoft&#39;s foray into mDNS is introducing new security issues">
+  <meta name="twitter:description" content="Microsoft has decided to go against its better judgement and enable mDNS on Windows by default. Since nobody else seems to have analyzed why this is such as bad decision, I decided to do so. It&#39;s not great.">
+
+<meta property="og:url" content="http://www.mattjohnson.de/posts/mdns-in-windows/">
+  <meta property="og:site_name" content="mattjohnson.cloud">
+  <meta property="og:title" content="Microsoft&#39;s foray into mDNS is introducing new security issues">
+  <meta property="og:description" content="Microsoft has decided to go against its better judgement and enable mDNS on Windows by default. Since nobody else seems to have analyzed why this is such as bad decision, I decided to do so. It&#39;s not great.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2022-10-21T00:00:00+00:00">
+    <meta property="article:modified_time" content="2022-10-21T00:00:00+00:00">
+    <meta property="article:tag" content="Microsoft">
+    <meta property="article:tag" content="Security">
+
+
+
+
+<link rel="canonical" href="http://www.mattjohnson.de/posts/mdns-in-windows/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.7763f8bc6341ecf82378e867c285e1549abb063a899be313ccd25dbfcd24fa7d.css" integrity="sha256-d2P4vGNB7PgjeOhnwoXhVJq7BjqJm&#43;MTzNJdv80k&#43;n0=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://www.mattjohnson.de/">
+      mattjohnson.cloud
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">about</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/tags/">tags</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://www.mattjohnson.de/posts/mdns-in-windows/">
+              Microsoft&#39;s foray into mDNS is introducing new security issues
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2022-10-21T00:00:00Z">
+                October 21, 2022
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              23-minute read
+            </span>
+          </div>
+          <div class="authors">
+  <i class="fa-solid fa-user" aria-hidden="true"></i>
+    <a href="/authors/matt-johnson/">Matt Johnson</a></div>
+
+          
+          <div class="tags">
+  <i class="fa-solid fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/microsoft/">Microsoft</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/security/">Security</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <p>As a security professional who largely specializes in offensive security, my relationship with Microsoft could be defined as special. I love Microsoft, not for the usefulness of their products, but for the job security that they provide people like me and the thousands of other consultants out there whose entire job is to keep clients up to date on how Microsoft is exposing them to unnecessary risk. That being said, I thought we were turning the corner and that Microsoft was, at the very least, being mindful of the risks they expose their clients to (excluding programming errors, which are unfortunately necessary for ensuring the continued employment of their security engineers).</p>
+<p>I may have thought wrong.</p>
+<div class="custom-toc">
+    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#part-1-i-just-want-my-technology-to-work">Part 1: &ldquo;I just want my technology to work&rdquo;</a></li>
+    <li><a href="#part-2-wait-microsoft-actually-did-that">Part 2: Wait, Microsoft actually did that?</a></li>
+    <li><a href="#part-3-everyone-in-the-tech-industry-loves-mdns-except-corporate-security">Part 3: &ldquo;Everyone in the tech industry loves mDNS… except corporate security.&rdquo;</a></li>
+    <li><a href="#part-4-mdns-is-bad-actually">Part 4: mDNS is bad, actually</a>
+      <ol>
+        <li><a href="#so-does-mdns-solve-a-problem">So, does mDNS solve a problem?</a></li>
+        <li><a href="#is-this-all-just-infosec-catastrophizing">Is this all just infosec catastrophizing?</a></li>
+        <li><a href="#microsofts-recommendations-are-not-great">Microsoft&rsquo;s recommendations are not great</a></li>
+        <li><a href="#im-lazy-just-tell-me-what-to-do">I&rsquo;m lazy, just tell me what to do.</a></li>
+      </ol>
+    </li>
+    <li><a href="#part-5-the-end">Part 5: The End</a></li>
+    <li><a href="#addendum">Addendum</a></li>
+    <li><a href="#additional-references-and-sources">Additional References and Sources</a></li>
+  </ol>
+</nav>
+</div>
+<h1 id="part-1-i-just-want-my-technology-to-work">
+  Part 1: &ldquo;I just want my technology to work&rdquo;
+  <a class="heading-link" href="#part-1-i-just-want-my-technology-to-work">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>For all the criticisms one can levy at Microsoft, it&rsquo;s pretty hard to argue that their products don&rsquo;t work. It may be slightly easier to argue the products don&rsquo;t work well, but I would argue that is in part a byproduct of why their products work. Microsoft&rsquo;s relentless pursuit of backward compatibility in a world designed around planned obsolescence has made them a reliable steward of the corporate network. When a company invests hundreds of thousands to millions of dollars in systems designed to last 15 years, Microsoft is happy to accommodate that. Servers running Windows Server 2008 (or even worse, Server 2003) can be found in a wide variety of corporate networks, chugging along right next to their allegedly modern counterparts. This leads to a beautiful multi-generation household that ensures that the world keeps turning and that companies can integrate new systems in a way that does not create conflicts with existing systems, software, and business processes.</p>
+<p>There is a slight kink in the strategy though, and that is the fact that backward compatibility is somewhat of a double-edged sword. Not inherently, mind you, but one has to consider the implications of ensuring that modern systems which are designed by hundreds if not thousands of engineers, many of whom do nothing but focus on security, are compatible with systems designed nearly twenty years ago (and perhaps even longer when you consider the iterative nature of Windows) before anyone could even fathom the possibility of systemic cybersecurity risk.</p>
+<p>backward compatibility has historically been and still is the main driver of vulnerabilities that lead to total network compromise. In the popular imagination, hackers are thought to identify vulnerable software and attack it. You can even see this reflected in the news, with the constant onslaught of articles detailing the CVE of the day. In my experience as some who does a large number of penetration tests, this is not the case. Many of the vulnerabilities I identify are consistent across environments and are a result of a lack of awareness of default configurations within Windows as well as a lack of consideration for how even seemingly innocuous misconfigurations can be the proverbial first domino to fall.</p>
+<p>LLMNR, NBT-NS, WPAD, SMB signing, NetNTLMv1, DHCP, one could go on&hellip; All of these &ldquo;features&rdquo; were implemented at times when engineers didn&rsquo;t really consider the security implications of things, nor did they arguably have to. Those engineers probably didn&rsquo;t even expect that these protocols would persist into the modern day, but here we are. Penetration tests can actually be quite mundane and formulaic a lot of times because I may not have to do anything more than run Responder, relay the credentials, dump the local admin hash, and pass it around until I&rsquo;m able to get access to something important. There&rsquo;s no CVE to exploit, and in fact not doing so is advantageous as I don&rsquo;t have to worry about security tools catching wind of what I&rsquo;m doing. Real life isn&rsquo;t a CTF, nor is it the Matrix, and it especially isn&rsquo;t like NCIS. That would be overselling the coolness of it.</p>
+<p>All of these old vulnerable components aren&rsquo;t random though, they still exist because someone at Microsoft has decided, justly or not, that these configurations need to remain enabled by default for backward compatibility. This isn&rsquo;t just merely a philosophical disagreement either, these decisions have measurable real-world economic and operational consequences. EternalBlue, otherwise known as MS17-010, was an exploit against Server Message Block (SMB) version 1 created by the NSA and later released publicly by the Shadow Brokers group. The targeted protocol was created in 1983 and had reached a pretty mature state by the early 90s. It was among the most prevalent file share protocols of its time and was importantly the preferred protocol of Microsoft. Beginning with Windows 3.1 in 1992, Microsoft made it a mainstay of Windows networked computing until its deprecation in 2013.</p>
+<p>But that&rsquo;s not the end of the story. As any security consultant will tell you, just because some software or protocol is deprecated does not mean that it stops being used. On June 27, 2017, a massive cyberattack was launched against Ukraine using a variant of the Petya malware. It propagated via the aforementioned EternalBlue exploit, and due to the enduring prevalence of SMBv1, which had been deprecated for four years at that point, spread widely to organizations and countries around the world, including many within the United States, Germany, France, and the United Kingdom. While I could find no official estimate of the total damage, it has been informally estimated at $10 billion. Companies like Maersk, Mondelez, and Merck were all hit extremely hard and had estimated losses in the hundreds of millions of dollars. The perpetrators were notoriously discriminatory against companies starting with the letter &ldquo;M&rdquo;. This is the other edge of the sword. Features and functionalities that are implemented today won&rsquo;t simply go away because much of the IT world depends on them not to. This aphorism means that any functionality put in place needs to be done so thoughtfully with security in mind and subject to lots of testing before it becomes a widespread and indispensable thing. That&rsquo;s why Microsoft&rsquo;s latest decision is, frankly, baffling.</p>
+<h1 id="part-2-wait-microsoft-actually-did-that">
+  Part 2: Wait, Microsoft actually did that?
+  <a class="heading-link" href="#part-2-wait-microsoft-actually-did-that">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Normally I wouldn&rsquo;t be terribly quick to identify the evolutionary changes Microsoft makes to Windows. More often than not, I will only hear about the things Microsoft has done via security news sources or when someone much smarter than me plays around with a Windows feature and produces content about how it works or how to abuse it. You might imagine my surprise when I was conducting a penetration test and I started getting Windows machines sending me mDNS queries followed by NTLM challenge-responses (you can crack those to get passwords, for those reading who aren&rsquo;t familiar with this space). It&rsquo;s just not something you ever really see. Apple devices have used mDNS for multicast name resolution for a while and its issues are well known, but up until this moment, I had never realized that Windows even had an mDNS implementation.</p>
+<p>After a bit of googling, I learned that Microsoft has been quietly introducing the protocol on its machines for years and in April 2022 publicly announced that it ultimately planned to make mDNS the only multicast name resolution protocol enabled by default on Windows. Hardly anyone has written about this, much less people in the infosec sphere. In fact, almost all of the sparse information out there simply announces that this will be a thing. Seemingly very little analysis or scrutiny of the decision exists as of October 2022, and in my opinion, the decision certainly deserves a degree of scrutiny. I figured this is a good opportunity to finally contribute an actual original thought to the community at large.</p>
+<h1 id="part-3-everyone-in-the-tech-industry-loves-mdns-except-corporate-security">
+  Part 3: &ldquo;Everyone in the tech industry loves mDNS… except corporate security.&rdquo;
+  <a class="heading-link" href="#part-3-everyone-in-the-tech-industry-loves-mdns-except-corporate-security">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>In his blog post titled &ldquo;mDNS in the Enterprise&rdquo;, Microsoft Network Engineer James Kehr describes the functionality of mDNS, its benefits, and the security implications of the technology. He then provides some recommendations about how he and his team believe corporate security personnel should lock it down. To his credit, he presents a thoughtful response to some of the criticisms levied against the protocol. That being said, I didn&rsquo;t find his arguments convincing for most corporate use cases, and I am going to demonstrate precisely why. Before I do so, though, I am going to summarize his article with as little added commentary as possible. I would recommend anyone interested to read it in addition to this blog post as it is well-written and may lead you to your own conclusions.</p>
+<p>James argues that mDNS is fundamentally different from previous multicast resolution protocols such as NBT-NS, LLMNR, and SSDP. It is ubiquitous throughout the tech world as it is easy to implement, and numerous devices, including Smart TVs, wireless displays, printers, and wireless speakers, use the protocol. Operating systems likewise might use it (more on this later). Security professionals are distrustful of the protocol as it resembles those of other historically abused ones, and a malicious actor could likewise abuse this protocol with a &ldquo;cleverly written malicious script or program,&rdquo; though they must be on your network to do so.</p>
+<p>Given the widespread use of this protocol, it would be unwise to attempt to disable it via the registry as it would only disable its use as a part of the Windows DNSCache service and ultimately not fully lock down the service as intended. The service should rather be controlled via Defender Firewall, which is already widely used and easy to modify to restrict the protocol. James argues that you shouldn&rsquo;t completely block the protocol, as some remote workers may need it to connect devices at home. It can safely be disabled within corporate offices by using the Domain profile within Defender Firewall. One can optionally also disable the protocol for the Public profile of Defender Firewall to prevent its use at coffee shops and the like, but doing so may interfere with Miracast.</p>
+<p>As a final note before the next section, I want to clarify that this isn&rsquo;t meant to target James Kehr directly, only that his writing acts as a good foil for the points that I would like to make. As a networking guy, he operates within a different framework, and we likely come from very different backgrounds. As previously mentioned, his article was well written and attempted to explain and provide solutions to security concerns, and I simply want to add to the knowledge pool and facilitate a more nuanced discussion of the subject.</p>
+<p>Moving on.</p>
+<h1 id="part-4-mdns-is-bad-actually">
+  Part 4: mDNS is bad, actually
+  <a class="heading-link" href="#part-4-mdns-is-bad-actually">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>To determine whether mDNS is broadly useful within corporate environments such that the benefits outweigh the risks in a broad sense, I&rsquo;m going to attempt to answer three questions:</p>
+<ul>
+<li>Does mDNS solve a problem that broadly exists within corporate environments?</li>
+<li>Does mDNS introduce or perpetuate security flaws that expose organizations to risk?</li>
+<li>Do Microsoft&rsquo;s recommended strategies for securing mDNS hold water?</li>
+</ul>
+<p>In doing so, I am going to answer some practical questions that James presents in his blog post as well as some that I anticipate readers may have as I go through these points.</p>
+<h2 id="so-does-mdns-solve-a-problem">
+  So, does mDNS solve a problem?
+  <a class="heading-link" href="#so-does-mdns-solve-a-problem">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>mDNS is yet another implementation of the classic multicast name resolution protocols. At a conceptual level, it functions basically the same as many of the others historically seen within Active Directory environments (everyone reading this has disabled LLMNR, right?). Speaking generally to begin, Windows name resolution functions as follows:</p>
+<ul>
+<li>Is the hostname being queried my own?</li>
+<li>Is the hostname being queried in my DNS resolver cache?</li>
+<li>Is the hostname being queried in my hosts file?</li>
+<li>Can my DNS server help me find the host?</li>
+<li>Can another device on my local subnet help me find the host?
+<ul>
+<li>LLMNR is used first</li>
+<li>NBT-NS is used as a backup</li>
+</ul>
+</li>
+</ul>
+<p>As far as I can tell through my readings, Microsoft plans for mDNS to eventually sit on top of LLMNR in the name resolution process, at least for devices ending in the &ldquo;.local&rdquo; TLD. An important part of determining whether this protocol will be broadly useful in a corporate environment is to consider its use cases.</p>
+<p>To state the obvious, it only works on a local subnet. So many of the purported benefits of the protocol (printer discovery, wireless displays, Chromecasts, etc.) will only extend to you insofar as you don&rsquo;t keep those devices segmented. One could argue that devices of that nature should be, but that may be subject to debate. In many corporate environments, you will see devices such as printers and conference room equipment on their own VLANs, so mDNS isn&rsquo;t really going to help all that much for discovery in those cases.</p>
+<p>That leads to my next point, which is that many enterprise-grade printers and conferencing equipment don&rsquo;t use mDNS for discovery or at the very least only present it as an option. Take PaperCut, a common print management software used by a lot of organizations, for example. They do allow mDNS as a discovery option, but it&rsquo;s merely presented as an option and they recommend that medium to large organizations use DNS for discovery instead. Likewise, conference room solutions such as VIA Kramer do not utilize mDNS for discovery. Using protocols like Miracast for video conference generally work for small offices or homes, but enterprises aren&rsquo;t heavily utilizing these protocols. Wireless displays for personal use aren&rsquo;t widespread as they generally have high latency. Corporate workers are far more likely to use docking stations or HDMI inputs for their monitors.</p>
+<p>Broadly speaking, the other types of devices you might see using mDNS (Smart TVs, set-top boxes, wireless speakers, etc.) are just not things you would expect or even want to see on the inside of a corporate environment. They certainly shouldn&rsquo;t be able to communicate with workstations or servers.
+In almost any case where you could hypothetically use mDNS for discovery, giving a device a static IP address and adding a record to your DNS server is going to serve the same end without any of the added risks associated with multicast protocols. Just because this newer protocol is seeing more widespread adoption doesn&rsquo;t mean that DNS isn&rsquo;t the better option. The fact that it can work securely in a networked corporate environment is an added benefit that more than justifies the added complexity.</p>
+<h2 id="is-this-all-just-infosec-catastrophizing">
+  Is this all just infosec catastrophizing?
+  <a class="heading-link" href="#is-this-all-just-infosec-catastrophizing">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>I get it, I really do. Infosec people have a somewhat-deserved reputation in the IT profession for being dramatic types who are constantly creating problems for developers and IT admins who just want to make things work. Adding to the misery, infosec people are largely removed from much of the pain associated with implementing their own recommendations (&ldquo;just patch&rdquo;). That doesn&rsquo;t make us wrong.</p>
+<p>To begin, I want to briefly address the topic of remote workers&rsquo; potential need for mDNS. I find the scenario unlikely for all but the smallest handful of workers. Your average worker that uses a wired monitor, a wireless keyboard and mouse, and some Bluetooth headphones or speakers has absolutely no need for mDNS. While it is theoretically possible that a worker might use a wireless monitor or printer that uses mDNS for discovery, I question whether those needs outweigh an organization&rsquo;s necessity to keep its network secure. Wireless monitors are both uncommon and have considerable latency, and basically every printer allows a user to plug in via USB to print.</p>
+<p>James&rsquo; blog post briefly mentions that it is possible to poison mDNS name and service resolution requests using a cleverly written malicious script. While I would agree that the individuals who have written tools like Responder and Inveigh are indeed very clever, people like myself who use the tools need not be. Even an individual who knows nothing about how name resolution works can use the tools.</p>
+<p>James also notes that it is necessary for a malicious DNS resolver to be on the network in the first place, which I read as implying that a situation of that nature should already be understood as catastrophic. I don&rsquo;t agree. I perform internal penetration tests all the time, and the truth is that just because an attacker is on the network doesn&rsquo;t necessarily mean total failure. Modern corporate networks shouldn&rsquo;t be treated as walled cities, and well-designed security architecture should account for the fact that you shouldn&rsquo;t necessarily trust another machine simply because they&rsquo;re on the inside. Even organizations with outstanding security awareness training have 3% click rates during phishing exercises. Realistically, an attacker needs to get lucky only once to get onto a network. They often need to get lucky multiple times to take it over completely. Multicast name resolution protocols offer attackers a convenient stepping stone to go from initial access to lateral movement or privilege escalation.</p>
+<p>To demonstrate this, I&rsquo;m going to present a very realistic scenario and demonstrate how mDNS is fundamentally no different from its predecessors in terms of risk. Imagine that your IT organization utilizes SMB for a department-wide file share which is automatically mounted upon startup using a batch script. Likewise, imagine that the department is spread across multiple offices, all of which are connected using Microsoft&rsquo;s DirectAccess. As is sometimes the case, DirectAccess leaves a user hanging in the &ldquo;Connecting&rdquo; state, meaning that the user cannot access the organizational DNS server or SMB share located in one of the other offices. As you&rsquo;ve just logged on for the workday, the batch script runs in the background. It was not able to resolve your company&rsquo;s file server, mDNSisFun, and consequently couldn&rsquo;t reach the department share, FakeShare. A script kiddie who happened to be on your network is running Responder, a multicast name resolution poisoning tool, at the exact same time as this batch script is run. What happens?</p>
+<p><img src="01.png" alt="Using Responder.py to capture an NTLM hash via mDNS poisoning"></p>
+<p>Without any prompt from the user or even an awareness that anything has happened, the employee has sent over their credentials. For the purpose of this demonstration, I have run the command graphically. This functions exactly the same as a batch startup script.</p>
+<p>As James coyly mentions in his blog post, there is a way to disable the mDNS resolver within the registry. He deliberately chooses not to say which key you need to modify, but fortunately, Andreas Finstad has already explained how to do so on <a href="https://f20.be/blog/mdns"  class="external-link" target="_blank" rel="noopener">his blog</a>, which as an aside is seemingly the only other blog post on the internet that is critical of this decision by Microsoft.</p>
+<p>After disabling the mDNS resolver within the Windows DNSCache service, I reran the test and found that the broken batch script no longer leaked credentials.</p>
+<p><img src="02.png" alt="After disabling mDNS in the registry, the previous attack does not return credentials"></p>
+<p>Now, I did have one additional outstanding question related to how mDNS would affect corporate Active Directory environments. Under ordinary circumstances, mDNS is weird in that it relies on the &ldquo;.local&rdquo; TLD as an inherent part of its name resolution process. Additionally, a commonality between the penetration test I performed, Andreas Finstad&rsquo;s blog post, and the test I performed for this blog post is that all environments use that same &ldquo;.local&rdquo; TLD for their Active Directory domain name. Given mDNS&rsquo; affinity for the TLD, I wanted to see if this issue was limited to domains that use it. I went through the somewhat arduous process of changing my test environment&rsquo;s domain from ‘FUNCORP.local&rsquo; to ‘FUNCORP.com&rsquo; using <a href="https://www.rebeladmin.com/2015/05/step-by-step-guide-to-rename-active-directory-domain-name/"  class="external-link" target="_blank" rel="noopener">RebelAdmin&rsquo;s helpful blog post</a>, re-enabled mDNS on my client machine, and attempted to once again mount the nonexistent mDNS share.</p>
+<p><img src="03.png" alt="After changing my TLD to &ldquo;.com,&rdquo; mDNS poisoning doesn&rsquo;t seem to work"></p>
+<p>This time, nothing happened. As a result, I believe that this vulnerability is likely to only affect organizations that use the &ldquo;.local&rdquo; TLD. The issue is that many organizations do use the &ldquo;.local&rdquo; TLD for the internal Active Directory domains. Even the most masochistic of IT administrators don&rsquo;t spend their nights pouring over IETF RFCs looking for obscure ways their corporate domain names might conflict with some protocol they&rsquo;ve likely never heard of, and &ldquo;.local&rdquo; seems appropriate for an internal network.</p>
+<p>The question then remains, what advice should we reasonably give these unfortunate organizations? Recommending that affected organizations change their domain name is an option, however unpleasant it may be. For even moderately complex environments this is likely to cause a number of issues, so it doesn&rsquo;t seem like a great option. I&rsquo;m going to save my recommendation for later in this blog post, though.</p>
+<h2 id="microsofts-recommendations-are-not-great">
+  Microsoft&rsquo;s recommendations are not great
+  <a class="heading-link" href="#microsofts-recommendations-are-not-great">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>James&rsquo; article claims that mDNS should not be disabled via the registry as many applications including Microsoft Teams, Edge, and Google Chrome have and use their own implementation of mDNS. Simply disabling the mDNS resolution component of the DNSCache service would not eradicate the protocol from the network. I first wanted to test how Edge and Chrome respond to a request to a fake &ldquo;.local&rdquo; site with mDNS enabled in the registry settings, and the results were interesting. Worth noting that for this testing I reverted my Active Directory domain back to &ldquo;funcorp.local.&rdquo;</p>
+<p><img src="04.png" alt="with a &ldquo;.local&rdquo; domain and mDNS enabled, mDNS poisoning works on Microsoft Edge"></p>
+<p><img src="05.png" alt="with a &ldquo;.local&rdquo; domain and mDNS enabled, mDNS poisoning works on Google Chrome"></p>
+<p>mDNS is certainly doing something here. However, it does not automatically send credentials as was the case with mounting the SMB share. It prompts a user for credentials, which is going to be subject to both scrutiny and error by the end user. This is still not an ideal situation as a user could be attempting to visit a valid intranet website and not think anything of this authentication request. So, what happens if you disable mDNS in the registry?</p>
+<p><img src="06.png" alt="with a &ldquo;.local&rdquo; domain and mDNS disabled, mDNS poisoning doesn&rsquo;t work on Microsoft Edge"></p>
+<p><img src="07.png" alt="with a &ldquo;.local&rdquo; domain and mDNS disabled, mDNS poisoning doesn&rsquo;t work on Google Chrome"></p>
+<p>At least for Edge and Chrome, it appears that simply disabling mDNS resolution for the DNSCache service is enough to neutralize this attack. I wasn&rsquo;t able to conduct this test for Teams, but I ran the commands from James&rsquo; blog post on two different machines running Teams and it doesn&rsquo;t seem to run its own implementation. I likewise couldn&rsquo;t find any documentation stating as much, and Microsoft does not list UDP port 5353 as a requirement for Teams. I am happy to be corrected on any of this though.</p>
+<p>This brings me to Microsoft&rsquo;s second recommendation: if you want to stop mDNS, do it via Defender Firewall. In general, I find this to be a perfectly sensible option, especially for organizations that already use it. In implementation, there are some issues with this strategy. James&rsquo; recommendation is specifically that you should block it for the Domain profile (for the office), allow it for the Private profile (for remote workers), and you may optionally block it for the Public profile. I have already addressed the topic of remote workers, but I feel the need to emphasize that even if you really want to allow your remote workers to use mDNS, you should disallow mDNS traffic over the Public profile. Not doing so risks exposing credentials on public Wi-Fi networks, essentially turning a strictly internal vulnerability into a public-facing one.</p>
+<p>There&rsquo;s another issue with strictly relying on firewalls to secure multicast traffic which is that it is simply moving trust around. By saying &ldquo;I trust these devices to communicate via mDNS&rdquo; you must both know what devices you are provisioning trust to and believe that those devices couldn&rsquo;t reasonably be compromised. Within a given subnet (the scope of mDNS), you would have to maintain a precise inventory of trusted devices that might need to communicate via mDNS and restrict incoming traffic to only that coming from those devices. If you already have a precise inventory of those devices, why do you need mDNS? Surely at that point, traditional DNS with static IP addresses or even dynamic DNS is going to better suit you.</p>
+<p>Microsoft does not recommend that you disable outbound mDNS. Their precise recommendation is that to completely disable mDNS within the environment, you should disable the &ldquo;mDNS (UDP-In)&rdquo; rules for all profiles within Defender Firewall. Here&rsquo;s a sample of how those firewall rules look:</p>
+<p><img src="08.png" alt="The Defender Firewall rules that Microsoft recommends disabling to block mDNS"></p>
+<p>If you&rsquo;re very clever you might have already noticed a potential problem. Disabling these rules will effectively shut down mDNS as a tool for discovering your office&rsquo;s local Fire TV stick, but it arguably does nothing to defend against the attacks demonstrated in this blog post. To demonstrate, I have disabled all of these rules and reran the previous attack:</p>
+<p><img src="09.png" alt="Disabling mDNS in the firewall per Microsoft&rsquo;s recommendation still allows for poisoning attacks">
+<img src="10.png" alt="Responder still grabs the hashes"></p>
+<p>Furthermore, disabling these inbound rules still doesn&rsquo;t totally preclude the possibility of running an mDNS poisoner on a workstation (e.g., after gaining access via phishing). Using Kevin Robertson&rsquo;s Inveigh I was successfully able to poison mDNS requests despite having all recommended inbound rules disabled:</p>
+<p><img src="11.png" alt="If you use Inveigh, you can still run an mDNS poisoning attack on a machine with the Defender Firewall rules configured per Microsoft instructions"></p>
+<p>This is because those inbound firewall rules apply only to svchost, which in this context is the DNSCache service I mentioned earlier:</p>
+<p><img src="12.png" alt="the mDNS (UDP-In) firewall rule only applies to svchost.exe"></p>
+<p>All of this was done in the service of demonstrating how Microsoft&rsquo;s recommendations for securing mDNS aren&rsquo;t just wrong, they&rsquo;re contradictory. On one hand, they recommend against disabling mDNS via the registry as that only disables the mDNS resolver within the DNSCache service itself, but on the other hand, their recommendation for disabling it via Defender Firewall does the exact same thing and fails to protect against the biggest threat the protocol poses.</p>
+<p>One final note before moving on, and that is my wholesale rejection of the idea that you should somehow be applying different security standards for remote workers, whether in their private homes or in a café, than you do to workers in the office. Some compromises may be necessary, but I&rsquo;m not a fan of the recommendation that one should allow a fundamentally flawed protocol in people&rsquo;s homes or on public networks on the off chance that not doing so might make their lives slightly more difficult. If you have remote workers, send them a laptop, a wired external monitor, a mouse, and a keyboard. Any special accommodation beyond that which is typically expected should be considered extraordinary and handled by IT support. Weakening your holistic organizational security posture in pursuit of optimizing around edge cases is, as we say in the industry, a no-no.</p>
+<h2 id="im-lazy-just-tell-me-what-to-do">
+  I&rsquo;m lazy, just tell me what to do.
+  <a class="heading-link" href="#im-lazy-just-tell-me-what-to-do">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>For the pragmatists out there, I would recommend that you follow Andreas&rsquo; advice and disable mDNS via the registry. This seems to prevent the worst byproduct of this flawed protocol – the leaking of credentials via poisoning. I would also recommend running Wireshark on a couple segments of your network and seeing what kind of mDNS traffic is appearing. If the traffic seems extraneous, I would additionally recommend creating a host-based firewall rule that blocks inbound UDP port 5353 for all programs. This precludes the very idea of any malicious actor running an mDNS poisoner on one of your devices. I don&rsquo;t think mDNS is that useful of a protocol for corporate environments, so I would expect that disabling it is unlikely to cause issues in most cases.</p>
+<p>For the IETF, I would probably recommend that we don&rsquo;t assign special meaning to TLDs beyond their typical semantic uses (e.g., using &ldquo;.gov&rdquo; to imply it&rsquo;s a government website). I have a feeling that ship has sailed, though.</p>
+<h1 id="part-5-the-end">
+  Part 5: The End
+  <a class="heading-link" href="#part-5-the-end">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>mDNS is problematic. I think I&rsquo;ve made my case.</p>
+<p>Even more problematic, however, is that even with our knowledge of the last 30 years of computing history – the knowledge that the decisions we make today will persist for years or even decades – we are still making these kinds of questionable decisions. Infosec has long had the job of trying to retrofit security into systems not designed for it. The light at the end of the tunnel should have been that all of this firefighting and its consequences would have led the tech world to develop more thoughtfully in the future. I think that is happening, but this situation has demonstrated that there&rsquo;s probably still a ways to go.</p>
+<p>Infosec may be the teacher watching over the punch bowl at the school dance, but it&rsquo;s only that way because, much like teenagers at a school dance, the tech world can make some very questionable decisions when the party gets going.</p>
+<p>We took our eye off the punch bowl.</p>
+<h1 id="addendum">
+  Addendum
+  <a class="heading-link" href="#addendum">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>It&rsquo;s very possible that some of the information in this blog post is wrong. I have tried my best to consider and preempt different criticisms or counterpoints, but if there&rsquo;s anything that I haven&rsquo;t addressed in this blog post I&rsquo;d be happy to hear about it and update this blog post accordingly. You can contact me at <a href="mailto:me@infosecmatt.com" >me@infosecmatt.com</a> or on <a href="https://www.linkedin.com/in/johnsonmatte/"  class="external-link" target="_blank" rel="noopener">LinkedIn</a>.</p>
+<h1 id="additional-references-and-sources">
+  Additional References and Sources
+  <a class="heading-link" href="#additional-references-and-sources">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<ul>
+<li><a href="https://techcommunity.microsoft.com/t5/networking-blog/mdns-in-the-enterprise/ba-p/3275777"  class="external-link" target="_blank" rel="noopener">mDNS in the Enterprise - Microsoft Community Hub</a></li>
+<li><a href="https://support.microsoft.com/en-us/topic/microsoft-tcp-ip-host-name-resolution-order-dae00cc9-7e9c-c0cc-8360-477b99cb978a"  class="external-link" target="_blank" rel="noopener">Microsoft TCP/IP Host Name Resolution Order</a></li>
+<li><a href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-wpo/f00add7f-a321-4a5f-a5d8-1748e748cd44"  class="external-link" target="_blank" rel="noopener">Windows Name Resolution | Microsoft Learn</a></li>
+<li><a href="https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/selecting-the-forest-root-domain"  class="external-link" target="_blank" rel="noopener">Selecting the Forest Root Domain | Microsoft Learn</a></li>
+<li><a href="https://www.papercut.com/help/manuals/mobility-print/how-it-works/printer-discovery/#mdns-discovery"  class="external-link" target="_blank" rel="noopener">Printer discovery with Mobility Print - which method is best for you? | PaperCut</a></li>
+<li><a href="https://www.ctrl.blog/entry/windows-mdns-dnssd.html"  class="external-link" target="_blank" rel="noopener">mDNS and DNS-SD slowly making their way into Windows 10 | Ctrl blog</a></li>
+<li><a href="https://groups.google.com/a/chromium.org/g/chromium-discuss/c/6b0vVreNTvQ?pli=1"  class="external-link" target="_blank" rel="noopener">Chrome browser - multicast DNS support (google.com)</a></li>
+</ul>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2020 -
+    
+    2025
+     matt johnson 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

